@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+  api-manager:
+    image: smartcommunitylab/apim:local
+    ports:
+      - "9763:9763"
+      - "9443:9443"
+      - "8280:8280"
+      - "8243:8243"
+      - "9711:9711"
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "https://localhost:9443/carbon/admin/login.jsp"]
+      interval: 10s
+      timeout: 120s
+      start_period: 100s
+      retries: 10
+    env_file:
+      - apim.env
+    # volumes:
+    #   - ./cert/keystore/apikeystore.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/apikeystore.jks
+    #   - ./cert/keystore/client-truststore.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/client-truststore.jks
+    #   - server:/home/wso2carbon/wso2am-2.6.0/repository/deployment/server
+    #   - tenants:/home/wso2carbon/wso2am-2.6.0/repository/tenants
+    #   - solr:/home/wso2carbon/wso2am-2.6.0/solr
+
+    networks:
+      platform-net:
+# volumes:
+#   server: {}
+#   tenants: {}
+#   solr: {}
+networks:
+  platform-net:
+    external: true
+    name: platform-net

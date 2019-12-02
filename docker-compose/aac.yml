@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  aac:
+    image: smartcommunitylab/aac:local
+    ports:
+      - "8080:8080"
+    env_file:
+      aac.env
+    # volumes:
+    #   - ./cert/keystore/keystore.jwks:/tmp/keystore.jwks
+    networks:
+      platform-net: {}
+networks:
+  platform-net:
+    external: true

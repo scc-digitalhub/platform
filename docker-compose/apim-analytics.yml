@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  am-analytics:
+    image: smartcommunitylab/apim-analytics:local
+    ports:
+      - "9091"
+      - "9444"
+      - "7712"
+    healthcheck:
+      test: ["CMD", "nc", "-z","localhost", "9091"]
+      interval: 10s
+      timeout: 120s
+      start_period: 120s
+      retries: 10
+    env_file:
+      - apim-analytics.env
+    # volumes:
+    #   - ./cert/keystore/am-analytics.jks:/home/wso2carbon/wso2-config-volume/resources/security/am-analytics.jks
+    #   - ./cert/keystore/client-truststore.jks:/home/wso2carbon/wso2-config-volume/resources/security/client-truststore.jks
+    networks:
+      platform-net:
+networks:
+  platform-net:
+    external: true
+    name: platform-net
