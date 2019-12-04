@@ -11,6 +11,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./db-init-script/apim_init.sql:/docker-entrypoint-initdb.d/apim_init.sql
       - ./db-init-script/aac_init.sql:/docker-entrypoint-initdb.d/aac_init.sql
+      - ./db-init-script/dss_init.sql:/docker-entrypoint-initdb.d/dss_init.sql
     networks:
       platform-net: {}
   # mongo:
