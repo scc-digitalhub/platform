@@ -5,3 +5,9 @@ docker-compose -p platform.local -f database.yml up -d
 docker-compose -p platform.local -f aac.yml up -d
 
 docker-compose -p platform.local -f apim.yml up -d
+
+docker-compose -p platform.local -f dss.yml up -d
+
+docker-compose -p platform.local -f nifi.yml up -d
+
+
