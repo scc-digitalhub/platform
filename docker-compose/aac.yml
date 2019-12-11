@@ -9,7 +9,9 @@ services:
     # volumes:
     #   - ./cert/keystore/keystore.jwks:/tmp/keystore.jwks
     networks:
-      platform-net: {}
+      platform-net:
+        aliases:
+          - aac.platform.local
 networks:
   platform-net:
     external: true
