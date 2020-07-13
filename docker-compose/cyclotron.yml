@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  cyclotron-site:
+    image: smartcommunitylab/cyclotron-site:5985d90
+    ports:
+      - "8082:80"
+    volumes:
+      - ./cyclotron-conf/configService.js:/usr/share/nginx/html/js/conf/configService.js
+    networks:
+      platform-net:
+  cyclotron-svc:
+    image: smartcommunitylab/cyclotron-svc:609d287
+    ports:
+      - "8077:8077"
+    volumes:
+      - ./cyclotron-conf/config.js:/home/cyclotron/cyclotron-svc/config/config.js
+    networks:
+      platform-net:
+networks:
+  platform-net:
+    external: true
+    name: platform-net

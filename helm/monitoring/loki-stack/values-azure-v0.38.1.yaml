@@ -1,0 +1,31 @@
+loki:
+  enabled: true
+  config:
+    table_manager:
+      retention_deletes_enabled: true
+      retention_period: 672h
+  persistence:
+    enabled: true
+    accessModes:
+    - ReadWriteOnce
+    size: 128Gi
+    annotations: {}
+    subPath: "loki"
+    storageClassName: managed-premium
+
+promtail:
+  enabled: true
+
+fluent-bit:
+  enabled: false
+
+grafana:
+  enabled: false
+  sidecar:
+    datasources:
+      enabled: true
+  image:
+    tag: 6.7.0
+
+prometheus:
+  enabled: false

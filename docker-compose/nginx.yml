@@ -6,13 +6,14 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "./cert/platform-wildcard.pem:/etc/nginx/ssl/platform/platform-wildcard.pem"
-      - "./cert/platform-wildcard.key:/etc/nginx/ssl/platform/platform-wildcard.key"
-      - "./cert/dhparam.pem:/etc/nginx/ssl/platform/dhparam.pem"
+      - "./cert/ca/intermediate/certs/wildcard.platform.local.chained.pem:/etc/nginx/ssl/platform/platform-wildcard.pem"
+      - "./cert/ca/intermediate/private/wildcard.platform.local.key.pem:/etc/nginx/ssl/platform/platform-wildcard.key"
       - "./nginx.conf:/etc/nginx/nginx.conf"
       - "./nginx-ssl.conf:/etc/nginx/nginx-ssl.conf"
     networks:
       platform-net:
+        aliases:
+          - aac.platform.local
 networks:
   platform-net:
     external: true

@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   api-manager:
-    image: smartcommunitylab/apim:local
+    image: smartcommunitylab/wso2am:2.6.0-c5f1b7c
     ports:
       - "9763:9763"
       - "9443:9443"
@@ -16,19 +16,19 @@ services:
       retries: 10
     env_file:
       - apim.env
-    # volumes:
-    #   - ./cert/keystore/apikeystore.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/apikeystore.jks
-    #   - ./cert/keystore/client-truststore.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/client-truststore.jks
-    #   - server:/home/wso2carbon/wso2am-2.6.0/repository/deployment/server
-    #   - tenants:/home/wso2carbon/wso2am-2.6.0/repository/tenants
-    #   - solr:/home/wso2carbon/wso2am-2.6.0/solr
+    volumes:
+      - ./cert/keystore/api-manager.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/api-manager.jks
+      - ./cert/keystore/client-truststore.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/client-truststore.jks
+      # - server:/home/wso2carbon/wso2am-2.6.0/repository/deployment/server
+      # - tenants:/home/wso2carbon/wso2am-2.6.0/repository/tenants
+      # - solr:/home/wso2carbon/wso2am-2.6.0/solr
 
     networks:
       platform-net:
-# volumes:
-#   server: {}
-#   tenants: {}
-#   solr: {}
+volumes:
+  server: {}
+  tenants: {}
+  solr: {}
 networks:
   platform-net:
     external: true

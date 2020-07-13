@@ -14,17 +14,19 @@ services:
       - ./db-init-script/dss_init.sql:/docker-entrypoint-initdb.d/dss_init.sql
     networks:
       platform-net: {}
-  # mongo:
-  #   image: mongo:3.6
-  #   ports:
-  #     - 27017
-  #   environment:
-  #     MONGO_INITDB_ROOT_PASSWORD: 'ac'
-  #     MONGO_INITDB_ROOT_USERNAME: 'ac'
-  #   volumes:
-  #     - mongo_data:/data/db
-  #   networks:
-  #     platform-net: {}
+  mongo:
+    image: mongo:3.6
+    ports:
+      - 27017
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD: 'ac'
+      MONGO_INITDB_ROOT_USERNAME: 'ac'
+      MONGO_INITDB_DATABASE: 'cyclotron'
+    volumes:
+      - mongo_data:/data/db
+      - ./db-init-script/mongo_init.js:/docker-entrypoint-initdb.d/mongo_init.js
+    networks:
+      platform-net: {}
   # postgres:
   #   image: postgres:10
   #   ports:
@@ -41,7 +43,7 @@ services:
   #     platform-net: {}
 volumes:
   mysql_data: {}
-  # mongo_data: {}
+  mongo_data: {}
   # postgres: {}
 networks:
   platform-net:

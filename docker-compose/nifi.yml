@@ -1,14 +1,15 @@
 version: "3.7"
 services:
   nifi:
-    image: smartcommunitylab/nifi:aac-org_v3 #aac-org:test
+    #image: smartcommunitylab/nifi:aac-org_v3 #aac-org:test
+    image: nifi
     ports:
       - "8443:8443"
     env_file:
       nifi_param.env
-    entrypoint: /opt/nifi/scripts/start.sh
+    entrypoint: '/opt/nifi/scripts/start.sh'
     volumes:
-      - "./security_output2/nifi.platform.local:/opt/nifi/nifi-current/certs"
+      - "./cert/keystore/nifi/nifi.platform.local:/opt/nifi/nifi-current/certs"
     networks:
       platform-net: {}
 networks:
