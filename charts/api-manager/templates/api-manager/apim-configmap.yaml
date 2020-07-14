@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "api-manager.fullname" . }}-env
+data:
+{{ toYaml .Values.env | indent 2 }}
+  APIM_HOSTNAME: {{ template "api-manager.fullname" . }}
+  ANALYTICS_HOSTNAME: {{ template "api-manager.fullname" . }}-analytics

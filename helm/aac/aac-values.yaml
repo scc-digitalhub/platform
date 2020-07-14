@@ -1,0 +1,125 @@
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: "global"
+replicas: 1
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: {}
+
+annotations: {}
+
+image:
+  repository: smartcommunitylab/aac
+  tag: 3.1-beta4
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    memory: "512Mi"
+  requests:
+    memory: "256Mi"
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8081
+  initialDelaySeconds: 40
+  periodSeconds: 5
+  successThreshold: 2
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8081
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+strategy:
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+externalDatabase:
+  enabled: true
+  uri: "jdbc:mysql://mysql.databases:3306/AAC?useSSL=false"
+  existingSecret: "aac-db-creds"
+  userKey: "username"
+  passwordKey: "password"
+
+admin:
+  existingSecret: "aac-admin-creds"
+  userKey: "username"
+  passwordKey: "password"
+  userName: ""
+  password: ""
+
+smtp:
+  enabled: false
+  server: ""
+  port: ""
+  protocol: ""
+  existingSecret: {}
+  userKey: {}
+  passwordKey: {}
+
+externalKeystore:
+  enabled: true
+  existingSecret: "aac-keystore"
+  filePath: "/home/aac/confs"
+  fileName: "keystore.jwks"
+
+externalBootstrapFile:
+  enabled: false
+  existingSecret: "aac-bootstrap"
+  filePath: "/home/aac/confs"
+  fileName: "config.yaml"
+
+authorities:
+  google:
+    enabled: false
+    existingSecret: "google"
+    clientIdKey: "1234google"
+    clientSecretdKey: "1234google"
+  facebook:
+    enabled: false
+    existingSecret: "facebook"
+    clientIdKey: "1234facebook"
+    clientSecretdKey: "1234facebook"
+
+javaOpts: "-XX:MaxRAMFraction=2"
+
+externalUrl: "https://aac.kube-test.smartcommunitylab.it"
+
+accessTokenValidity: ""
+refreshTokenValidity: ""
+jwtIssuer: "aac.kube-test.smartcommunitylab.it"
+
+service:
+  portName: http
+  port: 8080
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

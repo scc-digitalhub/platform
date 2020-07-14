@@ -1,0 +1,138 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "aac.fullname" . }}
+  namespace: {{ template "aac.namespace" . }}
+  labels:
+    {{- include "aac.labels" . | nindent 4 }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "aac.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicasCount }}
+  strategy:
+    type: RollingUpdate
+{{ toYaml .Values.strategy | indent 4 }}
+  template:
+    metadata:
+      labels:
+        {{- include "aac.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/aac-configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ template "aac.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        ports:
+          - containerPort: 8080
+            name: http
+        readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 10 }}
+        livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 10 }}
+        env:
+          {{- if .Values.externalDatabase.enabled }}
+          - name: JDBC_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalDatabase.existingSecret | default "aac-db-creds" }}
+                key: {{ .Values.externalDatabase.userKey | default "username" }}
+          - name: JDBC_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalDatabase.existingSecret | default "aac-db-creds" }}
+                key: {{ .Values.externalDatabase.passwordKey | default "password" }}
+          {{- end }}
+          - name: ADMIN_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.admin.existingSecret | default "aac-admin-creds" }}
+                key: {{ .Values.admin.userKey | default "username" }}
+          - name: ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.admin.existingSecret | default "aac-admin-creds" }}
+                key: {{ .Values.admin.passwordKey | default "password" }}
+          {{- if .Values.smtp.enabled }}
+          - name: MAIL_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.smtp.existingSecret | default "aac-mail-creds" }}
+                key: {{ .Values.smtp.userKey | default "username" }}
+          - name: MAIL_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.smtp.existingSecret | default "aac-mail-creds" }}
+                key: {{ .Values.smtp.passwordKey | default "password" }}
+          {{- end }}
+          {{- if .Values.authorities.google.enabled }}
+          - name: OAUTH_GOOGLE_CLIENTID
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.authorities.google.existingSecret | default "aac-google-creds" }}
+                key: {{ .Values.authorities.google.clientIdKey | default "clientid" }}
+          - name: OAUTH_GOOGLE_CLIENTSECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.authorities.google.existingSecret | default "aac-google-creds" }}
+                key: {{ .Values.authorities.google.clientSecretKey | default "clientsecret" }}
+          {{- end }}
+          {{- if .Values.authorities.facebook.enabled }}
+          - name: OAUTH_FACEBOOK_CLIENTID
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.authorities.facebook.existingSecret | default "aac-facebook-creds" }}
+                key: {{ .Values.authorities.facebook.clientIdKey | default "clientid" }}
+          - name: OAUTH_FACEBOOK_CLIENTSECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.authorities.facebook.existingSecret | default "aac-facebook-creds" }}
+                key: {{ .Values.authorities.facebook.clientSecretKey | default "clientsecret" }}
+          {{- end }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "aac.fullname" . }}-env
+        volumeMounts:
+        {{- if .Values.externalKeystore.enabled }}
+        - name: keystore
+          mountPath: {{ .Values.externalKeystore.filePath }}/{{ .Values.externalKeystore.fileName }}
+          subPath: {{ .Values.externalKeystore.fileName }}
+          readOnly: true
+        {{- end }}
+        {{- if .Values.externalBootstrapFile.enabled }}
+        - name: bootstrap
+          mountPath: {{ .Values.bootstrapFile.filePath }}/{{ .Values.bootstrapFile.fileName }}
+          subPath: {{ .Values.bootstrapFile.fileName }}
+          readOnly: true
+        {{ else }}
+        - name: bootstrap
+          mountPath: /home/aac/confs/config.yaml
+          subPath: config.yaml
+          readOnly: true
+        {{- end }}
+      volumes:
+        {{- if .Values.externalKeystore.enabled }}
+        - name: keystore
+          secret:
+            secretName: {{ .Values.externalKeystore.existingSecret | default "aac-keystore" }}
+        {{- end }}
+        {{- if .Values.externalBootstrapFile.enabled }}
+        - name: bootstrap
+          secret:
+            secretName: {{ .Values.externalBootstrapFile.existingSecret }}
+        {{ else }}
+        - name: bootstrap
+          secret:
+            secretName: {{ template "aac.fullname" . }}-bootstrap
+        {{- end }}

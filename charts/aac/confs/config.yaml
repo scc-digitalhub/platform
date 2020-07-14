@@ -1,0 +1,237 @@
+bootstrap:
+  clients:
+    - name: API_MGT_CLIENT_ID
+      id: {{ template "aac.rand" . }}
+      developer: admin
+      grantTypes:
+      - implicit
+      - refresh_token
+      - password
+      - client_credentials
+      - native
+      - authorization_code
+      redirectUris:
+      - http://localhost:9443/publisher/jagg/jaggery_oidc_acs.jag
+      - http://localhost:9443/store/jagg/jaggery_oidc_acs.jag
+      scopes:
+      - clientmanagement
+      - orgmanagement
+      - user.roles.read
+      - profile.accountprofile.all
+      - openid
+      - profile
+      - profile.basicprofile.me
+      - profile.basicprofile.all
+      - apimanagement
+      - profile.accountprofile.me
+      - email
+      - user.roles.me
+      secret: {{ template "aac.rand" . }}
+      trusted: false
+    - name: gatekeeper
+      id: {{ template "aac.rand" . }}
+      claimMappingFunction: LyoqCiogREVGSU5FIFlPVVIgT1dOIENMQUlNIE1BUFBJTkcgSEVSRQoqKi8KZnVuY3Rpb24gY2xhaW1NYXBwaW5nKGNsYWltcykgewpzcGFjZSA9ICdkZWZhdWx0JzsKaWYoY2xhaW1zLmhhc093blByb3BlcnR5KCdyb2xlcycpKSB7CiAgLy9jb3B5IGZvciBzcHJpbmcKICBjbGFpbXNbJ2F1dGhvcml0aWVzJ10gPSBjbGFpbXNbJ3JvbGVzJ107CiAgLy9leHRyYWN0IHNwYWNlCiAgY2xhaW1zWydyb2xlcyddLmZvckVhY2goZnVuY3Rpb24ocm9sZSkgewogICAgaWYocm9sZS5zdGFydHNXaXRoKCdjb21wb25lbnRzL251Y2xpby8nKSkgewogICAgICBzcGFjZSA9IHJvbGUuc3Vic3RyaW5nKDE4KQogICAgICBzcGFjZSA9IHNwYWNlLnN1YnN0cmluZygwLCBzcGFjZS5pbmRleE9mKCc6JykpOwogICAgfQogIH0KICApOwp9CmNsYWltc1snU3BhY2UnXSA9IHNwYWNlOwogIHJldHVybiBjbGFpbXM7Cn0K
+      developer: admin
+      grantTypes:
+      - implicit
+      - client_credentials
+      - authorization_code
+      redirectUris:
+      - https://nuclio.kube-test.smartcommunitylab.it/
+      scopes:
+      - openid
+      - profile
+      - profile.basicprofile.me
+      - email
+      - user.roles.me
+      secret: {{ template "aac.rand" . }}
+      trusted: false
+      uniqueSpaces:
+      - components/nuclio
+    - name: grafana
+      id: {{ template "aac.rand" . }}
+      afterApprovalWebhook: http://nuclio-nodejs-grafana-connector.sys.svc.cluster.local:8080
+      claimMappingFunction: ZnVuY3Rpb24gY2xhaW1NYXBwaW5nKGNsYWltcykgewogICAgLy8gZXh0cmFjdCByb2xlcwogICAgdmFyIHBhdGggPSAnY29tcG9uZW50cy9ncmFmYW5hLyc7CiAgICB2YXIgcm9sZXMgPSBjbGFpbXMucm9sZXMuZmlsdGVyKGZ1bmN0aW9uKHIpIHsKICAgICAgICAgICAgcmV0dXJuIHIuaW5kZXhPZihwYXRoKSA9PSAwOwogICAgICAgIH0pCiAgICAgICAgLm1hcChmdW5jdGlvbihyKSB7CiAgICAgICAgICAgIHZhciBzdWJyb2xlID0gci5zdWJzdHJpbmcocGF0aC5sZW5ndGgpOwogICAgICAgICAgICB2YXIgYSA9IHN1YnJvbGUuc3BsaXQoJzonKTsKICAgICAgICAgICAgcmV0dXJuIHsKICAgICAgICAgICAgICAgIG9yZzogYVswXS5yZXBsYWNlKC9cLy9nLCAnXycpLnJlcGxhY2UoL1wuLywgJ18nKSwKICAgICAgICAgICAgICAgIHJvbGU6IGFbMV0KICAgICAgICAgICAgfQogICAgICAgIH0pCiAgICAgICAgLnJlZHVjZShmdW5jdGlvbihwcmV2LCBjdXJyKSB7CiAgICAgICAgICAgIGlmKGN1cnIucm9sZSA9PT0gJ1JPTEVfQURNSU4nKQogICAgICAgICAgICAgICAgcHJldltjdXJyLm9yZ10gPSAnQWRtaW4nOwogICAgICAgICAgICBlbHNlIGlmKGN1cnIucm9sZSA9PT0gJ1JPTEVfRURJVE9SJyAmJiBwcmV2W2N1cnIub3JnXSAgIT09ICdBZG1pbicpCiAgICAgICAgICAgICAgICBwcmV2W2N1cnIub3JnXSA9ICdFZGl0b3InOwogICAgICAgICAgICBlbHNlIGlmKCFwcmV2W2N1cnIub3JnXSkKICAgICAgICAgICAgICAgIHByZXZbY3Vyci5vcmddID0gJ1ZpZXdlcic7CiAgICAgICAgICAgIAogICAgICAgICAgICByZXR1cm4gcHJldjsKICAgICAgICB9LCB7fSk7CiAgICBjbGFpbXNbJ2dyYWZhbmEvcm9sZXMnXSA9IHJvbGVzOwogICAgcmV0dXJuIGNsYWltczsKfQ==
+      developer: admin
+      grantTypes:
+      - implicit
+      - client_credentials
+      - native
+      - authorization_code
+      redirectUris:
+      - https://grafana.kube-test.smartcommunitylab.it/login/generic_oauth
+      scopes:
+      - openid
+      - profile
+      - profile.basicprofile.me
+      - profile.accountprofile.me
+      - email
+      - user.roles.me
+      secret: {{ template "aac.rand" . }}
+      trusted: false
+      uniqueSpaces: [
+        ]
+    - name: resource-manager
+      id: {{ template "aac.rand" . }}
+      developer: admin
+      grantTypes:
+      - implicit
+      - client_credentials
+      - authorization_code
+      redirectUris:
+      - https://rm.kube-test.smartcommunitylab.it/api/auth/callback
+      scopes:
+      - openid
+      - profile
+      - email
+      - user.roles.me
+      secret: {{ template "aac.rand" . }}
+      trusted: false
+      uniqueSpaces:
+      - components/resourcemanager
+    - name: dss
+      id: {{ template "aac.rand" . }}
+      developer: admin
+      grantTypes:
+      - implicit
+      - client_credentials
+      - authorization_code
+      redirectUris:
+      - https://dss.kube-test.smartcommunitylab.it/
+      scopes:
+      - openid
+      - profile
+      - profile.basicprofile.me
+      - profile.accountprofile.me
+      - user.roles.read.all
+      - email
+      - client.roles.read.all
+      - user.roles.me
+      secret: {{ template "aac.rand" . }}
+      trusted: false
+    - name: nifi
+      id: {{ template "aac.rand" . }}
+      afterApprovalWebhook: http://nuclio-nodejs-nifi-connector.sys.svc.cluster.local:8080
+      claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKICogVE8gQkUgUFVUIElOIEFBQyBDT05GSUcgT0YgTklGSSBDTElFTlQgQVBQCioqLwpmdW5jdGlvbiBjbGFpbU1hcHBpbmcoY2xhaW1zKSB7CiAgICAvLyBleHRyYWN0IHJvbGVzCiAgICB2YXIgcGF0aCA9ICdjb21wb25lbnRzL25pZmkvJzsKICAgIGlmKGNsYWltcy5yb2xlcyAmJiBjbGFpbXMucm9sZXMgIT0gbnVsbCAmJiBjbGFpbXMucm9sZXMgIT0gdW5kZWZpbmVkKXsKICAgICAgICB2YXIgcm9sZXMgPSBjbGFpbXMucm9sZXMuZmlsdGVyKGZ1bmN0aW9uKHIpIHsKICAgICAgICAgICAgICAgIHJldHVybiByLmluZGV4T2YocGF0aCkgPT0gMDsKICAgICAgICAgICAgfSkKICAgICAgICAgICAgLm1hcChmdW5jdGlvbihyKSB7CiAgICAgICAgICAgICAgICB2YXIgc3Vicm9sZSA9IHIuc3Vic3RyaW5nKHBhdGgubGVuZ3RoKTsKICAgICAgICAgICAgICAgIHZhciBhID0gc3Vicm9sZS5zcGxpdCgnOicpOwogICAgICAgICAgICAgICAgcmV0dXJuIHsKICAgICAgICAgICAgICAgICAgICBvcmc6IGFbMF0ucmVwbGFjZSgvXC8vZywgJ18nKS5yZXBsYWNlKC9cLi9nLCAnXycpLAogICAgICAgICAgICAgICAgICAgIHJvbGU6IGFbMV0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfSkKICAgICAgICAgICAgLnJlZHVjZShmdW5jdGlvbihwcmV2LCBjdXJyKSB7IAogICAgCSAgICAvLyB0aGUgY2F0ZWdvcmllcyBvZiByb2xlcyBpbiBOaUZpCiAgICAgICAgICAgICAgICBpZihjdXJyLnJvbGUgPT09ICdST0xFX01BTkFHRVInKQogICAgICAgICAgICAgICAgICAgIHByZXZbY3Vyci5vcmddID0gJ1JPTEVfTUFOQUdFUic7CiAgICAgICAgICAgICAgICBpZighcHJldltjdXJyLm9yZ10pCiAgICAgICAgICAgICAgICAgICAgcHJldltjdXJyLm9yZ10gPSAnUk9MRV9NT05JVE9SJzsKICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgcmV0dXJuIHByZXY7CiAgICAgICAgICAgIH0sIHt9KTsKICAgICAgICBjbGFpbXNbJ25pZmkvcm9sZXMnXSA9IHJvbGVzOwogICAgfQogICAgcmV0dXJuIGNsYWltczsKfQ==
+      developer: admin
+      grantTypes:
+      - client_credentials
+      - authorization_code
+      redirectUris:
+      - https://nifi.kube-test.smartcommunitylab.it/nifi-api/access/oidc/callback
+      scopes:
+      - openid
+      - profile
+      - email
+      - user.roles.me
+      secret: {{ template "aac.rand" . }}
+      trusted: false
+      uniqueSpaces: [
+        ]
+    - name: jhub
+      id: {{ template "aac.rand" . }}
+      developer: admin
+      grantTypes:
+      - implicit
+      - refresh_token
+      - client_credentials
+      - authorization_code
+      redirectUris:
+      - https://jhub.kube-test.smartcommunitylab.it
+      scopes:
+      - openid
+      - profile
+      - profile.basicprofile.me
+      - email
+      - user.roles.me
+      secret: {{ template "aac.rand" . }}
+      trusted: false
+    - name: minio
+      id: {{ template "aac.rand" . }}
+      claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKKiovCmZ1bmN0aW9uIGNsYWltTWFwcGluZyhjbGFpbXMpIHsKICAgIAogICBjbGFpbXNbIm1pbmlvcG9saWN5Il0gPSAicmVhZHdyaXRlIjsKICAgcmV0dXJuIGNsYWltczsKfQ==
+      developer: admin
+      grantTypes:
+      - implicit
+      redirectUris:
+      - http://localhost:9000/minio/login/openid
+      - https://minio.kube-test.smartcommunitylab.it/
+      scopes:
+      - openid
+      - user.roles.me
+      secret: {{ template "aac.rand" . }}
+      trusted: false
+      uniqueSpaces:
+      - components/minio
+    - name: aac-org
+      id: {{ template "aac.rand" . }}
+      developer: admin
+      grantTypes:
+      - implicit
+      - client_credentials
+      - authorization_code
+      redirectUris:
+      - http://localhost:9999
+      - https://aac-org.kube-test.smartcommunitylab.it/
+      - https://orgmanager.kube-test.smartcommunitylab.it/
+      scopes:
+      - orgmanagement
+      - profile.accountprofile.all
+      - openid
+      - user.roles.manage.all
+      - profile
+      - profile.basicprofile.me
+      - profile.basicprofile.all
+      - user.roles.read.all
+      - usermanagement
+      - user.roles.read
+      - user.roles.write
+      - profile.accountprofile.me
+      - email
+      - client.roles.read.all
+      - user.roles.me
+      secret: {{ template "aac.rand" . }}
+      trusted: false
+
+  users:
+    - username: test
+      password: test123
+      roles:
+    - username: grafana@kube.test.it
+      password: grafana
+      roles:
+    - username: test1@kube.test.it
+      password: yHWRZKNmsFMOFFlD0Kw0
+      roles:
+    - username: test2@kube.test.it
+      password: eDkSxwOAAbY3OOAYPqmc
+      roles:
+    - username: test3@kube.test.it
+      password: e2NA6NZVjKPPcZ8Ijz2J
+      roles:
+    - username: test3@kube.test.it
+      password: e2NA6NZVjKPPcZ8Ijz2J
+      roles:
+    - username: acelepija@fbk.eu
+      password: xe52q48wtKUG0xHUiYIO
+      roles:
+
+  services:
+    - serviceId: security.vault
+      name: Vault Data Service
+      description: Core service for managing secure resource access and data.
+      scopes:
+      - scope: vault.data.read
+        name: Read Vault data
+        description: Read Vault data programmatically
+        claims: []
+        roles: []
+        authority: ROLE_CLIENT
+        approvalRequired: false
+      - scope: vault.data.read.me
+        name: Read Current User Vault Data
+        description: Read Vault data of the current user
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: true
+      claims: []

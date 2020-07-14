@@ -1,0 +1,34 @@
+{{- if .Values.analytics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "api-manager.fullname" . }}-analytics
+  namespace: {{ template "api-manager.namespace" . }}
+  labels:
+    {{- include "api-manager-analytics.labels" . | nindent 4 }}
+{{- if .Values.service.labels }}
+{{ toYaml .Values.service.labels | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    {{- include "api-manager-analytics.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: 'thrift'
+      port: 7612
+      protocol: TCP
+    - name: 'thrift-ssl'
+      port: 7712
+      protocol: TCP
+    - name: 'rest-api-port-1'
+      protocol: TCP
+      port: 9444
+    - name: 'rest-api-port-2'
+      protocol: TCP
+      port: 9091
+    - name: 'rest-api-port-3'
+      protocol: TCP
+      port: 7071
+    - name: 'rest-api-port-4'
+      protocol: TCP
+      port: 7444
+{{- end }}

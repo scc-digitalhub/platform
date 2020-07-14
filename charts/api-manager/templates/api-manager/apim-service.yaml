@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "api-manager.fullname" . }}
+  namespace: {{ template "api-manager.namespace" . }}
+  labels:
+    {{- include "api-manager.labels" . | nindent 4 }}
+{{- if .Values.service.labels }}
+{{ toYaml .Values.service.labels | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    {{- include "api-manager.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: http-pass-through
+      protocol: TCP
+      port: 8280
+    - name: https-pass-through
+      protocol: TCP
+      port: 8243
+    - name: http-servlet
+      protocol: TCP
+      port: 9763
+    - name: https-servlet
+      protocol: TCP
+      port: 9443

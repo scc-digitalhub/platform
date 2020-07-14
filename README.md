@@ -61,13 +61,13 @@ kubectl create namespace monitoring
 
 helm repo add loki https://grafana.github.io/loki/charts
 helm repo update
-helm upgrade --install loki loki/loki-stack --namespace monitoring --values ./helm/loki-stack/values-azure-v0.38.1.yaml
+helm upgrade --install loki loki/loki-stack --namespace monitoring --version 0.38.1 --values ./helm/monitoring/loki-stack/values-azure-v0.38.1.yaml
 ```
 
 #### Prometheus Operator
 
 ```shell
-helm upgrade --install prometheus-operator  stable/prometheus-operator --namespace monitoring --values ./helm/monitoring/prometheus-operator/values-azure-v8.16.1.yaml
+helm upgrade --install prometheus-operator  stable/prometheus-operator --namespace monitoring --version 8.16.1 --values ./helm/monitoring/prometheus-operator/values-azure-v8.16.1.yaml
 ```
 
 #### Verify Installation
@@ -95,9 +95,39 @@ prometheus-prometheus-operator-prometheus-0               3/3     Running   1   
 
 ### Install DigitalHub Platform components
 
-####
+```shell
+kubectl create ns databases
+kubectl create ns global
+```
 
+#### Mysql
 
+Edit credentials using SQL init script under **initializationFiles:** option in values file (*helm/databases/values-azure-v1.6.6.yaml*).
+
+```shell
+helm upgrade --install mysql stable/mysql --namespace databases --version 1.6.6 --values helm/databases/values-azure-v1.6.6.yaml  
+```
+
+#### AAC
+
+Create kuberentes secrets:
+
+```shell
+kubectl -n global create secret generic aac-db-creds --from-literal=username=ac --from-literal=password=ac
+kubectl -n global create secret generic aac-admin-creds --from-literal=username=admin --from-literal=password=admin
+```
+
+To generate new key please follow the instructions available [Here](https://mkjwk.org/).
+
+```shell
+kubectl -n global create secret generic aac-keystore --from-file=helm/aac/config/keystore.jwks
+```
+
+Install AAC
+
+```shell
+helm upgrade --install  aac ./charts/aac/ --namespace global --values ./helm/aac/aac-values.yaml
+```
 
 ```shell
 

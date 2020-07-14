@@ -1,0 +1,100 @@
+---
+# Source: aac/templates/aac-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: RELEASE-NAME-aac
+  namespace: global
+  labels:
+    helm.sh/chart: aac-0.1.4
+    app.kubernetes.io/name: aac
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: aac
+      app.kubernetes.io/instance: RELEASE-NAME
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: aac
+        app.kubernetes.io/instance: RELEASE-NAME
+      annotations:
+        checksum/config: 15c6a34ecaeb994c417c5fc18cfd6cfbe0c730599efa1fee6c67c75caf35fbef
+    spec:
+      serviceAccountName: RELEASE-NAME-aac
+      containers:
+      - name: aac
+        image: "smartcommunitylab/aac:3.1-beta4"
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+          - containerPort: 8080
+            name: http
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8081
+          initialDelaySeconds: 40
+          periodSeconds: 5
+          successThreshold: 2
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8081
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        env:
+          - name: JDBC_USER
+            valueFrom:
+              secretKeyRef:
+                name: aac-db-creds
+                key: username
+          - name: JDBC_PASS
+            valueFrom:
+              secretKeyRef:
+                name: aac-db-creds
+                key: password
+          - name: ADMIN_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: aac-admin-creds
+                key: username
+          - name: ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: aac-admin-creds
+                key: password
+        envFrom:
+        - configMapRef:
+            name: RELEASE-NAME-aac-env
+        volumeMounts:
+        - name: keystore
+          mountPath: /home/aac/confs/keystore.jwks
+          subPath: keystore.jwks
+          readOnly: true
+        - name: bootstrap
+          mountPath: /home/aac/confs/config.yaml
+          subPath: config.yaml
+          readOnly: true
+      volumes:
+        - name: keystore
+          secret:
+            secretName: aac-keystore
+        - name: bootstrap
+          secret:
+            secretName: RELEASE-NAME-aac-bootstrap

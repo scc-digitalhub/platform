@@ -1,0 +1,160 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "api-manager.fullname" . }}
+  namespace: {{ template "api-manager.namespace" . }}
+  labels:
+    {{- include "api-manager.labels" . | nindent 4 }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "api-manager.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicasCount }}
+  strategy:
+{{ toYaml .Values.strategy | indent 4 }}
+  template:
+    metadata:
+      labels:
+        {{- include "api-manager.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/api-manager/apim-configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ template "api-manager.serviceAccountName" . }}
+      initContainers:
+        - name: init-apim
+          image: busybox
+          command: ['sh', '-c', 'echo -e "checking for the availability of wso2apim-with-analytics-apim-analytics"; while ! nc -z {{ template "api-manager.fullname" . }}-analytics 7712; do sleep 1; printf "-"; done; echo -e " >> wso2is-with-analytics-is-analytics started";']
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        lifecycle:
+          preStop:
+            exec:
+              command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/wso2server.sh stop']
+        readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 10 }}
+        livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 10 }}
+        securityContext:
+          runAsUser: 802
+          runAsGroup: 802
+        ports:
+        -
+          containerPort: 8280
+          protocol: "TCP"
+        -
+          containerPort: 8243
+          protocol: "TCP"
+        -
+          containerPort: 9763
+          protocol: "TCP"
+        -
+          containerPort: 9443
+          protocol: "TCP"
+        -
+          containerPort: 5672
+          protocol: "TCP"
+        -
+          containerPort: 9711
+          protocol: "TCP"
+        -
+          containerPort: 9611
+          protocol: "TCP"
+        -
+          containerPort: 7711
+          protocol: "TCP"
+        -
+          containerPort: 7611
+          protocol: "TCP"
+        env:
+          {{- if .Values.externalDatabase.enabled }}
+          - name: APIM_MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalDatabase.existingSecret }}
+                key: {{ .Values.externalDatabase.userKey  }}
+          - name: APIM_MYSQL_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalDatabase.existingSecret }}
+                key: {{ .Values.externalDatabase.passwordKey }}
+          {{- end }}
+          {{- if .Values.aac.enabled }}
+          - name: AAC_CONSUMERKEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.aac.existingSecret }}
+                key: {{ .Values.aac.consumerKey  }}
+          - name: AAC_CONSUMERSECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.aac.existingSecret }}
+                key: {{ .Values.aac.consumerSecretKey }}
+          {{- end }}
+          {{- if .Values.externalKeystore.enabled }}
+          - name: APIM_KEYSTORE_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalKeystore.passwordSecret }}
+                key: {{ .Values.externalKeystore.keystorePassKey  }}
+          - name: APIM_TRUSTSTORE_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalKeystore.passwordSecret }}
+                key: {{ .Values.externalKeystore.truststorePassKey }}
+          {{- end }}
+          - name: APIM_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.admin.existingSecret }}
+                key: {{ .Values.admin.userKey  }}
+          - name: APIM_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.admin.existingSecret }}
+                key: {{ .Values.admin.passwordKey }}
+        envFrom:
+          - configMapRef:
+              name: {{ template "api-manager.fullname" . }}-env
+{{- if or .Values.persistence.enabled  .Values.externalKeystore.enabled }}
+        volumeMounts:
+        {{- if or .Values.persistence.enabled }}
+        - name: wso2-artifact
+          mountPath: /home/wso2carbon/wso2am-2.6.0/repository/deployment/server
+          subPath: server
+        - name: wso2-artifact
+          mountPath: /home/wso2carbon/wso2am-2.6.0/repository/tenants
+          subPath: tenants
+        - name: wso2-artifact
+          mountPath: /home/wso2carbon/wso2am-2.6.0/solr
+          subPath: solr
+        - name: wso2-artifact
+          mountPath: /home/wso2carbon/wso2am-2.6.0/repository/database
+          subPath: database
+        {{- end }}
+        {{- if .Values.externalKeystore.enabled }}
+        - name: keystore
+          mountPath: {{ .Values.externalKeystore.filePath }}
+        {{- end }}
+      volumes:
+      {{- if or .Values.persistence.enabled }}
+      - name: wso2-artifact
+        persistentVolumeClaim:
+          claimName: {{ default (include "api-manager.fullname" .) .Values.persistence.existingClaim }}
+      {{- end }}
+      {{- if .Values.externalKeystore.enabled }}
+      - name: keystore
+        secret:
+          secretName: {{ .Values.externalKeystore.existingSecret }}
+      {{- end }}
+{{- end }}

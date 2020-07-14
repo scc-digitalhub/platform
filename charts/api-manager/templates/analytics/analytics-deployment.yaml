@@ -1,0 +1,105 @@
+{{- if .Values.analytics.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "api-manager.fullname" . }}-analytics
+  namespace: {{ template "api-manager.namespace" . }}
+  labels:
+    {{- include "api-manager-analytics.labels" . | nindent 4 }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "api-manager-analytics.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicasCount }}
+  strategy:
+{{ toYaml .Values.strategy | indent 4 }}
+  template:
+    metadata:
+      labels:
+        {{- include "api-manager-analytics.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/analytics/analytics-configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ template "api-manager.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}-analytics
+        image: "{{ .Values.analytics.image.repository }}:{{ .Values.analytics.image.tag }}"
+        imagePullPolicy: {{ .Values.analytics.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.analytics.resources | indent 10 }}
+        lifecycle:
+          preStop:
+            exec:
+              command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/worker.sh stop']
+        readinessProbe:
+{{ toYaml .Values.analytics.readinessProbe | indent 10 }}
+        livenessProbe:
+{{ toYaml .Values.analytics.livenessProbe | indent 10 }}
+        securityContext:
+          runAsUser: 802
+          runAsGroup: 802
+        ports:
+        -
+          containerPort: 9764
+          protocol: "TCP"
+        -
+          containerPort: 9444
+          protocol: "TCP"
+        -
+          containerPort: 7612
+          protocol: "TCP"
+        -
+          containerPort: 7712
+          protocol: "TCP"
+        -
+          containerPort: 9091
+          protocol: "TCP"
+        -
+          containerPort: 7071
+          protocol: "TCP"
+        -
+          containerPort: 7444
+          protocol: "TCP"
+        env:
+          {{- if .Values.externalDatabase.enabled }}
+          - name: APIM_MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalDatabase.existingSecret }}
+                key: {{ .Values.externalDatabase.userKey  }}
+          - name: APIM_MYSQL_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalDatabase.existingSecret }}
+                key: {{ .Values.externalDatabase.passwordKey }}
+          {{- end }}
+          - name: APIM_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.admin.existingSecret }}
+                key: {{ .Values.admin.userKey  }}
+          - name: APIM_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.admin.existingSecret }}
+                key: {{ .Values.admin.passwordKey }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "api-manager.fullname" . }}-analytics-env
+        {{- if .Values.analytics.externalKeystore.enabled }}
+        volumeMounts:
+        - name: keystore
+          mountPath: {{ .Values.analytics.externalKeystore.filePath }}
+      volumes:
+      - name: keystore
+        secret:
+          secretName: {{ .Values.analytics.externalKeystore.existingSecret }}
+      {{- end }}
+{{- end }}

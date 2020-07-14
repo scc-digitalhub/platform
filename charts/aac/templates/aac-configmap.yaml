@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "aac.fullname" . }}-env
+  namespace: {{ template "aac.namespace" . }}
+  labels:
+  {{- include "aac.labels" . | nindent 4 }}
+data:
+  SERVER_HOST: localhost
+  SERVER_PORT: "8080"
+  SERVER_CONTEXT: {{ .Values.serverContext }}
+  MANAGEMENT_PORT: "8081"
+  SERVER_TOMCAT_REMOTE_IP_HEADER: x-forwarded-for
+  SERVER_TOMCAT_PROTOCOL_HEADER: x-forwarded-proto
+  APPLICATION_EXT_URL: {{ .Values.externalUrl }}
+  {{- if .Values.externalDatabase.enabled }}
+  JDBC_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
+  JDBC_DRIVER: com.mysql.jdbc.Driver
+  JDBC_URL: {{ .Values.externalDatabase.uri | default "jdbc:mysql://mysql:3306/aac?useSSL=false" }}
+  {{- end }}
+  ACCESS_TOKEN_VALIDITY: {{ .Values.accessTokenValidity | default "43200" | quote }}
+  REFRESH_TOKEN_VALIDITY: {{ .Values.refreshTokenValidity | default "2592000" | quote }}
+  {{- if .Values.externalKeystore.enabled }}
+  JWK_KEYSTORE: file://{{ .Values.externalKeystore.filePath }}/{{ .Values.externalKeystore.fileName }}
+  {{- end }}
+  {{- if .Values.externalBootstrapFile.enabled }}
+  BOOTSTRAP: file://{{ .Values.externalBootstrapFile.filePath }}/{{ .Values.externalBootstrapFile.fileName }}
+  {{ else }}
+  BOOTSTRAP: file:///home/aac/confs/config.yaml
+  {{- end }}
+  REMEMBER_ME_KEY: {{ randAlphaNum 40 | b64enc | quote }}
+  REDIRECT_MATCH_PORTS: "false"
+  REDIRECT_MATCH_SUBDOMAINS: "true"
+  ENABLE_JWT: "true"
+  JWT_ISSUER: {{ .Values.jwtIssuer }}
+  # JWT_KID_SIG: kube-test
+  # JWT_KID_ENC:
+  AUTHORITIES: internal{{- if .Values.authorities.google.enabled }},google{{- end}}{{- if .Values.authorities.facebook.enabled }},facebook{{- end}}
+  LOG_LEVEL: INFO
+  {{- if .Values.smtp.enabled }}
+  MAIL_HOST: {{ .Values.smtp.server}}
+  MAIL_PORT: {{ .Values.smtp.port | quote }}
+  MAIL_PROTOCOL: {{ .Values.smtp.protocol }}
+  {{- end }}
+  JAVA_OPTS: {{ .Values.javaOpts | default "-XX:MaxRAMFraction=2" }}

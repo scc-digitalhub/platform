@@ -1,0 +1,8 @@
+{{- if .Values.analytics.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "api-manager.fullname" . }}-analytics-env
+data:
+{{ toYaml .Values.analytics.env | indent 2 }}
+{{- end }}
