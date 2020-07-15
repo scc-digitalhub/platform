@@ -17,12 +17,11 @@ services:
     env_file:
       - apim.env
     volumes:
-      - ./cert/keystore/api-manager.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/api-manager.jks
-      - ./cert/keystore/client-truststore.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/client-truststore.jks
+      - ./cert/api-gw.platform.local/apigwself.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/apigwself.jks
+      - ./cert/api-gw.platform.local/client-truststore.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/client-truststore.jks
       # - server:/home/wso2carbon/wso2am-2.6.0/repository/deployment/server
       # - tenants:/home/wso2carbon/wso2am-2.6.0/repository/tenants
       # - solr:/home/wso2carbon/wso2am-2.6.0/solr
-
     networks:
       platform-net:
 volumes:

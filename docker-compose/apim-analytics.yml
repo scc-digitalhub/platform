@@ -15,8 +15,8 @@ services:
     env_file:
       - apim-analytics.env
     volumes:
-      - ./cert/keystore/api-manager-analytics.jks:/home/wso2carbon/wso2-config-volume/resources/security/api-manager-analytics.jks
-      - ./cert/keystore/client-truststore.jks:/home/wso2carbon/wso2-config-volume/resources/security/client-truststore.jks
+      - ./cert/am-analytics/am-analytics.jks:/home/wso2carbon/wso2-config-volume/resources/security/am-analytics.jks
+      - ./cert/am-analytics/client-truststore.jks:/home/wso2carbon/wso2-config-volume/resources/security/client-truststore.jks
     networks:
       platform-net:
 networks:

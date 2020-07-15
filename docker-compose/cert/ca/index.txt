@@ -1,1 +1,0 @@
-V	291210130017Z		1000	unknown	/C=IT/ST=TN/O=FBK/OU=SCL/CN=Platform Local

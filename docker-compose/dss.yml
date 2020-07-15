@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   dss-wso2:
-    image:  smartcommunitylab/dss:auto_latest
+    image:  smartcommunitylab/dss:keystore2
     ports:
       - "9764:9763"
       - "9445:9443"
@@ -13,12 +13,11 @@ services:
       retries: 10
     env_file:
       - dss.env
+    volumes:
+        - ./cert/dss.platform.local/dss.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/dss.jks
+        - ./cert/dss.platform.local/client-truststore.jks:/home/wso2carbon/wso2-config-volume/repository/resources/security/client-truststore.jks
     networks:
       platform-net:
-# volumes:
-#   server: {}
-#   tenants: {}
-#   #solr: {}
 networks:
   platform-net:
     external: true
