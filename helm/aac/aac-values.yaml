@@ -94,11 +94,11 @@ authorities:
 
 javaOpts: "-XX:MaxRAMFraction=2"
 
-externalUrl: "https://aac.kube-test.smartcommunitylab.it"
+externalUrl: "https://aac.config-test.smartcommunitylab.it"
 
 accessTokenValidity: ""
 refreshTokenValidity: ""
-jwtIssuer: "aac.kube-test.smartcommunitylab.it"
+jwtIssuer: "https://aac.config-test.smartcommunitylab.it"
 
 service:
   portName: http

@@ -27,6 +27,8 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/api-manager/apim-configmap.yaml") . | sha256sum }}
     spec:
       serviceAccountName: {{ template "api-manager.serviceAccountName" . }}
+      securityContext:
+        fsGroup: 802
       initContainers:
         - name: init-apim
           image: busybox

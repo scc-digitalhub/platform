@@ -87,18 +87,18 @@ externalKeystore:
   truststorePassKey: "truststore"
 
 env:
-  APIM_REVERSEPROXY: apim.kube-test.smartcommunitylab.it
-  APIM_GATEWAYENDPOINT: gwapim.kube-test.smartcommunitylab.it
-  AAC_REVERSEPROXY: https://aac.kube-test.smartcommunitylab.it
-  APIM_MYSQL_HOSTNAME: mysql
+  APIM_REVERSEPROXY: api.config-test.smartcommunitylab.it
+  APIM_GATEWAYENDPOINT: gw.config-test.smartcommunitylab.it
+  AAC_REVERSEPROXY: https://aac.config-test.smartcommunitylab.it
+  APIM_MYSQL_HOSTNAME: mysql.databases
   AAC_INTROSPECTION_URL: /oauth/introspect
   ANALYTICS_ENABLED: "true"
-  APIM_KEYSTORE_FILENAME: "api-manager.jks"
-  APIM_KEYSTORE_PASS: "kubetest"
-  APIM_KEYSTORE_KEYALIAS: "api-manager"
+  APIM_KEYSTORE_FILENAME: "apigwself.jks"
+  # APIM_KEYSTORE_PASS: "kubetest"
+  APIM_KEYSTORE_KEYALIAS: "apigwself"
   APIM_TRUSTSTORE_FILENAME: "client-truststore.jks"
-  APIM_TRUSTSTORE_PASS: "kubetest"
-  AAC_HOSTNAME: https://aac.kube-test.smartcommunitylab.it
+  # APIM_TRUSTSTORE_PASS: "kubetest"
+  AAC_HOSTNAME: https://aac.config-test.smartcommunitylab.it
 
 ingress:
   enabled: false
@@ -132,7 +132,7 @@ analytics:
         - /bin/sh
         - -c
         - nc -z localhost 7712
-    initialDelaySeconds: 10
+    initialDelaySeconds: 20
     periodSeconds: 10
   livenessProbe:
     exec:
@@ -140,14 +140,17 @@ analytics:
         - /bin/sh
         - -c
         - nc -z localhost 7712
-    initialDelaySeconds: 10
+    initialDelaySeconds: 20
     periodSeconds: 10
   externalKeystore:
     enabled: true
     existingSecret: "api-manager-keystore-analytics"
     filePath: "/home/wso2carbon/wso2-config-volume/resources/security"
+    passwordSecret: "api-manager-analytics-keystore-pass"
+    keystorePassKey: "keystore"
+    truststorePassKey: "truststore"
   env:
-    APIM_MYSQL_HOSTNAME: mysql
+    APIM_MYSQL_HOSTNAME: mysql.databases
     APIM_KEYSTORE_FILENAME: "api-manager-keystore-analytics"
-    APIM_KEYSTORE_KEYALIAS: "analytics"
+    APIM_KEYSTORE_KEYALIAS: "am-analytics"
     APIM_TRUSTSTORE_FILENAME: "client-truststore.jks"

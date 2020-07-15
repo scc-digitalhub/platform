@@ -234,6 +234,16 @@ istioctl install --set profile=demo
 
 Official Documentation [Link](https://istio.io/latest/docs/setup/getting-started/ "Istio  Installation Guide")
 
+Generate wildcard certificate and create a secret with it.
+
+```shell
+kubectl -n istio-system create secret tls wild-card-cert --key=privkey.pem --cert=fullchain.pem
+```
+
+```shell
+kubectl apply -f helm/istio/gateway.yml
+```
+
 ### Install monitoring components
 
 #### Loki
@@ -311,10 +321,47 @@ Install AAC
 helm upgrade --install  aac ./charts/aac/ --namespace global --values ./helm/aac/aac-values.yaml
 ```
 
+```shell
+kubectl apply -f helm/istio/aac-virtual-service.yml
+```
+
 #### Api-Manager
 
-```shell
+Create kuberentes secrets:
 
+```shell
+kubectl -n global create secret generic api-manager-db-creds --from-literal=username=wso2carbon --from-liter
+al=password=wso2carbon
+
+kubectl -n global create secret generic api-manager-aac-creds --from-literal=username=uTU9TqKy-Wx33-BGb8-H8i
+D-9nlP-YNPT31KRI9kq --from-literal=password=UcXyO0wx-Dr4r-Oa2k-vxK5-l4Yj-s4wmxA5ZzSK4
+
+kubectl -n global create secret generic api-manager-admin-creds --from-literal=username=admin --from-literal
+=password=admin
+
+kubectl -n global create secret generic api-manager-keystore --from-file=apigwself.jks --from-file=client-truststore.jks
+
+kubectl -n global create secret generic api-manager-keystore-pass --from-literal=keystore=platform --from-li
+teral=truststore=platform
+
+kubectl -n global create secret generic api-manager-keystore-analytics --from-file=/home/ffais/project/platf
+orm/docker-compose/cert/am-analytics/am-analytics.jks --from-file=/home/ffais/project/platform/docker-compose/cert/am-analytics/client-truststore.jks
+
+kubectl -n global create secret generic api-manager-analytics-keystore-pass --from-literal=keystore=platform --from-literal=truststore=platform
+secret/api-manager-analytics-keystore-pass created
+```
+Install Api-Manager
+
+```shell
+helm upgrade --install api-manager ./charts/api-manager/ --namespace global --values ./helm/api-manager/api-manager-values.yaml
+```
+
+```shell
+kubectl apply -f helm/istio/api-manager-destination-rule.yaml
+```
+
+```shell
+kubectl apply -f helm/istio/api-manager-virtualservice.yml
 ```
 
 ## Getting Started with DigitalHub Platform on Docker-Compose

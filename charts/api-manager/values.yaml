@@ -138,6 +138,9 @@ analytics:
     enabled: false
     existingSecret: ""
     filePath: ""
+    passwordSecret: ""
+    keystorePassKey: ""
+    truststorePassKey: ""
 
   env:
     APIM_MYSQL_HOSTNAME: mysql

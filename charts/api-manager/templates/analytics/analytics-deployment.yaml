@@ -80,6 +80,18 @@ spec:
                 name: {{ .Values.externalDatabase.existingSecret }}
                 key: {{ .Values.externalDatabase.passwordKey }}
           {{- end }}
+          {{- if .Values.analytics.externalKeystore.enabled }}
+          - name: APIM_KEYSTORE_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.analytics.externalKeystore.passwordSecret }}
+                key: {{ .Values.analytics.externalKeystore.keystorePassKey  }}
+          - name: APIM_TRUSTSTORE_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.analytics.externalKeystore.passwordSecret }}
+                key: {{ .Values.analytics.externalKeystore.truststorePassKey }}
+          {{- end }}
           - name: APIM_USER
             valueFrom:
               secretKeyRef:
