@@ -107,6 +107,7 @@ bootstrap:
       - email
       - client.roles.read.all
       - user.roles.me
+      - user.roles.read
       secret: {{ template "aac.rand" . }}
       trusted: false
     - name: nifi

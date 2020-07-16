@@ -84,15 +84,15 @@ admin:
   passwordKey: "password"
 
 env:
-  DSS_SERVER_URL: https://dss.kube-test.smartcommunitylab.it
-  DSS_REVERSEPROXY: dss.kube-test.smartcommunitylab.it
-  AAC_HOSTNAME: https://aac.kube-test.smartcommunitylab.it
-  AAC_REVERSEPROXY: https://aac.kube-test.smartcommunitylab.it
-  MYSQL_HOSTNAME: mysql
+  DSS_SERVER_URL: https://dss.config-test.smartcommunitylab.it
+  DSS_REVERSEPROXY: dss.config-test.smartcommunitylab.it
+  AAC_HOSTNAME: https://aac.config-test.smartcommunitylab.it
+  AAC_REVERSEPROXY: https://aac.config-test.smartcommunitylab.it
+  MYSQL_HOSTNAME: mysql.databases
   DSS_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
   DSS_ROLE_CONTEXT: components/dss.com
   DSS_PORT: "443"
-  DSS_KEYSTORE_FILENAME: "dss.global.svc.cluster.local.jks"
+  DSS_KEYSTORE_FILENAME: "dss.jks"
   DSS_KEYSTORE_KEYALIAS: "dss"
   DSS_TRUSTSTORE_FILENAME: "client-truststore.jks"
 
@@ -108,18 +108,6 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 nodeSelector: {}
 

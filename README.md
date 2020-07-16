@@ -44,7 +44,7 @@ openssl req -new -sha256 \
     -subj "/C=IT/ST=TN/O=FBK/CN=api.platform.local" \
     -reqexts SAN \
     -config <(cat /etc/ssl/openssl.cnf \
-        <(printf "\n[SAN]\nsubjectAltName=DNS:api.platform.local,DNS:gw.platform.local")) \
+        <(printf "\n[SAN]\nsubjectAltName=DNS:api.platform.local,DNS:gw.platform.local,DNS:api-manager,DNS:api-manager.global.svc.cluster.local")) \
     -out api-gw.platform.local.csr
 ```
 
@@ -90,7 +90,7 @@ openssl req -new -sha256 \
     -subj "/C=IT/ST=TN/O=FBK/CN=am-analytics" \
     -reqexts SAN \
     -config <(cat /etc/ssl/openssl.cnf \
-        <(printf "\n[SAN]\nsubjectAltName=DNS:am-analytics")) \
+        <(printf "\n[SAN]\nsubjectAltName=DNS:am-analytics,DNS:api-manager-analytics,DNS:api-manager-analytics.global.svc.cluster.local")) \
     -out am-analytics.csr
 ```
 
@@ -136,7 +136,7 @@ openssl req -new -sha256 \
     -subj "/C=IT/ST=TN/O=FBK/CN=dss.platform.local" \
     -reqexts SAN \
     -config <(cat /etc/ssl/openssl.cnf \
-        <(printf "\n[SAN]\nsubjectAltName=DNS:dss.platform.local")) \
+        <(printf "\n[SAN]\nsubjectAltName=DNS:dss.platform.local,DNS:dss,DNS:dss-wso2,DNS:dss.global.svc.cluster.local")) \
     -out dss.csr
 ```
 
@@ -167,6 +167,10 @@ keytool -import -trustcacerts -keystore client-truststore.jks -alias rootCA.plat
 ```
 
 ```shell
+keytool -import -trustcacerts -keystore client-truststore.jks -alias lets-encrypt -file lets-encrypt-x3-cross-signed.pem
+```
+
+```shell
 keytool -storepasswd -keystore client-truststore.jks
 ```
 
@@ -175,7 +179,7 @@ keytool -storepasswd -keystore client-truststore.jks
 Download Nifi-Toolkit [Link](https://nifi.apache.org/download.html)
 
 ```shell
-nifi-toolkit-1.11.4/bin/tls-toolkit.sh standalone -n 'nifi.platform.local' --subjectAlternativeNames 'nifi,nifi.platform.local' --additionalCACertificate rootCA.crt -S 'platform' -P 'platform'
+nifi-toolkit-1.11.4/bin/tls-toolkit.sh standalone -n 'nifi.platform.local' --subjectAlternativeNames 'nifi,nifi.platform.local,nifi.global.svc.cluster.local' --additionalCACertificate rootCA.crt -S 'platform' -P 'platform'
 ```
 
 ```shell
@@ -374,21 +378,25 @@ Create kuberentes secrets:
 ```shell
 kubectl -n global create secret generic dss-keystore --from-file=dss.jks --from-file=client-truststore.jks
 
-kubectl -n global create secret generic dss-db-creds --from-literal=username=wso2carbon  --from-literal=password=wso2carbon
+kubectl -n global create secret generic dss-db-creds --from-literal=username=wso2carbon  --from-literal=password=wso2carbon4
+
+kubectl -n global create secret generic dss-keystore-creds --from-literal=keystore=platform  --from-literal=truststore=platform
+
+kubectl -n global create secret generic dss-aac-creds --from-literal=username=Ub6ixLsK-fzQ6-A6TC-J8jz-9Cdr-W7W7gPBkaOsj --from-literal=password=3BB43LIy-f4ww-i4SK-TaV7-26M9-ErwCRkhyQK0J
 
 ```
 Install DSS
 
 ```shell
-helm upgrade --install api-manager ./charts/api-manager/ --namespace global --values ./helm/api-manager/api-manager-values.yaml
+helm upgrade --install dss ./charts/dss/ --namespace global --values ./helm/dss/dss-values.yaml
 ```
 
 ```shell
-kubectl apply -f helm/istio/api-manager-destination-rule.yaml
+kubectl apply -f helm/istio/dss-destination-rule.yaml
 ```
 
 ```shell
-kubectl apply -f helm/istio/api-manager-virtualservice.yml
+kubectl apply -f helm/istio/dss-virtualservice.yml
 ```
 
 ## Getting Started with DigitalHub Platform on Docker-Compose
