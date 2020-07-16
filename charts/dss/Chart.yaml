@@ -1,0 +1,6 @@
+apiVersion: v2
+name: dss
+description: WSO2 Data Services Server augments service-oriented architecture development efforts by providing an easy-to-use platform for integrating data stores, creating composite data views, and hosting data services. It supports secure and managed data access across federated data stores, data service transactions, and data transformation and validation using a lightweight, developer friendly, agile development approach. It provides federation support, combining data from multiple sources in single response or resource and also supports nested queries across data sources. WSO2 Data Services Server is based on Java OSGi technology, which allows components to be dynamically installed, started, stopped, updated, and uninstalled while eliminating component version conflicts.
+type: application
+version: 0.1.0
+appVersion: 3.5.2

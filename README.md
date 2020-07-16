@@ -241,7 +241,9 @@ kubectl -n istio-system create secret tls wild-card-cert --key=privkey.pem --cer
 ```
 
 ```shell
-kubectl apply -f helm/istio/gateway.yml
+kubectl create ns global
+kubectl label namespaces global  istio-injection=enabled
+kubectl apply -f helm/istio/global-gateway.yml
 ```
 
 ### Install monitoring components
@@ -289,7 +291,6 @@ prometheus-prometheus-operator-prometheus-0               3/3     Running   1   
 
 ```shell
 kubectl create ns databases
-kubectl create ns global
 ```
 
 #### Mysql
@@ -330,27 +331,53 @@ kubectl apply -f helm/istio/aac-virtual-service.yml
 Create kuberentes secrets:
 
 ```shell
-kubectl -n global create secret generic api-manager-db-creds --from-literal=username=wso2carbon --from-liter
-al=password=wso2carbon
+kubectl -n global create secret generic api-manager-db-creds --from-literal=username=wso2carbon \
+ --from-literal=password=wso2carbon
 
-kubectl -n global create secret generic api-manager-aac-creds --from-literal=username=uTU9TqKy-Wx33-BGb8-H8i
-D-9nlP-YNPT31KRI9kq --from-literal=password=UcXyO0wx-Dr4r-Oa2k-vxK5-l4Yj-s4wmxA5ZzSK4
+kubectl -n global create secret generic api-manager-aac-creds \
+ --from-literal=username=uTU9TqKy-Wx33-BGb8-H8iD-9nlP-YNPT31KRI9kq \
+ --from-literal=password=UcXyO0wx-Dr4r-Oa2k-vxK5-l4Yj-s4wmxA5ZzSK4
 
-kubectl -n global create secret generic api-manager-admin-creds --from-literal=username=admin --from-literal
-=password=admin
+kubectl -n global create secret generic api-manager-admin-creds --from-literal=username=admin \
+ --from-literal=password=admin
 
 kubectl -n global create secret generic api-manager-keystore --from-file=apigwself.jks --from-file=client-truststore.jks
 
-kubectl -n global create secret generic api-manager-keystore-pass --from-literal=keystore=platform --from-li
-teral=truststore=platform
+kubectl -n global create secret generic api-manager-keystore-pass \
+ --from-literal=keystore=platform --from-literal=truststore=platform
 
-kubectl -n global create secret generic api-manager-keystore-analytics --from-file=/home/ffais/project/platf
-orm/docker-compose/cert/am-analytics/am-analytics.jks --from-file=/home/ffais/project/platform/docker-compose/cert/am-analytics/client-truststore.jks
+kubectl -n global create secret generic api-manager-keystore-analytics \
+--from-file=am-analytics/am-analytics.jks \
+--from-file=am-analytics/client-truststore.jks
 
-kubectl -n global create secret generic api-manager-analytics-keystore-pass --from-literal=keystore=platform --from-literal=truststore=platform
-secret/api-manager-analytics-keystore-pass created
+kubectl -n global create secret generic api-manager-analytics-keystore-pass --from-literal=keystore=platform \
+--from-literal=truststore=platform
 ```
 Install Api-Manager
+
+```shell
+helm upgrade --install api-manager ./charts/api-manager/ --namespace global --values ./helm/api-manager/api-manager-values.yaml
+```
+
+```shell
+kubectl apply -f helm/istio/api-manager-destination-rule.yaml
+```
+
+```shell
+kubectl apply -f helm/istio/api-manager-virtualservice.yml
+```
+
+#### DSS
+
+Create kuberentes secrets:
+
+```shell
+kubectl -n global create secret generic dss-keystore --from-file=dss.jks --from-file=client-truststore.jks
+
+kubectl -n global create secret generic dss-db-creds --from-literal=username=wso2carbon  --from-literal=password=wso2carbon
+
+```
+Install DSS
 
 ```shell
 helm upgrade --install api-manager ./charts/api-manager/ --namespace global --values ./helm/api-manager/api-manager-values.yaml

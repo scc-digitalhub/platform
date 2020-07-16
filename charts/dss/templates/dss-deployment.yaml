@@ -1,0 +1,136 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "dss.fullname" . }}
+  namespace: {{ template "dss.namespace" . }}
+  labels:
+    {{- include "dss.labels" . | nindent 4 }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "dss.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicasCount }}
+  strategy:
+{{ toYaml .Values.strategy | indent 4 }}
+  template:
+    metadata:
+      labels:
+        {{- include "dss.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/dss-configmap.yaml") . | sha256sum }}
+{{- with .Values.annotations }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+    spec:
+      securityContext:
+        runAsUser: 802
+        runAsGroup: 802
+        fsGroup: 802
+      serviceAccountName: {{ template "dss.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        lifecycle:
+          preStop:
+            exec:
+              command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/wso2server.sh stop']
+        readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 10 }}
+        livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 10 }}
+        ports:
+        -
+          containerPort: 9763
+          protocol: "TCP"
+        -
+          containerPort: 9443
+          protocol: "TCP"
+        env:
+          {{- if .Values.externalDatabase.enabled }}
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalDatabase.existingSecret }}
+                key: {{ .Values.externalDatabase.userKey  }}
+          - name: MYSQL_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalDatabase.existingSecret }}
+                key: {{ .Values.externalDatabase.passwordKey }}
+          {{- end }}
+          {{- if .Values.aac.enabled }}
+          - name: AAC_CONSUMERKEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.aac.existingSecret }}
+                key: {{ .Values.aac.consumerKey  }}
+          - name: AAC_CONSUMERSECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.aac.existingSecret }}
+                key: {{ .Values.aac.consumerSecretKey }}
+          {{- end }}
+          {{- if .Values.externalKeystore.enabled }}
+          - name: DSS_KEYSTORE_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalKeystore.passwordSecret }}
+                key: {{ .Values.externalKeystore.keystorePassKey  }}
+          - name: DSS_TRUSTSTORE_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalKeystore.passwordSecret }}
+                key: {{ .Values.externalKeystore.truststorePassKey }}
+          {{- end }}
+          - name: DSS_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.admin.existingSecret }}
+                key: {{ .Values.admin.userKey  }}
+          - name: DSS_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.admin.existingSecret }}
+                key: {{ .Values.admin.passwordKey }}
+        envFrom:
+          - configMapRef:
+              name: {{ template "dss.fullname" . }}-env
+{{- if or .Values.persistence.enabled  .Values.externalKeystore.enabled }}
+        volumeMounts:
+        {{- if .Values.externalKeystore.enabled }}
+        - name: dss-keystore
+          mountPath: {{ .Values.externalKeystore.filePath }}
+        {{- end }}
+        {{- if .Values.persistence.enabled }}
+        - name: dss-artifact
+          mountPath: /home/wso2carbon/wso2dss-3.5.2/repository/deployment/server
+          subPath: server
+        - name: dss-artifact
+          mountPath: /home/wso2carbon/wso2dss-3.5.2/repository/tenants
+          subPath: tenants
+        - name: dss-artifact
+          mountPath: /home/wso2carbon/wso2dss-3.5.2/solr
+          subPath: solr
+        {{- end }}
+      volumes:
+      {{- if .Values.persistence.enabled }}
+      - name: dss-artifact
+        persistentVolumeClaim:
+          claimName: {{ default (include "dss.fullname" .) .Values.persistence.existingClaim }}
+      {{- end }}
+      {{- if .Values.externalKeystore.enabled }}
+      - name: dss-keystore
+        secret:
+          secretName: {{ .Values.externalKeystore.existingSecret }}
+      {{- end }}
+{{- end }}
