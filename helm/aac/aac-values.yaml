@@ -58,7 +58,7 @@ admin:
   passwordKey: "password"
   userName: ""
   password: ""
-
+  roles: "components/apimanager/carbon.super:accountmanager, components/apimanager/carbon.super:profilemanager,components/apimanager/carbon.super:rolemanager,components/dss.com"
 smtp:
   enabled: false
   server: ""

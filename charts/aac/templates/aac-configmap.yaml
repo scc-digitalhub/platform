@@ -43,3 +43,4 @@ data:
   MAIL_PROTOCOL: {{ .Values.smtp.protocol }}
   {{- end }}
   JAVA_OPTS: {{ .Values.javaOpts | default "-XX:MaxRAMFraction=2" }}
+  ADMIN_ROLES: {{ .Values.admin.roles | default "components/apimanager/carbon.super:accountmanager, components/apimanager/carbon.super:profilemanager,components/apimanager/carbon.super:rolemanager" }}

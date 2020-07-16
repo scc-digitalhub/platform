@@ -78,6 +78,7 @@ admin:
   passwordKey: ""
   userName: ""
   password: ""
+  roles: ""
 
 smtp:
   enabled: false

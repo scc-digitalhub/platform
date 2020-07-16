@@ -399,6 +399,16 @@ kubectl apply -f helm/istio/dss-destination-rule.yaml
 kubectl apply -f helm/istio/dss-virtualservice.yml
 ```
 
+#### Minio
+
+```shell
+kubectl -n global create secret generic minio-creds --from-literal=accesskey=admin  --from-literal=secretkey=admin12345
+```
+
+```shell
+helm upgrade --install minio stable/minio --namespace global --version 5.0.31 --values helm/minio/minio-values-v5.0.31.yaml
+```
+
 ## Getting Started with DigitalHub Platform on Docker-Compose
 
 
