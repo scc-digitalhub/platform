@@ -8,7 +8,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/dss
-  tag: keystore2
+  tag: space
   pullPolicy: Always
 
 serviceAccount:

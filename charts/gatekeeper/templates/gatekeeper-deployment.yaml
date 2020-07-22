@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "gatekeeper.fullname" . }}
+  namespace: {{ template "gatekeeper.namespace" . }}
+  labels:
+    {{- include "gatekeeper.labels" . | nindent 4 }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "gatekeeper.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicasCount }}
+  strategy:
+    type: RollingUpdate
+{{ toYaml .Values.strategy | indent 4 }}
+  template:
+    metadata:
+      labels:
+        {{- include "gatekeeper.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/gatekeeper-configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ template "gatekeeper.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        ports:
+          - containerPort: 3000
+            name: http
+            protocol: TCP
+        readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 10 }}
+        livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 10 }}
+        args:
+          {{- range $key, $value := .Values.options }}
+          {{- if $value }}
+          - --{{ $key }}={{ $value }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.existingSecret.enabled }}
+          - --client-id=$(CLIENT_ID)
+          - --client-secret=$(CLIENT_SECRET)
+          - --encryption-key=$(ENCRYPTION_KEY)
+          {{- end }}
+        env:
+          {{- if .Values.existingSecret.enabled }}
+          - name: CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.existingSecret.name }}
+                key: {{ .Values.existingSecret.client_id_key }}
+          - name: CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.existingSecret.name }}
+                key: {{ .Values.existingSecret.client_secret_key }}
+          - name: ENCRYPTION_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.existingSecret.name }}
+                key: {{ .Values.existingSecret.encryption_key }}
+          {{- end }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "gatekeeper.fullname" . }}-env

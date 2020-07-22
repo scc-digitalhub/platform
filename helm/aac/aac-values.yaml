@@ -16,7 +16,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/aac
-  tag: 3.1-beta4
+  tag: b38c9ac
   pullPolicy: IfNotPresent
 
 resources:
@@ -58,7 +58,13 @@ admin:
   passwordKey: "password"
   userName: ""
   password: ""
-  roles: "components/apimanager/carbon.super:accountmanager, components/apimanager/carbon.super:profilemanager,components/apimanager/carbon.super:rolemanager,components/dss.com"
+  roles:
+    - components/apimanager/carbon.super:accountmanage
+    - components/apimanager/carbon.super:profilemanager
+    - components/apimanager/carbon.super:rolemanager
+    - components/dss.com:ROLE_PROVIDER
+    - components/dss.com/carbon.super:ROLE_PROVIDER
+    - components/nuclio/sys:ROLE_PROVIDER
 smtp:
   enabled: false
   server: ""
@@ -96,9 +102,32 @@ javaOpts: "-XX:MaxRAMFraction=2"
 
 externalUrl: "https://aac.config-test.smartcommunitylab.it"
 
+clientRedirectUris:
+  api-manager:
+    - https://api.config-test.smartcommunitylab.it/
+  dss:
+    - https://dss.config-test.smartcommunitylab.it/
+  minio:
+    - https://minio.config-test.smartcommunitylab.it/
+  gatekeeper:
+    - https://nuclio.config-test.smartcommunitylab.it/
+  nifi:
+    - https://nifi.config-test.smartcommunitylab.it/
+  jhub:
+    - https://jhub.config-test.smartcommunitylab.it/
+  grafana:
+    - https://grafana.config-test.smartcommunitylab.it/
+  resource-manager:
+    - https://resource-manager.config-test.smartcommunitylab.it/
+  aac-org:
+    - https://aac-org.config-test.smartcommunitylab.it/
+
 accessTokenValidity: ""
 refreshTokenValidity: ""
 jwtIssuer: "https://aac.config-test.smartcommunitylab.it"
+
+log:
+  level: TRACE
 
 service:
   portName: http

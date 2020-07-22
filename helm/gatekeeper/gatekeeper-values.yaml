@@ -1,0 +1,97 @@
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: "global"
+replicaCount: 1
+
+annotations: {}
+
+image:
+  repository: keycloak/keycloak-gatekeeper
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /oauth/health
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    path: /oauth/health
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 5
+  successThreshold: 2
+
+strategy:
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+service: {}
+
+existingSecret:
+  enabled: true
+  name: "gatekeeper-client-creds"
+  client_id_key: "clientid"
+  client_secret_key: "clientsecret"
+  encryption_key: "encryptionkey"
+
+options:
+  config-file: ""
+  listen: "127.0.0.1:3000"
+  listen_http: ""
+  discovery-url: "https://aac.config-test.smartcommunitylab.it"
+  client-id: ""
+  client-secret: ""
+  redirection-url: ""
+  revocation-url: ""
+  base-uri: ""
+  oauth-uri: ""
+  upstream-url: "https://nuclio-internal.config-test.smartcommunitylab.it"
+  request-id-header: ""
+  enable-self-signed-tls: ""
+  enable-request-id: ""
+  enable-security-filter: ""
+  enable-refresh-tokens: "true"
+  enable-login-handler: ""
+  enable-authorization-header: ""
+  enable-authorization-cookies: ""
+  client-auth-method: ""
+  encryption-key: ""
+  forwarding-username: ""
+  forwarding-password: ""
+  scopes: "user.roles.me"
+  add-claims: "Space"
+  enable-default-deny: "true"

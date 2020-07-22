@@ -268,7 +268,11 @@ helm upgrade --install loki loki/loki-stack --namespace monitoring --version 0.3
 helm upgrade --install prometheus-operator  stable/prometheus-operator --namespace monitoring --version 8.16.1 --values ./helm/monitoring/prometheus-operator/values-azure-v8.16.1.yaml
 ```
 
-#### Verify Installation
+```shell
+kubectl apply -f helm/istio/monitoring-virtual-service.yml
+```
+
+##### Verify Installation
 
 ```shell
 kubectl -n monitoring get pods
@@ -339,8 +343,8 @@ kubectl -n global create secret generic api-manager-db-creds --from-literal=user
  --from-literal=password=wso2carbon
 
 kubectl -n global create secret generic api-manager-aac-creds \
- --from-literal=username=uTU9TqKy-Wx33-BGb8-H8iD-9nlP-YNPT31KRI9kq \
- --from-literal=password=UcXyO0wx-Dr4r-Oa2k-vxK5-l4Yj-s4wmxA5ZzSK4
+ --from-literal=username=lXS9w1jI-r8H2-8hCB-6O6g-oV2t-3e6h6Bf1ksRb \
+ --from-literal=password=WrC4sVUR-5r5R-6Kgf-CCl9-j30L-F9FwHsGoo2UW
 
 kubectl -n global create secret generic api-manager-admin-creds --from-literal=username=admin \
  --from-literal=password=admin
@@ -351,8 +355,8 @@ kubectl -n global create secret generic api-manager-keystore-pass \
  --from-literal=keystore=platform --from-literal=truststore=platform
 
 kubectl -n global create secret generic api-manager-keystore-analytics \
---from-file=am-analytics/am-analytics.jks \
---from-file=am-analytics/client-truststore.jks
+--from-file=am-analytics.jks \
+--from-file=client-truststore.jks
 
 kubectl -n global create secret generic api-manager-analytics-keystore-pass --from-literal=keystore=platform \
 --from-literal=truststore=platform
@@ -378,11 +382,13 @@ Create kuberentes secrets:
 ```shell
 kubectl -n global create secret generic dss-keystore --from-file=dss.jks --from-file=client-truststore.jks
 
-kubectl -n global create secret generic dss-db-creds --from-literal=username=wso2carbon  --from-literal=password=wso2carbon4
+kubectl -n global create secret generic dss-creds --from-literal=username=admin  --from-literal=password=admin
+
+kubectl -n global create secret generic dss-db-creds --from-literal=username=wso2carbon  --from-literal=password=wso2carbon
 
 kubectl -n global create secret generic dss-keystore-creds --from-literal=keystore=platform  --from-literal=truststore=platform
 
-kubectl -n global create secret generic dss-aac-creds --from-literal=username=Ub6ixLsK-fzQ6-A6TC-J8jz-9Cdr-W7W7gPBkaOsj --from-literal=password=3BB43LIy-f4ww-i4SK-TaV7-26M9-ErwCRkhyQK0J
+kubectl -n global create secret generic dss-aac-creds --from-literal=username=g9iYDCyh-99yf-N0nE-Nt76-90fL-hYsz916BzMBf --from-literal=password=7o19kBDz-vc9Z-GvQ5-3y3g-Q9wE-vaof5TLgBrCe
 
 ```
 Install DSS
@@ -407,6 +413,81 @@ kubectl -n global create secret generic minio-creds --from-literal=accesskey=adm
 
 ```shell
 helm upgrade --install minio stable/minio --namespace global --version 5.0.31 --values helm/minio/minio-values-v5.0.31.yaml
+```
+
+```shell
+kubectl apply -f helm/istio/minio-virtualservice.yml
+```
+
+#### Nuclio Sys
+
+```shell
+kubectl create ns sys
+```
+
+```shell
+kubectl label namespaces sys  istio-injection=enabled
+```
+Create azure container registry:
+
+```shell
+az acr create --resource-group kube-test --name sclconfigtest --sku Basic
+```
+Take note of loginServer in the output, which is the fully qualified registry name (all lowercase).
+
+```shell
+az acr update -n sclconfigtest --admin-enabled true
+
+az acr credential show -n sclconfigtest
+```
+
+Create kuberentes secrets using azure container registy credentials:
+
+```shell
+kubectl -n sys create secret docker-registry registry-credentials --docker-username <username> --docker-password <password1> --docker-server <server> --docker-email <your-email>
+```
+
+Install Nuclio Sys
+
+```shell
+helm upgrade --install -n sys nuclio-sys charts/nuclio/ --values ./helm/nuclio/nuclio-sys-values.yaml
+```
+
+```shell
+kubectl apply -f helm/istio/nuclio-internal-virtualservice.yml
+```
+
+```shell
+TO DO
+```
+
+#### Gatekeeper
+
+Genatare random string for Encryption key
+
+```shell
+openssl rand -base64 32
+```
+
+```shell
+kubectl -n global create secret generic gatekeeper-client-creds \
+  --from-literal=clientid=P3k9Wbnf-pq6e-U7jF-56nI-IcZ9-0Jabba4yEdCx \
+  --from-literal=clientsecret=Ug16GTzE-EX1h-bW3O-c6ZI-76Pn-PeCy2FdFkmf4 \
+  --from-literal=encryptionkey=dEPV+J6Mmx/VbWILgCgHzP4U+jea0vlHlKCQOExuLXk=
+```
+
+Install Gatekeeper
+
+```shell
+helm upgrade --install gatekeeper ./charts/gatekeeper/ --namespace global --values ./helm/gatekeeper/gatekeeper-values.yaml
+```
+
+```shell
+kubectl apply -f ./helm/istio/gatekeeper-virtualservice.yml
+```
+
+```shell
+TO DO
 ```
 
 ## Getting Started with DigitalHub Platform on Docker-Compose

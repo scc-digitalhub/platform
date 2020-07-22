@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gatekeeper
+description: Keycloak gatekeeper is an authentication proxy service which at the risk of stating the obvious integrates with the Keycloak authentication service.
+type: application
+version: 0.1.2
+appVersion: 9.0.3

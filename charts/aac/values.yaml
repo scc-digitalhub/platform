@@ -78,7 +78,7 @@ admin:
   passwordKey: ""
   userName: ""
   password: ""
-  roles: ""
+  roles: []
 
 smtp:
   enabled: false
@@ -117,9 +117,24 @@ javaOpts: "-XX:MaxRAMFraction=2"
 
 externalUrl: ""
 
+clientRedirectUris:
+  api-manager: []
+  dss: []
+  minio: []
+  gatekeeper: []
+  nifi: []
+  jhub: []
+  grafana: []
+  resource-manager: []
+  aac-org: []
+
 accessTokenValidity: ""
 refreshTokenValidity: ""
 jwtIssuer: ""
+
+log:
+  level: INFO
+
 serverContext: "/"
 
 nodeSelector: {}

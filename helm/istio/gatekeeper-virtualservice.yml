@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: gatekeeper
+  namespace: global
+spec:
+  hosts:
+  - "nuclio.config-test.smartcommunitylab.it"
+  gateways:
+  - global-gateway
+  http:
+  - route:
+    - destination:
+        host: gatekeeper.global.svc.cluster.local
+        port:
+          number: 3000

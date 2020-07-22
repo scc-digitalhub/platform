@@ -3,12 +3,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: RELEASE-NAME-aac-env
+  name: aac-env
   namespace: global
   labels:
-    helm.sh/chart: aac-0.1.4
+    helm.sh/chart: aac-0.1.8
     app.kubernetes.io/name: aac
-    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/instance: aac
     app.kubernetes.io/version: "3.0.0"
     app.kubernetes.io/managed-by: Helm
 data:
@@ -18,21 +18,23 @@ data:
   MANAGEMENT_PORT: "8081"
   SERVER_TOMCAT_REMOTE_IP_HEADER: x-forwarded-for
   SERVER_TOMCAT_PROTOCOL_HEADER: x-forwarded-proto
-  APPLICATION_EXT_URL: https://aac.kube-test.smartcommunitylab.it
+  APPLICATION_EXT_URL: https://aac.config-test.smartcommunitylab.it
   JDBC_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
   JDBC_DRIVER: com.mysql.jdbc.Driver
-  JDBC_URL: jdbc:mysql://mysql.databases:3306/aac?useSSL=false
+  JDBC_URL: jdbc:mysql://mysql.databases:3306/AAC?useSSL=false
   ACCESS_TOKEN_VALIDITY: "43200"
   REFRESH_TOKEN_VALIDITY: "2592000"
   JWK_KEYSTORE: file:///home/aac/confs/keystore.jwks
-  BOOTSTRAP: /home/aac/confs/config.yaml
-  REMEMBER_ME_KEY: "QUk4M2JTeElxNEZSWDM1cWdDa3g2RTcwWkcwcmp1UGJITFpzV1Nnbw=="
+  BOOTSTRAP: file:///home/aac/confs/config.yaml
+  REMEMBER_ME_KEY: "TzdsQVQ3NUNSY2k2QkZZaU52a0JTZHJNUG1NNVhEb0FpZnVVWWpCRg=="
   REDIRECT_MATCH_PORTS: "false"
   REDIRECT_MATCH_SUBDOMAINS: "true"
   ENABLE_JWT: "true"
-  JWT_ISSUER: aac.kube-test.smartcommunitylab.it
+  JWT_ISSUER: https://aac.config-test.smartcommunitylab.it
   # JWT_KID_SIG: kube-test
   # JWT_KID_ENC:
   AUTHORITIES: internal
-  LOG_LEVEL: INFO
+  LOG_LEVEL: TRACE
   JAVA_OPTS: -XX:MaxRAMFraction=2
+  # ADMIN_ROLES: [components/apimanager/carbon.super:accountmanage components/apimanager/carbon.super:profilemanager components/apimanager/carbon.super:rolemanager components/dss.com:ROLE_PROVIDER components/dss.com/carbon.super:ROLE_PROVIDER components/nuclio/sys:ROLE_PROVIDER]
+  ADMIN_ROLES: components/apimanager/carbon.super:accountmanage,components/apimanager/carbon.super:profilemanager,components/apimanager/carbon.super:rolemanager,components/dss.com:ROLE_PROVIDER,components/dss.com/carbon.super:ROLE_PROVIDER,components/nuclio/sys:ROLE_PROVIDER

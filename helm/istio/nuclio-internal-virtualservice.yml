@@ -1,0 +1,50 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nuclio-virtualservice
+  namespace: global
+spec:
+  hosts:
+  - "nuclio-internal.config-test.smartcommunitylab.it"
+  gateways:
+  - global-gateway
+  http:
+    - match:
+      - headers:
+          X-Auth-Space:
+            exact: tenant1
+      route:
+      - destination:
+          host: nuclio-tenant1-dashboard.tenant1.svc.cluster.local
+          port:
+            number: 8070
+    - match:
+      - headers:
+          X-Auth-Space:
+            exact: tenant2
+      route:
+      - destination:
+          host: nuclio-tenant2-dashboard.tenant2.svc.cluster.local
+          port:
+            number: 8070
+    - match:
+      - headers:
+          X-Auth-Space:
+            exact: sys
+      route:
+      - destination:
+          host: nuclio-sys-dashboard.sys.svc.cluster.local
+          # host: httpbin.global.svc.cluster.local
+          port:
+            number: 8070
+            # number: 8000
+      headers:
+        request:
+          remove:
+            - "Cookie"
+            - "Set-Cookie"
+    - route:
+      - destination:
+          host: gatekeeper.global.svc.cluster.local
+          port:
+            number: 3000

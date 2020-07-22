@@ -11,8 +11,9 @@ bootstrap:
       - native
       - authorization_code
       redirectUris:
-      - http://localhost:9443/publisher/jagg/jaggery_oidc_acs.jag
-      - http://localhost:9443/store/jagg/jaggery_oidc_acs.jag
+      {{- range index .Values "clientRedirectUris" "api-manager" }}
+      - {{ . }}
+      {{- end }}
       scopes:
       - clientmanagement
       - orgmanagement
@@ -37,7 +38,9 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      - https://nuclio.kube-test.smartcommunitylab.it/
+      {{- range .Values.clientRedirectUris.gatekeeper }}
+      - {{ . }}
+      {{- end }}
       scopes:
       - openid
       - profile
@@ -59,7 +62,9 @@ bootstrap:
       - native
       - authorization_code
       redirectUris:
-      - https://grafana.kube-test.smartcommunitylab.it/login/generic_oauth
+      {{- range .Values.clientRedirectUris.grafana }}
+      - {{ . }}
+      {{- end }}
       scopes:
       - openid
       - profile
@@ -79,7 +84,9 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      - https://rm.kube-test.smartcommunitylab.it/api/auth/callback
+      {{- range index .Values "clientRedirectUris" "resource-manager" }}
+      - {{ . }}
+      {{- end }}
       scopes:
       - openid
       - profile
@@ -96,8 +103,11 @@ bootstrap:
       - implicit
       - client_credentials
       - authorization_code
+      - native
       redirectUris:
-      - https://dss.kube-test.smartcommunitylab.it/
+      {{- range .Values.clientRedirectUris.dss }}
+      - {{ . }}
+      {{- end }}
       scopes:
       - openid
       - profile
@@ -119,7 +129,9 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      - https://nifi.kube-test.smartcommunitylab.it/nifi-api/access/oidc/callback
+      {{- range .Values.clientRedirectUris.nifi }}
+      - {{ . }}
+      {{- end }}
       scopes:
       - openid
       - profile
@@ -138,7 +150,9 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      - https://jhub.kube-test.smartcommunitylab.it
+      {{- range .Values.clientRedirectUris.jhub }}
+      - {{ . }}
+      {{- end }}
       scopes:
       - openid
       - profile
@@ -154,8 +168,9 @@ bootstrap:
       grantTypes:
       - implicit
       redirectUris:
-      - http://localhost:9000/minio/login/openid
-      - https://minio.kube-test.smartcommunitylab.it/
+      {{- range .Values.clientRedirectUris.minio }}
+      - {{ . }}
+      {{- end }}
       scopes:
       - openid
       - user.roles.me
@@ -171,9 +186,9 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      - http://localhost:9999
-      - https://aac-org.kube-test.smartcommunitylab.it/
-      - https://orgmanager.kube-test.smartcommunitylab.it/
+      {{- range index .Values "clientRedirectUris" "aac-org" }}
+      - {{ . }}
+      {{- end }}
       scopes:
       - orgmanagement
       - profile.accountprofile.all
