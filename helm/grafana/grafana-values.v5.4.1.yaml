@@ -28,7 +28,7 @@ podDisruptionBudget: {}
 ## See `kubectl explain deployment.spec.strategy` for more
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
 deploymentStrategy:
-  type: RollingUpdate
+  type: Recreate
 
 readinessProbe:
   httpGet:
@@ -412,8 +412,8 @@ grafana.ini:
     root_url: "https://grafana.config-test.smartcommunitylab.it"
   auth.generic_oauth:
     enabled: true
-    client_id: lW6Untfr-8dTg-dUG9-jz4z-naR8-IoJV2RsmGikH
-    client_secret: s0THcN3h-2iGC-JB7H-4BGH-v2gJ-8SCHTmOnoBbA
+    client_id: LNp8sNDU-W8Nx-4gef-w1IS-6Los-rwZ7n9Fj03yg
+    client_secret: W8CHhVo9-ZJ5B-Klu0-PQ0M-9yJf-75N4oevaEtp1
     scopes: profile, email, user.roles.me, openid
     auth_url: https://aac.config-test.smartcommunitylab.it/eauth/authorize
     token_url: https://aac.config-test.smartcommunitylab.it/oauth/token

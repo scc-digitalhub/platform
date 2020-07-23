@@ -199,13 +199,13 @@ platform: {}
 
 sysfunction:
   grafana:
-    enabled: false
+    enabled: true
     aacjwkurl: "https://aac.config-test.smartcommunitylab.it/jwk"
     aacresourceid: "lW6Untfr-8dTg-dUG9-jz4z-naR8-IoJV2RsmGikH"
-    grafanaauth: "Bearer eyJrIjoiM3ZKamVXTzBTMzJTTVdRTnp3QTYxMHcwcmxiT3kxeWMiLCJuIjoibnVjbGlvIiwiaWQiOjF9"
+    grafanaauth: "Bearer eyJrIjoiblB2b05XU1hhbzJTcnpiVzBSQVE0djBwSFpWOFdLemwiLCJuIjoibnVjbGlvIiwiaWQiOjF9"
     grafanaendpoint: "https://grafana.config-test.smartcommunitylab.it"
   nifi:
-    enabled: false
+    enabled: true
     aacjwkurl: "https://aac.config-test.smartcommunitylab.it/jwk"
     aacresourceid: "GjkH3USn-6GSH-HbY3-t2ME-Y2PW-IjgMWdtc02gL"
     nifiendpoint: "https://nifi.global.svc.cluster.local:8443/nifi-api"

@@ -352,8 +352,8 @@ kubectl -n global create secret generic api-manager-db-creds --from-literal=user
  --from-literal=password=wso2carbon
 
 kubectl -n global create secret generic api-manager-aac-creds \
- --from-literal=username=lXS9w1jI-r8H2-8hCB-6O6g-oV2t-3e6h6Bf1ksRb \
- --from-literal=password=WrC4sVUR-5r5R-6Kgf-CCl9-j30L-F9FwHsGoo2UW
+ --from-literal=username=LpBPBi5o-Q5qq-Yx0r-gW4J-jjS9-MkTEtZTwp0Re \
+ --from-literal=password=iRvrS7oU-b6qr-K0Ns-q4Fr-TN66-vS2U9SlxJMXy
 
 kubectl -n global create secret generic api-manager-admin-creds --from-literal=username=admin \
  --from-literal=password=admin
@@ -397,7 +397,7 @@ kubectl -n global create secret generic dss-db-creds --from-literal=username=wso
 
 kubectl -n global create secret generic dss-keystore-creds --from-literal=keystore=platform  --from-literal=truststore=platform
 
-kubectl -n global create secret generic dss-aac-creds --from-literal=username=g9iYDCyh-99yf-N0nE-Nt76-90fL-hYsz916BzMBf --from-literal=password=7o19kBDz-vc9Z-GvQ5-3y3g-Q9wE-vaof5TLgBrCe
+kubectl -n global create secret generic dss-aac-creds --from-literal=username=MmBPu37Y-7qmI-yCX8-PQy8-3TAb-YfAu1O3Gl4sS --from-literal=password=8uUgY0Bs-Y1OA-d9Sv-De8z-K1zO-GyWDaB5H1PLG
 
 ```
 Install DSS
@@ -436,13 +436,11 @@ kubectl -n global create secret generic grafana-creds --from-literal=admin-user=
 Install grafana
 
 ```shell
-helm upgrade --install nifi ./charts/nifi/ --namespace global --values ./helm/nifi/nifi-values.yaml
+helm upgrade --install grafana stable/grafana --version 5.4.1 --namespace global --values ./helm/grafana/grafana-values.v5.4.1.yaml
 ```
 
 ```shell
-kubectl apply -f ./helm/istio/nifi-destination-rule.yml
-
-kubectl apply -f ./helm/istio/nifi-virtualservice.yml
+kubectl apply -f helm/istio/grafana-virtual-service.yml
 ```
 
 ```shell
@@ -478,9 +476,9 @@ kubectl -n sys create secret docker-registry registry-credentials --docker-usern
 ```
 
 ```shell
-kubectl -n sys create secret generic nifi-user-cert-pem --from-file=/home/ffais/project/platform/docker-compose/cert/nifi.platform.local/nifi-cert.pem \
- --from-file=/home/ffais/project/platform/docker-compose/cert/nifi.platform.local/admin-private-key.pem \
- --from-file=/home/ffais/project/platform/docker-compose/cert/nifi.platform.local/admin-cert.pem
+kubectl -n sys create secret generic nifi-user-cert-pem --from-file=nifi-cert.pem \
+ --from-file=admin-private-key.pem \
+ --from-file=admin-cert.pem
 ```
 
 Install Nuclio Sys
@@ -507,8 +505,8 @@ openssl rand -base64 32
 
 ```shell
 kubectl -n global create secret generic gatekeeper-client-creds \
-  --from-literal=clientid=P3k9Wbnf-pq6e-U7jF-56nI-IcZ9-0Jabba4yEdCx \
-  --from-literal=clientsecret=Ug16GTzE-EX1h-bW3O-c6ZI-76Pn-PeCy2FdFkmf4 \
+  --from-literal=clientid=643Onm4V-4CTm-JiQ3-xF0X-Wup7-8hFduOtN1yIG \
+  --from-literal=clientsecret=LMI8KOtS-xE3V-ekl9-EP3k-sI2T-TyRLN7hFGAlH \
   --from-literal=encryptionkey=63d9311968fc9a184dbe6b255d1556c0
 ```
 
@@ -534,8 +532,8 @@ kubectl -n global create secret generic nifi-keystore --from-file=keystore.jks -
 kubectl -n global create secret generic nifi-keystore-creds --from-literal=keystore=platform --from-literal=truststore=platform
 
 kubectl -n global create secret generic nifi-aac-creds \
-  --from-literal=username=GjkH3USn-6GSH-HbY3-t2ME-Y2PW-IjgMWdtc02gL \
-  --from-literal=password=oUSVMi2q-wo8I-u9NM-4Q0s-L9fs-quzEN6hWgPzc
+  --from-literal=username=3MUAvQCJ-Z0Mi-SrV0-1wWy-G6lV-1RkYo6zb9LqQ \
+  --from-literal=password=WgGwOPj9-h6Dc-VQZ0-w5bE-y6Rr-57xNdem7NUWT
 ```
 
 Install Nifi
@@ -548,6 +546,22 @@ helm upgrade --install nifi ./charts/nifi/ --namespace global --values ./helm/ni
 kubectl apply -f ./helm/istio/nifi-destination-rule.yml
 
 kubectl apply -f ./helm/istio/nifi-virtualservice.yml
+```
+
+```shell
+TO DO
+```
+
+#### JupyterHub
+
+Install Nifi
+
+```shell
+helm upgrade --install jhub jupyterhub/jupyterhub --namespace jhub --version=0.9.1 --values helm/jupyterhub/jupyterhub-values-v0.9.1.yml
+```
+
+```shell
+kubectl apply -f ./helm/istio/jhub-virtualservice.yml
 ```
 
 ```shell
