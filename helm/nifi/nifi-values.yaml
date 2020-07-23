@@ -1,0 +1,101 @@
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: "global"
+replicaCount: 1
+
+image:
+  repository: smartcommunitylab/nifi
+  tag: 1.11.4_log
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+resources:
+  limits:
+    cpu: "3000m"
+    memory: "6Gi"
+  requests:
+    cpu: "500m"
+    memory: "2Gi"
+
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: "8Gi"
+  storageClassName: "managed-premium"
+
+readinessProbe: {}
+  # tcpSocket:
+  #   port: 8443
+  # initialDelaySeconds: 90
+  # periodSeconds: 60
+
+livenessProbe: {}
+  # tcpSocket:
+  #   port: 8443
+  # initialDelaySeconds: 90
+  # periodSeconds: 60
+
+strategy:
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+externalKeystore:
+  enabled: true
+  existingSecret: "nifi-keystore"
+  filePath: "/opt/nifi/nifi-current/certs"
+  passwordSecret: "nifi-keystore-creds"
+  keystorePassKey: "keystore"
+  truststorePassKey: "truststore"
+
+aac:
+  enabled: true
+  existingSecret: "nifi-aac-creds"
+  consumerKey: "username"
+  consumerSecretKey: "password"
+
+env:
+    NIFI_WEB_HTTPS_PORT: '8443'
+    AUTH: openid
+    KEYSTORE_PATH: /opt/nifi/nifi-current/certs/keystore.jks
+    KEYSTORE_TYPE: JKS
+    TRUSTSTORE_PATH: /opt/nifi/nifi-current/certs/truststore.jks
+    TRUSTSTORE_TYPE: JKS
+    INITIAL_ADMIN_IDENTITY: 'admin'
+    NIFI_WEB_PROXY_HOST: 'nifi.config-test.smartcommunitylab.it:443'
+    NIFI_SECURITY_USER_OIDC_DISCOVERY_URL: 'https://aac.config-test.smartcommunitylab.it/.well-known/openid-configuration'
+    NIFI_WEB_HTTPS_HOST: nifi.global.svc.cluster.local
+    NIFI_WEB_HTTP_HOST: nifi.global.svc.cluster.local
+    NIFI_SECURITY_USER_OIDC_ADDITIONAL_SCOPES: 'user.roles.me'
+    NIFI_SEC_ID_MAPPING_PATTERN: ^OU=(.*?), CN=(.*?)$
+    NIFI_SEC_ID_MAPPING_VALUE: $2
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+service: {}

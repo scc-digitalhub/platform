@@ -1,0 +1,6 @@
+apiVersion: v2
+name: nifi
+description: Apache NiFi offers the functionality of elaboration, trasnformation, and distribution of data. NiFi collects these data from the sources of different types and brings it to the corresponding destionations, where the data is stored for further exposure or analysis.
+type: application
+version: 0.1.2
+appVersion: 1.8.0

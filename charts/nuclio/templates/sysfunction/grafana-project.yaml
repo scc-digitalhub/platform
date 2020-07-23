@@ -1,0 +1,12 @@
+{{- if .Values.sysfunction.grafana.enabled }}
+apiVersion: nuclio.io/v1beta1
+kind: NuclioProject
+metadata:
+  name: grafana
+  namespace: sys
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec: {}
+{{- end }}

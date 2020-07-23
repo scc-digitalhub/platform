@@ -178,8 +178,17 @@ keytool -storepasswd -keystore client-truststore.jks
 
 Download Nifi-Toolkit [Link](https://nifi.apache.org/download.html)
 
+Generate Server certs
 ```shell
-nifi-toolkit-1.11.4/bin/tls-toolkit.sh standalone -n 'nifi.platform.local' --subjectAlternativeNames 'nifi,nifi.platform.local,nifi.global.svc.cluster.local' --additionalCACertificate rootCA.crt -S 'platform' -P 'platform'
+nifi-toolkit-1.11.4/bin/tls-toolkit.sh standalone -n 'nifi.platform.local' \
+ --subjectAlternativeNames 'nifi,nifi.platform.local,nifi.global.svc.cluster.local' \
+ --additionalCACertificate ca/rootCA.crt -S 'platform' -P 'platform' -C 'CN=admin,OU=NIFI'
+```
+
+Convert Client certs and key to PEM format
+```shell
+openssl pkcs12 -clcerts -nokeys -out admin-cert.pem -in CN\=admin_OU\=NIFI.p12
+openssl pkcs12 -clcerts -nocerts -nodes -out admin-private-key.pem -in CN\=admin_OU\=NIFI.p12
 ```
 
 ```shell
@@ -418,6 +427,27 @@ helm upgrade --install minio stable/minio --namespace global --version 5.0.31 --
 ```shell
 kubectl apply -f helm/istio/minio-virtualservice.yml
 ```
+#### Grafana
+
+```shell
+kubectl -n global create secret generic grafana-creds --from-literal=admin-user=grafana  --from-literal=admin-password=grafana
+```
+
+Install grafana
+
+```shell
+helm upgrade --install nifi ./charts/nifi/ --namespace global --values ./helm/nifi/nifi-values.yaml
+```
+
+```shell
+kubectl apply -f ./helm/istio/nifi-destination-rule.yml
+
+kubectl apply -f ./helm/istio/nifi-virtualservice.yml
+```
+
+```shell
+TO DO
+```
 
 #### Nuclio Sys
 
@@ -447,6 +477,12 @@ Create kuberentes secrets using azure container registy credentials:
 kubectl -n sys create secret docker-registry registry-credentials --docker-username <username> --docker-password <password1> --docker-server <server> --docker-email <your-email>
 ```
 
+```shell
+kubectl -n sys create secret generic nifi-user-cert-pem --from-file=/home/ffais/project/platform/docker-compose/cert/nifi.platform.local/nifi-cert.pem \
+ --from-file=/home/ffais/project/platform/docker-compose/cert/nifi.platform.local/admin-private-key.pem \
+ --from-file=/home/ffais/project/platform/docker-compose/cert/nifi.platform.local/admin-cert.pem
+```
+
 Install Nuclio Sys
 
 ```shell
@@ -473,7 +509,7 @@ openssl rand -base64 32
 kubectl -n global create secret generic gatekeeper-client-creds \
   --from-literal=clientid=P3k9Wbnf-pq6e-U7jF-56nI-IcZ9-0Jabba4yEdCx \
   --from-literal=clientsecret=Ug16GTzE-EX1h-bW3O-c6ZI-76Pn-PeCy2FdFkmf4 \
-  --from-literal=encryptionkey=dEPV+J6Mmx/VbWILgCgHzP4U+jea0vlHlKCQOExuLXk=
+  --from-literal=encryptionkey=63d9311968fc9a184dbe6b255d1556c0
 ```
 
 Install Gatekeeper
@@ -484,6 +520,34 @@ helm upgrade --install gatekeeper ./charts/gatekeeper/ --namespace global --valu
 
 ```shell
 kubectl apply -f ./helm/istio/gatekeeper-virtualservice.yml
+```
+
+```shell
+TO DO
+```
+
+#### NIFI
+
+```shell
+kubectl -n global create secret generic nifi-keystore --from-file=keystore.jks --from-file=truststore.jks
+
+kubectl -n global create secret generic nifi-keystore-creds --from-literal=keystore=platform --from-literal=truststore=platform
+
+kubectl -n global create secret generic nifi-aac-creds \
+  --from-literal=username=GjkH3USn-6GSH-HbY3-t2ME-Y2PW-IjgMWdtc02gL \
+  --from-literal=password=oUSVMi2q-wo8I-u9NM-4Q0s-L9fs-quzEN6hWgPzc
+```
+
+Install Nifi
+
+```shell
+helm upgrade --install nifi ./charts/nifi/ --namespace global --values ./helm/nifi/nifi-values.yaml
+```
+
+```shell
+kubectl apply -f ./helm/istio/nifi-destination-rule.yml
+
+kubectl apply -f ./helm/istio/nifi-virtualservice.yml
 ```
 
 ```shell

@@ -133,7 +133,7 @@ registry:
   # to push/pull from `gcr.io/<project-name>. If this is the case, specify the URL here and it will be
   # used instead of the URL in the secrets
   #
-  # pushPullUrl: gcr.io/<project-name>
+  pushPullUrl: sclconfigtest.azurecr.io
 
   # In case you'd like helm to generate the secret for you, `loginUrl` specifies
   # the URL with which the components in nuclio will try to log into
@@ -196,3 +196,16 @@ platform: {}
 #     - myPrometheusPull
 #     functions:
 #     - myPrometheusPull
+
+sysfunction:
+  grafana:
+    enabled: false
+    aacjwkurl: "https://aac.config-test.smartcommunitylab.it/jwk"
+    aacresourceid: "lW6Untfr-8dTg-dUG9-jz4z-naR8-IoJV2RsmGikH"
+    grafanaauth: "Bearer eyJrIjoiM3ZKamVXTzBTMzJTTVdRTnp3QTYxMHcwcmxiT3kxeWMiLCJuIjoibnVjbGlvIiwiaWQiOjF9"
+    grafanaendpoint: "https://grafana.config-test.smartcommunitylab.it"
+  nifi:
+    enabled: false
+    aacjwkurl: "https://aac.config-test.smartcommunitylab.it/jwk"
+    aacresourceid: "GjkH3USn-6GSH-HbY3-t2ME-Y2PW-IjgMWdtc02gL"
+    nifiendpoint: "https://nifi.global.svc.cluster.local:8443/nifi-api"

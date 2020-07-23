@@ -1,0 +1,99 @@
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+replicaCount: 1
+
+image:
+  repository: smartcommunitylab/nifi
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+resources:
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+  requests:
+    cpu: "500m"
+    memory: "2Gi"
+
+persistence:
+  enabled: false
+  accessModes:
+    - ReadWriteOnce
+  size: ""
+  storageClassName: ""
+
+readinessProbe: {}
+  # tcpSocket:
+  #   port: 8443
+  # initialDelaySeconds: 90
+  # periodSeconds: 60
+
+livenessProbe: {}
+  # tcpSocket:
+  #   port: 8443
+  # initialDelaySeconds: 90
+  # periodSeconds: 60
+
+strategy:
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+externalKeystore:
+  enabled: false
+  existingSecret: ""
+  filePath: ""
+  passwordSecret: ""
+  keystorePassKey: ""
+  truststorePassKey: ""
+
+aac:
+  enabled: false
+  existingSecret: ""
+  consumerKey: ""
+  consumerSecretKey: ""
+
+env:
+    NIFI_WEB_HTTPS_PORT: '8443'
+    AUTH: openid
+    KEYSTORE_PATH: /opt/nifi/nifi-current/certs/keystore.jks
+    KEYSTORE_TYPE: JKS
+    TRUSTSTORE_PATH: /opt/nifi/nifi-current/certs/truststore.jks
+    TRUSTSTORE_TYPE: JKS
+    INITIAL_ADMIN_IDENTITY: 'admin'
+    NIFI_WEB_PROXY_HOST: 'nifi.platform.smartcommunitylab.it'
+    NIFI_SECURITY_USER_OIDC_DISCOVERY_URL: 'https://aac.platform.smartcommunitylab.it/.well-known/openid-configuration'
+    NIFI_SECURITY_USER_OIDC_ADDITIONAL_SCOPES: 'user.roles.me'
+    NIFI_SEC_ID_MAPPING_PATTERN:
+    NIFI_SEC_ID_MAPPING_VALUE:
+      
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+service: {}

@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nifi
+  namespace: global
+spec:
+  hosts:
+  - "nifi.config-test.smartcommunitylab.it"
+  gateways:
+  - global-gateway
+  http:
+  - headers:
+      request:
+        add:
+          X-ProxyScheme: https
+          X-ProxyHost: nifi.config-test.smartcommunitylab.it
+          X-ProxyPort: "443"
+    route:
+    - destination:
+        host: nifi-simple.global.svc.cluster.local
+        port:
+          number: 8443

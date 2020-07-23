@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "nifi.fullname" . }}
+  namespace: {{ template "nifi.namespace" . }}
+  labels:
+    {{- include "nifi.labels" . | nindent 4 }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "nifi.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicasCount }}
+  strategy:
+{{ toYaml .Values.strategy | indent 4 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nifi.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/nifi-configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ template "nifi.serviceAccountName" . }}
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
+      hostAliases:
+        - ip: "127.0.0.1"
+          hostnames:
+          - {{ template "nifi.fullservice" . }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        lifecycle:
+          preStop:
+            exec:
+              command:  ['sh', '-c', '/opt/nifi/nifi-current/bin/nifi.sh stop']
+#         readinessProbe:
+# {{ toYaml .Values.readinessProbe | indent 10 }}
+#         livenessProbe:
+# {{ toYaml .Values.livenessProbe | indent 10 }}
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: "TCP"
+        - name: https
+          containerPort: 8443
+          protocol: "TCP"
+        - name: remotesocket
+          containerPort: 10000
+          protocol: "TCP"
+        env:
+          {{- if .Values.aac.enabled }}
+          - name: NIFI_SECURITY_USER_OIDC_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.aac.existingSecret }}
+                key: {{ .Values.aac.consumerKey  }}
+          - name: NIFI_SECURITY_USER_OIDC_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.aac.existingSecret }}
+                key: {{ .Values.aac.consumerSecretKey }}
+          {{- end }}
+          {{- if .Values.externalKeystore.enabled }}
+          - name: KEYSTORE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalKeystore.passwordSecret }}
+                key: {{ .Values.externalKeystore.keystorePassKey  }}
+          - name: TRUSTSTORE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalKeystore.passwordSecret }}
+                key: {{ .Values.externalKeystore.truststorePassKey }}
+          {{- end }}
+        envFrom:
+          - configMapRef:
+              name: {{ template "nifi.fullname" . }}-env
+{{- if or .Values.persistence.enabled  .Values.externalKeystore.enabled }}
+        volumeMounts:
+        {{- if .Values.externalKeystore.enabled }}
+        - name: keystore
+          mountPath: /opt/nifi/nifi-current/certs
+        {{- end }}
+        {{- if .Values.persistence.enabled }}
+        - name: nifi-storage
+          mountPath: /opt/nifi/nifi-current/conf
+          subPath: confs
+        - name: nifi-storage
+          mountPath: /opt/nifi/nifi-current/flowfile_repository
+          subPath: flowfile_repository
+        - name: nifi-storage
+          mountPath: /opt/nifi/nifi-current/database_repository
+          subPath: database_repository
+        - name: nifi-storage
+          mountPath: /opt/nifi/nifi-current/content_repository
+          subPath: content_repository
+        - name: nifi-storage
+          mountPath: /opt/nifi/nifi-current/provenance_repository
+          subPath: provenance_repository
+        {{- end }}
+      volumes:
+      {{- if .Values.persistence.enabled }}
+      - name: nifi-storage
+        persistentVolumeClaim:
+          claimName: {{ default (include "nifi.fullname" .) .Values.persistence.existingClaim }}
+      {{- end }}
+      {{- if .Values.externalKeystore.enabled }}
+      - name: keystore
+        secret:
+          secretName: {{ .Values.externalKeystore.existingSecret }}
+      {{- end }}
+{{- end }}

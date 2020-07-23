@@ -621,6 +621,11 @@ initializationFiles:
    CREATE DATABASE AAC;
    CREATE USER IF NOT EXISTS 'ac'@'%' IDENTIFIED BY 'ac';
    GRANT ALL ON AAC.* TO 'ac'@'%' IDENTIFIED BY 'ac';
+ grafana_init.sql: |-
+   DROP DATABASE IF EXISTS grafana;
+   CREATE DATABASE grafana;
+   CREATE USER IF NOT EXISTS 'grafana'@'%' IDENTIFIED BY 'grafana';
+   GRANT ALL ON grafana.* TO 'grafana'@'%' IDENTIFIED BY 'grafana';
  apim_init.sql: |-
    DROP DATABASE IF EXISTS WSO2AM_COMMON_DB;
    DROP DATABASE IF EXISTS WSO2AM_APIMGT_DB;
