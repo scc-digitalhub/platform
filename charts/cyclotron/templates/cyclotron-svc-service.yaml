@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "cyclotron.fullname" . }}-svc
+  namespace: {{ template "cyclotron.namespace" . }}
+  labels:
+    {{- include "cyclotron.labels" . | nindent 4 }}
+{{- if .Values.svc.service.labels }}
+{{ toYaml .Values.svc.service.labels | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    {{- include "cyclotron.selectorLabels" . | nindent 4 }}
+  ports:
+  - name: {{ .Values.svc.service.name }}
+    protocol: TCP
+    port: {{ .Values.svc.service.port }}
+    targetPort: {{ .Values.svc.service.port }}

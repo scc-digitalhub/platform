@@ -554,7 +554,23 @@ TO DO
 
 #### JupyterHub
 
-Install Nifi
+Install JupyterHub
+
+```shell
+helm upgrade --install jhub jupyterhub/jupyterhub --namespace jhub --version=0.9.1 --values helm/jupyterhub/jupyterhub-values-v0.9.1.yml
+```
+
+```shell
+kubectl apply -f ./helm/istio/jhub-virtualservice.yml
+```
+
+```shell
+TO DO
+```
+
+#### Cyclotron
+
+Install Cyclotron
 
 ```shell
 helm upgrade --install jhub jupyterhub/jupyterhub --namespace jhub --version=0.9.1 --values helm/jupyterhub/jupyterhub-values-v0.9.1.yml

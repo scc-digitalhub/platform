@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "cyclotron.fullname" . }}-site
+  namespace: {{ template "cyclotron.namespace" . }}
+  labels:
+    app.kubernetes.io/tier: site
+    {{- include "cyclotron.labels" . | nindent 4 }}
+{{- if .Values.labels }}
+{{ toYaml .Values.site.labels | indent 4 }}
+{{- end }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/tier: site
+      {{- include "cyclotron.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.site.replicasCount }}
+  strategy:
+    type: RollingUpdate
+{{ toYaml .Values.site.strategy | indent 4 }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/tier: site
+        {{- include "cyclotron.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/cyclotron-site-secret.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ template "cyclotron.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}-site
+        image: "{{ .Values.site.image.repository }}:{{ .Values.site.image.tag }}"
+        imagePullPolicy: {{ .Values.site.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.site.resources | indent 10 }}
+        ports:
+          - containerPort: 80
+            name: http
+        readinessProbe:
+{{ toYaml .Values.site.readinessProbe | indent 10 }}
+        livenessProbe:
+{{ toYaml .Values.site.livenessProbe | indent 10 }}
+        volumeMounts:
+        - name: cyclotron-site-conf
+          mountPath: {{ .Values.site.confs.filePath }}/{{ .Values.site.confs.fileName }}
+          subPath: {{ .Values.site.confs.fileName }}
+          readOnly: true
+      volumes:
+        - name: cyclotron-site-conf
+          secret:
+            secretName: {{ .Values.site.confs.existingSecret | default "cyclotron-site-confs" }}
