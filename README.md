@@ -312,12 +312,19 @@ kubectl create ns databases
 
 #### Mysql
 
-Edit credentials using SQL init script under **initializationFiles:** option in values file (*helm/databases/values-azure-v1.6.6.yaml*).
+Edit credentials using SQL init script under **initializationFiles:** option in values file (*helm/databases/mysql-values-azure-v1.6.6.yaml*).
 
 ```shell
-helm upgrade --install mysql stable/mysql --namespace databases --version 1.6.6 --values helm/databases/values-azure-v1.6.6.yaml  
+helm upgrade --install mysql stable/mysql --namespace databases --version 1.6.6 --values helm/databases/mysql-values-azure-v1.6.6.yaml  
 ```
 
+#### MongoDB
+
+Edit credentials using init script under **initializationFiles:** option in values file (*helm/databases/mongo-values-azure-v8.1.5.yaml*).
+
+```shell
+helm upgrade --install mongo bitnami/mongodb --version 8.1.5 --namespace databases --values helm/databases/mongo-values-v8.1.5.yaml
+```
 #### AAC
 
 Create kuberentes secrets:
@@ -352,8 +359,8 @@ kubectl -n global create secret generic api-manager-db-creds --from-literal=user
  --from-literal=password=wso2carbon
 
 kubectl -n global create secret generic api-manager-aac-creds \
- --from-literal=username=LpBPBi5o-Q5qq-Yx0r-gW4J-jjS9-MkTEtZTwp0Re \
- --from-literal=password=iRvrS7oU-b6qr-K0Ns-q4Fr-TN66-vS2U9SlxJMXy
+ --from-literal=username=YCo5U68x-s3H5-0IQc-gZN3-uL9D-6bVOAROkLlsI \
+ --from-literal=password=Ot2PZMcD-O8xd-O1gR-hy4l-7KyJ-vVDdiOOmT0Ia
 
 kubectl -n global create secret generic api-manager-admin-creds --from-literal=username=admin \
  --from-literal=password=admin
@@ -397,7 +404,7 @@ kubectl -n global create secret generic dss-db-creds --from-literal=username=wso
 
 kubectl -n global create secret generic dss-keystore-creds --from-literal=keystore=platform  --from-literal=truststore=platform
 
-kubectl -n global create secret generic dss-aac-creds --from-literal=username=MmBPu37Y-7qmI-yCX8-PQy8-3TAb-YfAu1O3Gl4sS --from-literal=password=8uUgY0Bs-Y1OA-d9Sv-De8z-K1zO-GyWDaB5H1PLG
+kubectl -n global create secret generic dss-aac-creds --from-literal=username=V66x0lTb-BSV0-ahr9-xIa0-73YJ-7nNbmmuAKH4J --from-literal=password=ep5hrEaz-TR26-WrQ1-j1er-1BWM-xBlM2s4wbtXj
 
 ```
 Install DSS
@@ -505,8 +512,8 @@ openssl rand -base64 32
 
 ```shell
 kubectl -n global create secret generic gatekeeper-client-creds \
-  --from-literal=clientid=643Onm4V-4CTm-JiQ3-xF0X-Wup7-8hFduOtN1yIG \
-  --from-literal=clientsecret=LMI8KOtS-xE3V-ekl9-EP3k-sI2T-TyRLN7hFGAlH \
+  --from-literal=clientid=hcWL98bS-gHy9-7x5M-4G3w-X257-YGBgs4Ie9iK8 \
+  --from-literal=clientsecret=lcFXH4yE-q3LB-DT5d-Lxu4-0kOf-KCW7iDT0uLyw \
   --from-literal=encryptionkey=63d9311968fc9a184dbe6b255d1556c0
 ```
 
@@ -532,8 +539,8 @@ kubectl -n global create secret generic nifi-keystore --from-file=keystore.jks -
 kubectl -n global create secret generic nifi-keystore-creds --from-literal=keystore=platform --from-literal=truststore=platform
 
 kubectl -n global create secret generic nifi-aac-creds \
-  --from-literal=username=3MUAvQCJ-Z0Mi-SrV0-1wWy-G6lV-1RkYo6zb9LqQ \
-  --from-literal=password=WgGwOPj9-h6Dc-VQZ0-w5bE-y6Rr-57xNdem7NUWT
+  --from-literal=username=ITkb0iWT-MMa4-8IuT-a5PD-7MQM-nTayIrM4YfFN \
+  --from-literal=password=JGvmoFS7-yf2d-xBn1-s0TV-R5Mo-amwcnXIsX6es
 ```
 
 Install Nifi
@@ -554,6 +561,11 @@ TO DO
 
 #### JupyterHub
 
+```shell
+kubectl create ns jhub
+```
+
+
 Install JupyterHub
 
 ```shell
@@ -573,11 +585,11 @@ TO DO
 Install Cyclotron
 
 ```shell
-helm upgrade --install jhub jupyterhub/jupyterhub --namespace jhub --version=0.9.1 --values helm/jupyterhub/jupyterhub-values-v0.9.1.yml
+helm upgrade --install cyclotron charts/cyclotron/ --values helm/cyclotron/cyclotron-values.yaml --namespace global
 ```
 
 ```shell
-kubectl apply -f ./helm/istio/jhub-virtualservice.yml
+kubectl apply -f ./helm/istio/cyclotron-virtualservice.yml
 ```
 
 ```shell

@@ -104,10 +104,10 @@ svc:
     fileName: ""
 
   mongo:
-    user:
-    password:
-    url:
-    dbName:
+    user: ""
+    password: ""
+    url: ""
+    dbName: ""
 
   resources: {}
     # limits:

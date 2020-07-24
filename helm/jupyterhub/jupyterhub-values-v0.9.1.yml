@@ -217,8 +217,8 @@ auth:
     className: oauthenticator.generic.GenericOAuthenticator
     config:
       login_service: "aac"
-      client_id: "qRorwOm5-01pC-y3bU-9WZu-Wj6b-Wfvzo9LsEwHF"
-      client_secret: "wjgtnrX5-eI7H-XR7Q-gHi9-J1V0-hRRMvOzW4wrv"
+      client_id: "UJGfkL3h-DUD4-y8jl-Eh4E-c2Ub-Gzwfhlzj3jQP"
+      client_secret: "cXp77T9X-wtY2-AGc8-1WAb-q5AC-WCjv5yPmg5GN"
       token_url: https://aac.config-test.smartcommunitylab.it/oauth/token
       userdata_url: https://aac.config-test.smartcommunitylab.it/userinfo
       userdata_method: GET

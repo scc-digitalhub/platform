@@ -7,7 +7,7 @@ auth:
   enabled: true
   provider: "aac"
   authorizationUrl: "https://aac.config-test.smartcommunitylab.it/eauth/authorize"
-  clientId: "c6f6e3ba-e167-4956-997f-1ccc7eecd4d1"
+  clientId: "2aba1ffd-ebf1-4641-b939-457acc0d5bea"
   scopes: profile.basicprofile.me user.roles.me
   userProfileEndpoint: "https://aac.config-test.smartcommunitylab.it/basicprofile/me"
   tokenValidityEndpoint: "https://aac.config-test.smartcommunitylab.it/resources/access"
@@ -27,8 +27,8 @@ site:
 
   confs:
     existingSecret: ""
-    filePath: ""
-    fileName: ""
+    filePath: "/usr/share/nginx/html/js/conf"
+    fileName: "configService.js"
 
   resources: {}
     # limits:
@@ -84,21 +84,21 @@ svc:
   url: "https://cyclotron.config-test.smartcommunitylab.it"
   image:
     repository: smartcommunitylab/cyclotron-svc
-    tag: 5985d90
+    tag: 609d287
     pullPolicy: IfNotPresent
 
   labels: {}
 
   confs:
     existingSecret: ""
-    filePath: ""
-    fileName: ""
+    filePath: "/home/cyclotron/cyclotron-svc/config"
+    fileName: "config.js"
 
-    mongo:
-      user: 
-      password:
-      url:
-      dbName:
+  mongo:
+    user: cyclotron
+    password: cyclotron
+    url: mongo-mongodb.databases
+    dbName: cyclotron
 
   resources: {}
     # limits:

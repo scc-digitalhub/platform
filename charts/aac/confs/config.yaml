@@ -161,6 +161,26 @@ bootstrap:
       - user.roles.me
       secret: {{ template "aac.rand" . }}
       trusted: false
+    - name: cyclotron
+      id: {{ template "aac.rand" . }}
+      developer: admin
+      grantTypes:
+      - implicit
+      - refresh_token
+      - client_credentials
+      - authorization_code
+      redirectUris:
+      {{- range .Values.clientRedirectUris.cyclotron }}
+      - {{ . }}
+      {{- end }}
+      scopes:
+      - openid
+      - profile
+      - profile.basicprofile.me
+      - email
+      - user.roles.me
+      secret: {{ template "aac.rand" . }}
+      trusted: false
     - name: minio
       id: {{ template "aac.rand" . }}
       claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKKiovCmZ1bmN0aW9uIGNsYWltTWFwcGluZyhjbGFpbXMpIHsKICAgIAogICBjbGFpbXNbIm1pbmlvcG9saWN5Il0gPSAicmVhZHdyaXRlIjsKICAgcmV0dXJuIGNsYWltczsKfQ==

@@ -128,6 +128,9 @@ clientRedirectUris:
     - https://resource-manager.config-test.smartcommunitylab.it/
   aac-org:
     - https://aac-org.config-test.smartcommunitylab.it/
+  cyclotron:
+    - https://cyclotron.config-test.smartcommunitylab.it/
+    - https://cyclotron.config-test.smartcommunitylab.it
 
 accessTokenValidity: ""
 refreshTokenValidity: ""

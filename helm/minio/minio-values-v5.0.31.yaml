@@ -297,7 +297,7 @@ environment:
   MINIO_API_READY_DEADLINE: "5s"
   ## Please refer for comprehensive list https://docs.minio.io/docs/minio-server-configuration-guide.html
   MINIO_IDENTITY_OPENID_CONFIG_URL: https://aac.config-test.smartcommunitylab.it/.well-known/openid-configuration
-  MINIO_IDENTITY_OPENID_CLIENT_ID: "DgNEOSX6-7e60-k5Kz-TM6P-k5yK-WhXBkC6GW9c4"
+  MINIO_IDENTITY_OPENID_CLIENT_ID: "5NxHTWfq-FVN2-8lZ3-ad3r-GZ5S-v6cPoBo5gIQw"
   MINIO_PROMETHEUS_AUTH_TYPE: "public"
 networkPolicy:
   enabled: false
