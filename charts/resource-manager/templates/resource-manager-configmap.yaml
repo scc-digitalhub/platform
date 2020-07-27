@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "resource-manager.fullname" . }}-env
+  namespace: {{ template "resource-manager.namespace" . }}
+  labels:
+    {{- include "resource-manager.labels" . | nindent 4 }}
+data:
+  LOG_LEVEL: DEBUG
+  APPLICATION_URL: {{ .Values.externalUrl }}
+  JAVA_OPTS: {{ .Values.javaOpts | default "-XX:MaxRAMFraction=2 -Dcom.sun.net.ssl.checkRevocation=false" }}
+
+  # local database config
+  JDBC_URL: {{ .Values.externalDatabase.uri }}
+  JDBC_DRIVER: com.mysql.jdbc.Driver
+  JDBC_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  SCOPES_DEFAULT: default
+  SCOPES_LIST: ''
+  SCOPES_ROLES_ADMIN: ROLE_ADMIN
+  OAUTH_SCOPES: profile, email, user.roles.me, openid
+  OAUTH_TOKEN_URI: {{ .Values.oauth.tokenUri }}
+  OAUTH_AUTH_URI: {{ .Values.oauth.authUri }}
+  OAUTH_USERINFO_URI: {{ .Values.oauth.userInfoUri }}
+  OAUTH_ISSUER_URI: {{ .Values.oauth.issuerUri }}
+  {{- if .Values.providers.postgres.enabled }}
+  # postgres
+  PROVIDER_POSTGRES: "true"
+  PROVIDER_POSTGRES_HOST: {{ .Values.providers.postgres.host }}
+  PROVIDER_POSTGRES_PORT: {{ .Values.providers.postgres.port | default "5432" | quote }}
+  PROVIDER_POSTGRES_SSL: 'false'
+  {{- end }}
+
+  {{- if .Values.providers.mysql.enabled }}
+  # mysql
+  PROVIDER_MYSQL: "true"
+  PROVIDER_MYSQL_HOST: {{ .Values.providers.mysql.host }}
+  PROVIDER_MYSQL_PORT: {{ .Values.providers.mysql.port | default "3306"| quote }}
+  PROVIDER_MYSQL_SSL: 'false'
+  ENCRYPT: 'false'
+  PERMISSIONS_ENABLED: 'false'
+  {{- end }}
+
+  {{ if .Values.providers.minio.enabled }}
+  PROVIDER_MINIO: "true"
+  PROVIDER_MINIO_HOST: {{ .Values.providers.minio.host }}
+  PROVIDER_MINIO_PORT: {{ .Values.providers.minio.port | default "9000" | quote }}
+  PROVIDER_MINIO_SSL: 'false'
+  {{- end }}

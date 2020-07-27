@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  {{ template "resource-manager.fullname" . }}
+  namespace: {{ template "resource-manager.namespace" . }}
+  labels:
+    {{- include "resource-manager.labels" . | nindent 4 }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "resource-manager.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+{{ toYaml .Values.strategy | indent 4}}
+  template:
+    metadata:
+      labels:
+        {{- include "resource-manager.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/resource-manager-configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ template "resource-manager.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy}}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        ports:
+          - containerPort: 8080
+            name: http
+        readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 10 }}
+        livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 10 }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "resource-manager.fullname" . }}-env
+        env:
+        {{- if .Values.externalDatabase.enabled }}
+        - name: JDBC_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.externalDatabase.existingSecret }}
+              key: {{ .Values.externalDatabase.userKey }}
+        - name: JDBC_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.externalDatabase.existingSecret }}
+              key: {{ .Values.externalDatabase.passwordKey }}
+        {{- end }}
+        {{- if .Values.oauth.enabled }}
+        - name: OAUTH_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.oauth.existingSecret }}
+              key: {{ .Values.oauth.clientIdKey }}
+        - name: OAUTH_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.oauth.existingSecret }}
+              key: {{ .Values.oauth.clientSecretKey }}
+        {{- end }}
+        {{- if .Values.providers.postgres.enabled }}
+        - name: PROVIDER_POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.providers.postgres.existingSecret }}
+              key: {{ .Values.providers.postgres.userKey }}
+        - name: PROVIDER_POSTGRES_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.providers.postgres.existingSecret }}
+              key: {{ .Values.providers.postgres.passwordKey }}
+        {{- end }}
+        {{- if .Values.providers.mysql.enabled }}
+        - name: PROVIDER_MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.providers.mysql.existingSecret }}
+              key: {{ .Values.providers.mysql.userKey }}
+        - name: PROVIDER_MYSQL_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.providers.mysql.existingSecret }}
+              key: {{ .Values.providers.mysql.passwordKey }}
+        {{- end }}
+        {{- if .Values.providers.minio.enabled }}
+        - name: PROVIDER_MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.providers.minio.existingSecret }}
+              key: {{ .Values.providers.minio.userKey }}
+        - name: PROVIDER_MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.providers.minio.existingSecret }}
+              key: {{ .Values.providers.minio.passwordKey }}
+        {{- end }}
