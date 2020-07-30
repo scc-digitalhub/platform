@@ -66,12 +66,15 @@ admin:
     - components/dss.com/carbon.super:ROLE_PROVIDER
     - components/nuclio/sys:ROLE_PROVIDER
     - components/cyclotron:ROLE_PROVIDER
+    - components/cyclotron:ROLE_EDITOR
     - components/grafana:ROLE_PROVIDER
     - components/grafana/products:ROLE_PROVIDER
     - components/grafana/services:ROLE_PROVIDER
     - components/grafana:ROLE_ADMIN
     - components/grafana/products:ROLE_ADMIN
     - components/grafana/services:ROLE_ADMIN
+    - components/resourcemanager/default:ROLE_ADMIN
+    - components/resourcemanager/default:ROLE_PROVIDER
 smtp:
   enabled: false
   server: ""

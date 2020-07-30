@@ -359,8 +359,8 @@ kubectl -n global create secret generic api-manager-db-creds --from-literal=user
  --from-literal=password=wso2carbon
 
 kubectl -n global create secret generic api-manager-aac-creds \
- --from-literal=username=YCo5U68x-s3H5-0IQc-gZN3-uL9D-6bVOAROkLlsI \
- --from-literal=password=Ot2PZMcD-O8xd-O1gR-hy4l-7KyJ-vVDdiOOmT0Ia
+ --from-literal=username=ZMoyJJF1-0zPk-cR79-fhF7-zbc6-359X4piejriZ \
+ --from-literal=password=aP8EJGc5-D0TT-RO7x-FJ1D-6qmq-XFXtlRpDvWW8
 
 kubectl -n global create secret generic api-manager-admin-creds --from-literal=username=admin \
  --from-literal=password=admin
@@ -404,7 +404,7 @@ kubectl -n global create secret generic dss-db-creds --from-literal=username=wso
 
 kubectl -n global create secret generic dss-keystore-creds --from-literal=keystore=platform  --from-literal=truststore=platform
 
-kubectl -n global create secret generic dss-aac-creds --from-literal=username=V66x0lTb-BSV0-ahr9-xIa0-73YJ-7nNbmmuAKH4J --from-literal=password=ep5hrEaz-TR26-WrQ1-j1er-1BWM-xBlM2s4wbtXj
+kubectl -n global create secret generic dss-aac-creds --from-literal=username=jN7o6v7x-Ybc7-7a1s-U8G8-P7zA-kuwL91uu6mMA --from-literal=password=Wd2dKYZ3-H3Rp-O8ja-5dxV-C6qZ-a4VXO5mSYHGu
 
 ```
 Install DSS
@@ -512,8 +512,8 @@ openssl rand -base64 32
 
 ```shell
 kubectl -n global create secret generic gatekeeper-client-creds \
-  --from-literal=clientid=hcWL98bS-gHy9-7x5M-4G3w-X257-YGBgs4Ie9iK8 \
-  --from-literal=clientsecret=lcFXH4yE-q3LB-DT5d-Lxu4-0kOf-KCW7iDT0uLyw \
+  --from-literal=clientid=mqt3TZL5-1cWl-Q5RA-XK4S-8ipx-PfGGId2XcBqU \
+  --from-literal=clientsecret=ki3utrBY-Eu3G-tc6m-ww5I-Py7s-CuB4mNau2KTJ \
   --from-literal=encryptionkey=63d9311968fc9a184dbe6b255d1556c0
 ```
 
@@ -539,8 +539,8 @@ kubectl -n global create secret generic nifi-keystore --from-file=keystore.jks -
 kubectl -n global create secret generic nifi-keystore-creds --from-literal=keystore=platform --from-literal=truststore=platform
 
 kubectl -n global create secret generic nifi-aac-creds \
-  --from-literal=username=ITkb0iWT-MMa4-8IuT-a5PD-7MQM-nTayIrM4YfFN \
-  --from-literal=password=JGvmoFS7-yf2d-xBn1-s0TV-R5Mo-amwcnXIsX6es
+  --from-literal=username=iT3kfpbl-8FA7-Cty6-S2et-2dlt-PfSIVcX7oOEG \
+  --from-literal=password=ZmEIsAc0-znC1-NvB9-brp1-oCd8-nW6Dknb567Pm
 ```
 
 Install Nifi
@@ -590,6 +590,55 @@ helm upgrade --install cyclotron charts/cyclotron/ --values helm/cyclotron/cyclo
 
 ```shell
 kubectl apply -f ./helm/istio/cyclotron-virtualservice.yml
+```
+
+```shell
+TO DO
+```
+
+#### Resource-Manager
+
+Install databases
+
+Clone Zalando Postgres-Operator:
+
+```shell
+git clone https://github.com/zalando/postgres-operator.git
+cd postgres-operator
+```
+
+Install Zalando Postgres-Operator:
+
+```shell
+helm install postgres-operator ./charts/postgres-operator --namespace global
+
+```
+Install Mysql:
+
+```shell
+helm upgrade --install mysql stable/mysql --namespace global --version 1.6.6 --values helm/resource-manager/mysql-values-azure-v1.6.6.yaml  
+```
+
+To get your root password run:
+
+```shell
+kubectl get secret --namespace global mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode; echo
+```
+Create new secret with root username and password:
+
+```shell
+kubectl -n global create secret generic mysql-creds --from-literal=username=root  --from-literal=password=yvudKY9R9F
+kubectl -n global create secret generic rs-db-creds --from-literal=username=rm --from-literal=password=rm
+kubectl -n global create secret generic rs-oauth-creds --from-literal=username=qEqs2FCS-8Stf-8xdT-dL4N-yQX7-Mg1rUOGyMaxZ --from-literal=password=9UIWus0d-eC8S-MPt9-5H0V-e6Pj-1ZeET18Tk75f
+```
+Install resource-manager
+
+```shell
+helm upgrade --install rm charts/resource-manager/ --values helm/resource-manager/resource-manager-values.yaml --namespace global
+```
+
+```shell
+kubectl apply -f ./helm/istio/resource-manager-virtualservice.yml
 ```
 
 ```shell

@@ -10,6 +10,7 @@ metadata:
 {{- end }}
 spec:
   selector:
+    app.kubernetes.io/tier: site
     {{- include "cyclotron.selectorLabels" . | nindent 4 }}
   ports:
   - name: {{ .Values.site.service.name }}

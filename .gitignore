@@ -1,3 +1,4 @@
 **.env
 kubernetes/
 yaml/
+domain-creds.txt

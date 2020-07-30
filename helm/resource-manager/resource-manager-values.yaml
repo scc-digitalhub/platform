@@ -17,7 +17,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/resourcemanager
-  tag: "debug"
+  tag: "2.0"
   pullPolicy: IfNotPresent
 
 podSecurityContext: {}
@@ -68,22 +68,22 @@ service:
     port: 8086
     targetPort: 8086
 
-externalUrl: "https://rm.kube-test.smartcommunitylab.it"
-javaOpts: "-XX:+UseContainerSupport -XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=80.0 -javaagent:./jmx_prometheus_javaagent.jar=8086:tomcat.yml"
+externalUrl: "https://rm.config-test.smartcommunitylab.it"
+javaOpts: "-XX:+UseContainerSupport -XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=80.0"
 
 externalDatabase:
   enabled: true
-  uri: "jdbc:mysql://mysql:3306/rm?useSSL=false"
+  uri: "jdbc:mysql://mysql.databases:3306/rm?useSSL=false"
   existingSecret: "rs-db-creds"
   userKey: "username"
   passwordKey: "password"
 
 oauth:
   enabled: true
-  tokenUri: "https://aac.kube-test.smartcommunitylab.it/oauth/token"
-  authUri: "https://aac.kube-test.smartcommunitylab.it/eauth/authorize"
-  userInfoUri: "https://aac.kube-test.smartcommunitylab.it/userinfo"
-  issuerUri: "https://aac.kube-test.smartcommunitylab.it"
+  tokenUri: "https://aac.config-test.smartcommunitylab.it/oauth/token"
+  authUri: "https://aac.config-test.smartcommunitylab.it/eauth/authorize"
+  userInfoUri: "https://aac.config-test.smartcommunitylab.it/userinfo"
+  issuerUri: "https://aac.config-test.smartcommunitylab.it"
   existingSecret: "rs-oauth-creds"
   clientIdKey: "username"
   clientSecretKey: "password"
@@ -91,23 +91,23 @@ oauth:
 providers:
   postgres:
       enabled: true
-      existingSecret: "rs-postgres-creds"
+      existingSecret: "postgres.acid-minimal-cluster.credentials.postgresql.acid.zalan.do"
       userKey: "username"
       passwordKey: "password"
-      host: acid-minimal-cluster.database.svc.cluster.local
+      host: acid-minimal-cluster.global.svc.cluster.local
       port: "5432"
   mysql:
       enabled: true
-      existingSecret: "rs-mysql-creds"
+      existingSecret: "mysql-creds"
       userKey: "username"
       passwordKey: "password"
       host: "mysql.global.svc.cluster.local"
       port: "3306"
   minio:
     enabled: true
-    existingSecret: "rs-minio-creds"
-    userKey: "username"
-    passwordKey: "password"
+    existingSecret: "minio-creds"
+    userKey: "accesskey"
+    passwordKey: "secretkey"
     host: minio.global.svc.cluster.local
     port: "9000"
 

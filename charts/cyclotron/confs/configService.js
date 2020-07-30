@@ -24,13 +24,10 @@ cyclotronServices.factory('configService', ['commonConfigService', function(comm
     authentication: {
       enable: '{{ .Values.auth.enabled }}',
       authProvider: '{{ .Values.auth.provider }}',
-      loginMessage: 'Please login using your {{ .Values.auth.provider }} username and password.',
-      authorizationURL: '{{ .Values.auth.authorizationUrl }}',
+      authorizationURL: '{{ .Values.auth.authorizationURL }}',
       clientID: '{{ .Values.auth.clientId }}',
-      callbackDomain: '{{ .Values.svc.url }}',
-      scopes: '{{ .Values.auth.scopes }}',
-      userProfileEndpoint: '{{ .Values.auth.userProfileEndpoint }}',
-      tokenValidityEndpoint: '{{ .Values.auth.tokenValidityEndpoint }}'
+      callbackDomain: '{{ .Values.auth.callbackDomain }}',
+      scopes: '{{ .Values.auth.scopes }}'
     },
     analytics: {
       enable: false

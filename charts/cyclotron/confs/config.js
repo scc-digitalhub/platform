@@ -60,7 +60,7 @@ module.exports = {
     },
 
     /* Enable or disable authentication */
-    enableAuth: {{ .Values.auth.enabled }},
+    enableAuth: '{{ .Values.auth.enabled }}',
 
     /* Authentication provider. Possible values: 'ldap', 'aac'. */
     authProvider: '{{ .Values.auth.provider }}',
@@ -92,16 +92,16 @@ module.exports = {
      * Scopes must be comma-separated.
      */
     oauth: {
+        useJWT: '{{ .Values.auth.useJWT }}',
+        clientId: '{{ .Values.auth.clientId }}',
+        clientSecret: '{{ .Values.auth.clientSecret }}',
+        issuer: '{{ .Values.auth.issuer }}',
+        jwksEndpoint: '{{ .Values.auth.jwksEndpoint }}',
+        tokenIntrospectionEndpoint: '{{ .Values.auth.tokenIntrospectionEndpoint }}',
         userProfileEndpoint: '{{ .Values.auth.userProfileEndpoint }}',
-        userRolesEndpoint: '{{ .Values.auth.userRolesEndpoint }}',
-        scopes: '{{ .Values.auth.scopes }}',
-        tokenValidityEndpoint: '{{ .Values.auth.tokenValidityEndpoint }}',
-        tokenInfoEndpoint: '{{ .Values.auth.tokenInfoEndpoint }}',
-        tokenRolesEndpoint: '{{ .Values.auth.tokenRolesEndpoint }}',
-        apikeyCheckEndpoint: '{{ .Values.auth.apikeyCheckEndpoint }}',
-        parentSpace: '{{ .Values.auth.parentSpace }}'
+        parentSpace: '{{ .Values.auth.parentSpace }}',
+        editorRoles: [{{ .Values.auth.editorRoles }}]
     },
-
     /* List of LDAP distinguished names for Admin users
      * These user(s) can override normal permission settings
      * Only used if enableAuth is true

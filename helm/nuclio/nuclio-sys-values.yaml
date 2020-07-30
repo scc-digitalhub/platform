@@ -201,11 +201,11 @@ sysfunction:
   grafana:
     enabled: true
     aacjwkurl: "https://aac.config-test.smartcommunitylab.it/jwk"
-    aacresourceid: "Ihyz9nv0-Tpf0-qJ7E-nS7t-jFh6-JIcAkM8jDblx"
+    aacresourceid: "7UOFrDtz-jiE5-s8VT-AWM5-5Iv1-alFvgerJFj6k"
     grafanaauth: "Bearer Z3JhZmFuYTpncmFmYW5h"
     grafanaendpoint: "https://grafana.config-test.smartcommunitylab.it"
   nifi:
     enabled: true
     aacjwkurl: "https://aac.config-test.smartcommunitylab.it/jwk"
-    aacresourceid: "ITkb0iWT-MMa4-8IuT-a5PD-7MQM-nTayIrM4YfFN"
+    aacresourceid: "iT3kfpbl-8FA7-Cty6-S2et-2dlt-PfSIVcX7oOEG"
     nifiendpoint: "https://nifi.global.svc.cluster.local:8443/nifi-api"

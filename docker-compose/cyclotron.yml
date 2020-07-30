@@ -14,6 +14,7 @@ services:
       - "8077:8077"
     volumes:
       - ./cyclotron-conf/config.js:/home/cyclotron/cyclotron-svc/config/config.js
+      - ./cert/ca/rootCA.crt:/home/cyclotron/cyclotron-svc/node_modules/ssl-root-cas/pems/rootCA.crt
     networks:
       platform-net:
 networks:

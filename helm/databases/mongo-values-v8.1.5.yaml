@@ -172,21 +172,21 @@ configuration: ""
 ##   my_init_script.sh: |
 ##      #!/bin/bash
 ##      echo "Do something."
-initdbScripts: 
-  mongo_init.js: |
-    use cyclotron;
-    db.createUser(
-            {
-                user: "cyclotron",
-                pwd: "cyclotron",
-                roles: [
-                    {
-                        role: "readWrite",
-                        db: "cyclotron"
-                    }
-                ]
-            }
-    );
+initdbScripts: {}
+  # mongo_init.js: |
+  #   use cyclotron;
+  #   db.createUser(
+  #           {
+  #               user: "cyclotron",
+  #               pwd: "cyclotron",
+  #               roles: [
+  #                   {
+  #                       role: "readWrite",
+  #                       db: "cyclotron"
+  #                   }
+  #               ]
+  #           }
+  #   );
 
 
 ## Existing ConfigMap with custom init scripts

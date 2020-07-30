@@ -6,21 +6,23 @@ replicasCount: 1
 auth:
   enabled: true
   provider: "aac"
-  authorizationUrl: "https://aac.config-test.smartcommunitylab.it/eauth/authorize"
-  clientId: "2aba1ffd-ebf1-4641-b939-457acc0d5bea"
-  scopes: profile.basicprofile.me user.roles.me
-  userProfileEndpoint: "https://aac.config-test.smartcommunitylab.it/basicprofile/me"
-  tokenValidityEndpoint: "https://aac.config-test.smartcommunitylab.it/resources/access"
-  userRolesEndpoint: "https://aac.config-test.smartcommunitylab.it/aac/userroles/me"
-  tokenInfoEndpoint: "https://aac.config-test.smartcommunitylab.it/aac/resources/token"
-  tokenRolesEndpoint: "https://aac.config-test.smartcommunitylab.it/aac/userroles/token"
-  apikeyCheckEndpoint: "https://aac.config-test.smartcommunitylab.it/aac/apikeycheck"
+  useJWT: true
+  clientId: "zDksepx4-A0NG-g9dM-f3sn-ko3l-8uIiJ9qsmO8m"
+  clientSecret: "1dkPqUGM-G5Xr-erR7-3shb-N7mG-RdcG41aFQwUE"
+  issuer: "https://aac.config-test.smartcommunitylab.it"
+  jwksEndpoint: "https://aac.config-test.smartcommunitylab.it/jwk"
+  tokenIntrospectionEndpoint: "https://aac.config-test.smartcommunitylab.it/oauth/introspect"
+  userProfileEndpoint: "https://aac.config-test.smartcommunitylab.it/userinfo"
   parentSpace: "components/cyclotron"
+  editorRoles: "'ROLE_PROVIDER','ROLE_EDITOR'"
+  authorizationURL: "https://aac.config-test.smartcommunitylab.it/eauth/authorize"
+  callbackDomain: "https://cyclotron.config-test.smartcommunitylab.it/"
+  scopes: "openid profile user.roles.me"
 
 site:
   image:
     repository: smartcommunitylab/cyclotron-site
-    tag: 5985d90
+    tag: 3839d8f
     pullPolicy: IfNotPresent
 
   labels: {}
@@ -84,7 +86,7 @@ svc:
   url: "https://cyclotron.config-test.smartcommunitylab.it"
   image:
     repository: smartcommunitylab/cyclotron-svc
-    tag: 609d287
+    tag: 3839d8f
     pullPolicy: IfNotPresent
 
   labels: {}

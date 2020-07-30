@@ -6,16 +6,18 @@ replicasCount: 1
 auth:
   enabled: false
   provider: ""
-  authorizationUrl: ""
+  useJWT: true
   clientId: ""
-  scopes: profile.basicprofile.me user.roles.me
+  clientSecret: ""
+  issuer: ""
+  jwksEndpoint: ""
+  tokenIntrospectionEndpoint: ""
   userProfileEndpoint: ""
-  tokenValidityEndpoint: ""
-  userRolesEndpoint: ""
-  tokenInfoEndpoint: ""
-  tokenRolesEndpoint: ""
-  apikeyCheckEndpoint: ""
   parentSpace: ""
+  editorRoles: ""
+  authorizationURL: ""
+  callbackDomain: ""
+  scopes: ""
 
 site:
   image:
