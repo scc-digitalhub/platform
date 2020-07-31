@@ -7,8 +7,8 @@ auth:
   enabled: true
   provider: "aac"
   useJWT: true
-  clientId: "zDksepx4-A0NG-g9dM-f3sn-ko3l-8uIiJ9qsmO8m"
-  clientSecret: "1dkPqUGM-G5Xr-erR7-3shb-N7mG-RdcG41aFQwUE"
+  clientId: "O6W058Gb-yL2q-IG4T-87PE-h3Ul-SYfiY8o9rUPD"
+  clientSecret: "LI55aoBt-CQC5-7QEy-Q0ks-lo1l-OIj7M17yFCKj"
   issuer: "https://aac.config-test.smartcommunitylab.it"
   jwksEndpoint: "https://aac.config-test.smartcommunitylab.it/jwk"
   tokenIntrospectionEndpoint: "https://aac.config-test.smartcommunitylab.it/oauth/introspect"

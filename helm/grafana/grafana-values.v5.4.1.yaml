@@ -412,8 +412,8 @@ grafana.ini:
     root_url: "https://grafana.config-test.smartcommunitylab.it"
   auth.generic_oauth:
     enabled: true
-    client_id: 7UOFrDtz-jiE5-s8VT-AWM5-5Iv1-alFvgerJFj6k
-    client_secret: M9edmXvg-mP5E-Pot9-3Xyg-jG1d-KeklNbRE5dLQ
+    client_id: zi1HU09n-tnL8-Ibh0-w3gI-b6Xg-mzNaIfU5ZYBE
+    client_secret: KosZQ6tS-3UZM-2nta-MaD7-F3ks-0coCOSSpbhSB
     scopes: profile, email, user.roles.me, openid
     auth_url: https://aac.config-test.smartcommunitylab.it/eauth/authorize
     token_url: https://aac.config-test.smartcommunitylab.it/oauth/token

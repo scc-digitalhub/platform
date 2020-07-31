@@ -217,13 +217,13 @@ auth:
     className: oauthenticator.generic.GenericOAuthenticator
     config:
       login_service: "aac"
-      client_id: "VWsYa6BE-1FrO-6wkp-0kUY-9ZaN-UJrhOsiVk6mD"
-      client_secret: "tbElaI6J-gHr5-aHc0-OZJ5-BS2u-NRW8cgnyvtLm"
+      client_id: "ag9uCUYR-fs4u-TPq8-BR00-5AhY-voKq4mFPLCzc"
+      client_secret: "k0YvKcAw-ZV1O-oLx2-O9Ny-JM3n-xAKOjypDbA2N"
       token_url: https://aac.config-test.smartcommunitylab.it/oauth/token
       userdata_url: https://aac.config-test.smartcommunitylab.it/userinfo
       userdata_method: GET
       # userdata_params: {'state': 'state'}
-      username_key: preferred_username
+      username_key: jhubtenant
 
 singleuser:
   extraTolerations: []
