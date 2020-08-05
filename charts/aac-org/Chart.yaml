@@ -1,0 +1,6 @@
+apiVersion: v2
+name: aac-org
+description: Organization Manager (Org-Manager for short) is a tool to centralize tenant and user management for various services. It requires the AAC identity provider to work.
+type: application
+version: 0.1.1
+appVersion: 1.1.0

@@ -1,0 +1,97 @@
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+replicasCount: 1
+
+annotations: {}
+
+image:
+  repository: smartcommunitylab/aac-org
+  tag: "1.2-beta"
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 7878
+  initialDelaySeconds: 60
+  periodSeconds: 5
+  successThreshold: 2
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 7878
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+strategy:
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+service:
+  portName: http
+  port: 7979
+  # extraPorts:
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+externalDatabase:
+  enabled: true
+  uri: "jdbc:mysql://mysql:3306/aac?useSSL=false"
+  existingSecret: "aac-org-db-creds"
+  userKey: "username"
+  passwordKey: "password"
+
+aac:
+  enabled: true
+  existingSecret: "aac-org-aac-creds"
+  consumerKey: "username"
+  consumerSecretKey: "password"
+  uri: "https://aac.kube-test.smartcommunitylab.it"
+  oauth:
+    auth_uri: "https://aac.kube-test.smartcommunitylab.it/eauth/authorize"
+    token_uri: "https://aac.kube-test.smartcommunitylab.it/oauth/token"
+    scopes: "profile,email,user.roles.me"
+    jwk_uri: "https://aac.kube-test.smartcommunitylab.it/jwk"
+
+application_url: https://orgmanager.kube-test.smartcommunitylab.it
+loglevel: "DEBUG"
+
+javaOpts: "-XX:+UseContainerSupport -XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=80.0"
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

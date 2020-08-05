@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "aac-org.fullname" . }}
+  namespace: {{ template "aac-org.namespace" . }}
+  labels:
+    {{- include "aac-org.labels" . | nindent 4 }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "aac-org.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicasCount }}
+  strategy:
+    type: RollingUpdate
+{{ toYaml .Values.strategy | indent 4 }}
+  template:
+    metadata:
+      labels:
+        {{- include "aac-org.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/aac-org-configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ template "aac-org.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        ports:
+          - containerPort: 7979
+            name: http
+        readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 10 }}
+        livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 10 }}
+      {{- if or (.Values.externalDatabase.enabled) (.Values.aac.enabled) }}
+        env:
+          {{- if .Values.externalDatabase.enabled }}
+          - name: JDBC_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalDatabase.existingSecret | default "aac-org-db-creds" }}
+                key: {{ .Values.externalDatabase.userKey | default "username" }}
+          - name: JDBC_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalDatabase.existingSecret | default "aac-org-db-creds" }}
+                key: {{ .Values.externalDatabase.passwordKey | default "password" }}
+          {{- end }}
+          {{- if .Values.aac.enabled }}
+          - name: OAUTH2_CLIENT_CLIENTID
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.aac.existingSecret }}
+                key: {{ .Values.aac.consumerKey  }}
+          - name: OAUTH2_CLIENT_CLIENTSECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.aac.existingSecret }}
+                key: {{ .Values.aac.consumerSecretKey }}
+          {{- end }}
+      {{- end }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "aac-org.fullname" . }}-env
