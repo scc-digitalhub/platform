@@ -1,5 +1,7 @@
 # DigitalHub Platform
 
+![DigitalHub Diagram](DigitalHub-Platform.png?raw=true "Platform Schema")
+
 ## Generate self signed certicates with custom CA
 
 ### Create ROOT CA
