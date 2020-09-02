@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   am-analytics:
-    image: smartcommunitylab/apim-analytics:local
+    image: smartcommunitylab/apim-analytics:auto
     ports:
       - "9091"
       - "9444"

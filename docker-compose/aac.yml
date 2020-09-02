@@ -1,14 +1,15 @@
 version: "3.7"
 services:
   aac:
-    image: smartcommunitylab/aac:2.6.2
+    image: smartcommunitylab/aac:b38c9ac
     ports:
       - "8080:8080"
       - "8081:8081"
     env_file:
       aac.env
-    # volumes:
-    #   - ./cert/keystore/keystore.jwks:/tmp/keystore.jwks
+    volumes:
+      - ./cert/aac/keystore.jwks:/home/aac/confs/keystore.jwks
+      - ./aac-conf/config.yaml:/home/aac/confs/config.yaml
     networks:
       platform-net:
 networks:

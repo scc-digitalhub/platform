@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   nifi:
-    image: smartcommunitylab/nifi:latest #aac-org:t
+    image: smartcommunitylab/nifi:1.11.4_log #aac-org:t
     # image: nifi
     ports:
       - "8443:8443"

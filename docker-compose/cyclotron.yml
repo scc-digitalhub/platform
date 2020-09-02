@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   cyclotron-site:
-    image: smartcommunitylab/cyclotron-site:5985d90
+    image: smartcommunitylab/cyclotron-site:3839d8f
     ports:
       - "8082:80"
     volumes:
@@ -9,7 +9,7 @@ services:
     networks:
       platform-net:
   cyclotron-svc:
-    image: smartcommunitylab/cyclotron-svc:609d287
+    image: smartcommunitylab/cyclotron-svc:3839d8f
     ports:
       - "8077:8077"
     volumes:

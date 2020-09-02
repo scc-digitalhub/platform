@@ -1,0 +1,71 @@
+bootstrap:
+  clients:
+    - id: API_MGT_CLIENT_ID
+      developer: admin
+      grantTypes:
+      - implicit
+      - refresh_token
+      - password
+      - client_credentials
+      - native
+      - authorization_code
+      name: API_MGT_CLIENT_ID
+      redirectUris:
+      - http://localhost:9443/publisher/jagg/jaggery_oidc_acs.jag
+      - http://localhost:9443/store/jagg/jaggery_oidc_acs.jag
+      scopes:
+      - clientmanagement
+      - orgmanagement
+      - user.roles.read
+      - profile.accountprofile.all
+      - openid
+      - profile
+      - profile.basicprofile.me
+      - profile.basicprofile.all
+      - apimanagement
+      - profile.accountprofile.me
+      - email
+      - user.roles.me
+      secret: YOUR_MNGMT_CLIENT_SECRET
+      trusted: false
+
+  users:
+    - username: test
+      password: test123
+      roles:
+    - username: grafana@kube.test.it
+      password: grafana
+      roles:
+    - username: test1@kube.test.it
+      password: yHWRZKNmsFMOFFlD0Kw0
+      roles:
+    - username: test2@kube.test.it
+      password: eDkSxwOAAbY3OOAYPqmc
+      roles:
+    - username: test3@kube.test.it
+      password: e2NA6NZVjKPPcZ8Ijz2J
+      roles:
+    - username: test3@kube.test.it
+      password: e2NA6NZVjKPPcZ8Ijz2J
+      roles:
+
+  services:
+    - serviceId: security.vault
+      name: Vault Data Service
+      description: Core service for managing secure resource access and data.
+      scopes:
+      - scope: vault.data.read
+        name: Read Vault data
+        description: Read Vault data programmatically
+        claims: []
+        roles: []
+        authority: ROLE_CLIENT
+        approvalRequired: false
+      - scope: vault.data.read.me
+        name: Read Current User Vault Data
+        description: Read Vault data of the current user
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: true
+      claims: []
