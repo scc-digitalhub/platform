@@ -9,7 +9,7 @@ services:
       nifi_param.env
     entrypoint: '/opt/nifi/scripts/start.sh'
     volumes:
-      - "./cert/nifi.platform.local/nifi.platform.local:/opt/nifi/nifi-current/certs"
+      - "./cert/nifi.platform.local:/opt/nifi/nifi-current/certs"
     networks:
       platform-net: {}
 networks:
