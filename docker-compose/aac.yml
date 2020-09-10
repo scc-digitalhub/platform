@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   aac:
-    image: smartcommunitylab/aac:b38c9ac
+    image: smartcommunitylab/aac:546bf8b
     ports:
       - "8080:8080"
       - "8081:8081"

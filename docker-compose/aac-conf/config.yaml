@@ -1,32 +1,78 @@
 bootstrap:
   clients:
-    - id: API_MGT_CLIENT_ID
+    - name: WSO2 API Manager
+      id: APIM_CLIENT_ID
+      secret: APIM_CLIENT_SECRET
       developer: admin
       grantTypes:
       - implicit
       - refresh_token
       - password
       - client_credentials
-      - native
       - authorization_code
-      name: API_MGT_CLIENT_ID
       redirectUris:
-      - http://localhost:9443/publisher/jagg/jaggery_oidc_acs.jag
-      - http://localhost:9443/store/jagg/jaggery_oidc_acs.jag
+      - https://api.platform.local
+      - https://gw.platform.local
+      - https://aac.platform.local
       scopes:
-      - clientmanagement
-      - orgmanagement
-      - user.roles.read
-      - profile.accountprofile.all
       - openid
       - profile
+      - user.roles.me
+      - "apim:api_view"
+      - "apim:api_create"
+      trusted: false
+
+    - name: WSO2 Data Services Server
+      id: DSS_CLIENT_ID
+      secret: DSS_CLIENT_SECRET
+      developer: admin
+      grantTypes:
+      - implicit
+      - client_credentials
+      - authorization_code
+      redirectUris:
+      - https://dss.platform.local:9445/oauth2_acs
+      - https://dss.platform.local
+      scopes:
+      - openid
+      - profile
+      - user.roles.me
       - profile.basicprofile.me
-      - profile.basicprofile.all
-      - apimanagement
-      - profile.accountprofile.me
+      trusted: false
+
+    - name: Apache NiFi
+      id: NIFI_CLIENT_ID
+      secret: NIFI_CLIENT_SECRET
+      developer: admin
+      grantTypes:
+      - implicit
+      - client_credentials
+      - authorization_code
+      redirectUris:
+      - https://nifi.platform.local/nifi-api/access/oidc/callback
+      scopes:
+      - openid
+      - profile
       - email
       - user.roles.me
-      secret: YOUR_MNGMT_CLIENT_SECRET
+      trusted: false
+
+    - name: Cyclotron
+      id: CYCLOTRON_CLIENT_ID
+      secret: CYCLOTRON_CLIENT_SECRET
+      developer: admin
+      grantTypes:
+      - implicit
+      - refresh_token
+      - password
+      - client_credentials
+      - authorization_code
+      redirectUris:
+      - https://cyclotron.platform.local
+      scopes:
+      - openid
+      - profile
+      - user.roles.me
       trusted: false
 
   users:
@@ -68,4 +114,23 @@ bootstrap:
         roles: []
         authority: ROLE_USER
         approvalRequired: true
+      claims: []
+    - serviceId: apim.rest
+      name: API Manager REST APIs access
+      description: Service for the scopes expected by API Manager to access its REST APIs.
+      scopes:
+      - scope: apim:api_view
+        name: View APIs
+        description: Find APIs and view details
+        claims: []
+        roles: []
+        approvalRequired: false
+        authority: ROLE_CLIENT
+      - scope: apim:api_create
+        name: Create and edit APIs
+        description: Create, edit and delete APIs
+        claims: []
+        roles: []
+        approvalRequired: false
+        authority: ROLE_CLIENT
       claims: []

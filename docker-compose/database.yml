@@ -27,24 +27,21 @@ services:
       - ./db-init-script/mongo_init.js:/docker-entrypoint-initdb.d/mongo_init.js
     networks:
       platform-net: {}
-  # postgres:
-  #   image: postgres:10
-  #   ports:
-  #     - 5432:5432
-  #   environment:
-  #     POSTGRES_USER: 'ac'
-  #     POSTGRES_PASSWORD: 'ac'
-  #   command: ['-c', 'config_file=/etc/postgresql/postgresql.conf']
-  #   volumes:
-  #     - postgres:/var/lib/postgresql/data
-  #     - ./postgresql.conf:/etc/postgresql/postgresql.conf
-  #     - /home/ffais/tmp/traffic_script:/script
-  #   networks:
-  #     platform-net: {}
+  postgres:
+    image: postgres:13
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: 'ac'
+      POSTGRES_PASSWORD: 'ac'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      platform-net: {}
 volumes:
   mysql_data: {}
   mongo_data: {}
-  # postgres: {}
+  postgres: {}
 networks:
   platform-net:
     external: true

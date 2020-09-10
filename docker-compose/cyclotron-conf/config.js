@@ -92,14 +92,15 @@ module.exports = {
      * Scopes must be comma-separated.
      */
     oauth: {
-        userProfileEndpoint: 'https://aac.platform.local/aac/basicprofile/me',
-        userRolesEndpoint: 'https://aac.platform.local/aac/userroles/me',
-        scopes: 'profile.basicprofile.me,user.roles.me',
-        tokenValidityEndpoint: 'https://aac.platform.local/aac/resources/access',
-        tokenInfoEndpoint: 'https://aac.platform.local/aac/resources/token',
-        tokenRolesEndpoint: 'https://aac.platform.local/aac/userroles/token',
-        apikeyCheckEndpoint: 'https://aac.platform.local/aac/apikeycheck',
-        parentSpace: 'components/cyclotron'
+        useJWT: true,
+        clientId: 'CYCLOTRON_CLIENT_ID',
+        clientSecret: 'CYCLOTRON_CLIENT_SECRET',
+        issuer: 'https://aac.platform.local/aac',
+        jwksEndpoint: 'https://aac.platform.local/aac/jwk',
+        tokenIntrospectionEndpoint: 'https://aac.platform.local/aac/oauth/introspect',
+        userProfileEndpoint: 'https://aac.platform.local/aac/userinfo',
+        parentSpace: 'components/cyclotron',
+        editorRoles: ['ROLE_PROVIDER','ROLE_EDITOR']
     },
 
     /* List of LDAP distinguished names for Admin users
@@ -116,5 +117,6 @@ module.exports = {
     /* Provides additional CAs to trust when making HTTPS proxy requests */
     trustedCa: [
         // 'config/internalRoot.crt'
+        'node_modules/ssl-root-cas/pems/rootCA.crt'
     ]
 };
