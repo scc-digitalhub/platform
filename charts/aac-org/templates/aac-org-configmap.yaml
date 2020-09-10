@@ -6,20 +6,8 @@ metadata:
   labels:
   {{- include "aac-org.labels" . | nindent 4 }}
 data:
-  SERVER_PORT: "7979"
-  OMC_SERVER_SERVLET_SESSION_COOKIE_NAME: ORGMANAGERSESSIONID
-  MANAGEMENT_PORT: "7878"
   APPLICATION_URL: {{ .Values.application_url }}
-  {{- if .Values.externalDatabase.enabled }}
-  JDBC_DIALECT: org.hibernate.dialect.MySQL55Dialect
-  JDBC_DRIVER: com.mysql.jdbc.Driver
-  JDBC_URL: jdbc:mysql://mysql:3306/aacorg?useSSL=false
-  {{- end }}
-  OAUTH_AUTH_URI: {{ .Values.aac.oauth.auth_uri }}
-  OAUTH_TOKEN_URI: {{ .Values.aac.oauth.token_uri }}
-  OAUTH_SCOPES: {{ .Values.aac.oauth.scopes}}
-  OMC_SECURITY_OAUTH2_JWK_URI: {{ .Values.aac.oauth.jwk_uri }}
+  OAUTH2_ISSUER_URI: {{ .Values.aac.issuer_uri}}
   AAC_URI: {{ .Values.aac.uri}}
   LOG_LEVEL: {{ .Values.loglevel }}
-  OMC_LOGGING_LEVEL_ORGSPRINGFRAMEWORKSECURITY: {{ .Values.loglevel }}
   JAVA_OPTS: {{ .Values.javaOpts | default "-XX:MaxRAMFraction=2" }}

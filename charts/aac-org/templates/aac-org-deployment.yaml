@@ -43,18 +43,6 @@ spec:
 {{ toYaml .Values.livenessProbe | indent 10 }}
       {{- if or (.Values.externalDatabase.enabled) (.Values.aac.enabled) }}
         env:
-          {{- if .Values.externalDatabase.enabled }}
-          - name: JDBC_USER
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.externalDatabase.existingSecret | default "aac-org-db-creds" }}
-                key: {{ .Values.externalDatabase.userKey | default "username" }}
-          - name: JDBC_PASS
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.externalDatabase.existingSecret | default "aac-org-db-creds" }}
-                key: {{ .Values.externalDatabase.passwordKey | default "password" }}
-          {{- end }}
           {{- if .Values.aac.enabled }}
           - name: OAUTH2_CLIENT_CLIENTID
             valueFrom:

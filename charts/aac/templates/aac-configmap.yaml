@@ -24,6 +24,7 @@ data:
   JWK_KEYSTORE: file://{{ .Values.externalKeystore.filePath }}/{{ .Values.externalKeystore.fileName }}
   {{- end }}
   {{- if .Values.externalBootstrapFile.enabled }}
+  BOOTSTRAP_APPLY: "true"
   BOOTSTRAP: file://{{ .Values.externalBootstrapFile.filePath }}/{{ .Values.externalBootstrapFile.fileName }}
   {{ else }}
   BOOTSTRAP: file:///home/aac/confs/config.yaml
