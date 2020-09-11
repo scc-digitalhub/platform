@@ -7,8 +7,8 @@ auth:
   enabled: true
   provider: "aac"
   useJWT: true
-  clientId: "O6W058Gb-yL2q-IG4T-87PE-h3Ul-SYfiY8o9rUPD"
-  clientSecret: "LI55aoBt-CQC5-7QEy-Q0ks-lo1l-OIj7M17yFCKj"
+  clientId: "HVfl2prH-I56z-bG6I-C2iF-l3nM-rI8Kn2ovMS3g"
+  clientSecret: "P3zszGO5-IDU5-oN1c-l1Cz-0W7H-WsIpabhl3K1M"
   issuer: "https://aac.config-test.smartcommunitylab.it"
   jwksEndpoint: "https://aac.config-test.smartcommunitylab.it/jwk"
   tokenIntrospectionEndpoint: "https://aac.config-test.smartcommunitylab.it/oauth/introspect"
@@ -22,7 +22,7 @@ auth:
 site:
   image:
     repository: smartcommunitylab/cyclotron-site
-    tag: 3839d8f
+    tag: 5aaad43
     pullPolicy: IfNotPresent
 
   labels: {}
@@ -86,7 +86,7 @@ svc:
   url: "https://cyclotron.config-test.smartcommunitylab.it"
   image:
     repository: smartcommunitylab/cyclotron-svc
-    tag: 3839d8f
+    tag: 5aaad43
     pullPolicy: IfNotPresent
 
   labels: {}

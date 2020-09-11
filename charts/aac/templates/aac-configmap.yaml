@@ -27,6 +27,7 @@ data:
   BOOTSTRAP_APPLY: "true"
   BOOTSTRAP: file://{{ .Values.externalBootstrapFile.filePath }}/{{ .Values.externalBootstrapFile.fileName }}
   {{ else }}
+  BOOTSTRAP_APPLY: "true"
   BOOTSTRAP: file:///home/aac/confs/config.yaml
   {{- end }}
   REMEMBER_ME_KEY: {{ randAlphaNum 40 | b64enc | quote }}

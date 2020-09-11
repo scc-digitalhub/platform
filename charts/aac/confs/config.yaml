@@ -1,6 +1,6 @@
 bootstrap:
   clients:
-    - name: API_MGT_CLIENT_ID
+    - name: WSO2 API Manager
       id: {{ template "aac.rand" . }}
       developer: admin
       grantTypes:
@@ -8,17 +8,12 @@ bootstrap:
       - refresh_token
       - password
       - client_credentials
-      - native
       - authorization_code
       redirectUris:
       {{- range index .Values "clientRedirectUris" "api-manager" }}
       - {{ . }}
       {{- end }}
       scopes:
-      - clientmanagement
-      - orgmanagement
-      - user.roles.read
-      - profile.accountprofile.all
       - openid
       - profile
       - profile.basicprofile.me
@@ -27,6 +22,8 @@ bootstrap:
       - profile.accountprofile.me
       - email
       - user.roles.me
+      - "apim:api_view"
+      - "apim:api_create"
       secret: {{ template "aac.rand" . }}
       trusted: false
     - name: gatekeeper
@@ -59,7 +56,6 @@ bootstrap:
       grantTypes:
       - implicit
       - client_credentials
-      - native
       - authorization_code
       redirectUris:
       {{- range .Values.clientRedirectUris.grafana }}
@@ -103,7 +99,6 @@ bootstrap:
       - implicit
       - client_credentials
       - authorization_code
-      - native
       redirectUris:
       {{- range .Values.clientRedirectUris.dss }}
       - {{ . }}
@@ -112,12 +107,7 @@ bootstrap:
       - openid
       - profile
       - profile.basicprofile.me
-      - profile.accountprofile.me
-      - user.roles.read.all
-      - email
-      - client.roles.read.all
       - user.roles.me
-      - user.roles.read
       secret: {{ template "aac.rand" . }}
       trusted: false
     - name: nifi
@@ -270,4 +260,23 @@ bootstrap:
         roles: []
         authority: ROLE_USER
         approvalRequired: true
+      claims: []
+    - serviceId: apim.rest
+      name: API Manager REST APIs access
+      description: Service for the scopes expected by API Manager to access its REST APIs.
+      scopes:
+      - scope: apim:api_view
+        name: View APIs
+        description: Find APIs and view details
+        claims: []
+        roles: []
+        approvalRequired: false
+        authority: ROLE_CLIENT
+      - scope: apim:api_create
+        name: Create and edit APIs
+        description: Create, edit and delete APIs
+        claims: []
+        roles: []
+        approvalRequired: false
+        authority: ROLE_CLIENT
       claims: []

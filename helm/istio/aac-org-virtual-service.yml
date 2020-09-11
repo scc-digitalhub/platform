@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: aac-org
+  namespace: global
+spec:
+  hosts:
+    - "orgmanager.config-test.smartcommunitylab.it"
+  gateways:
+    - global-gateway
+  http:
+    - route:
+      - destination:
+          host: aac-org
+          port:
+            number: 7979

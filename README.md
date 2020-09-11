@@ -232,6 +232,7 @@ sudo apt-get install apt-transport-https --yes
 echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
 sudo apt-get update
 sudo apt-get install helm
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 ```
 Official Documentation [Link](https://helm.sh/docs/intro/install/ "Helm Installation Guide")
 
@@ -270,13 +271,15 @@ kubectl create namespace monitoring
 
 helm repo add loki https://grafana.github.io/loki/charts
 helm repo update
-helm upgrade --install loki loki/loki-stack --namespace monitoring --version 0.38.1 --values ./helm/monitoring/loki-stack/values-azure-v0.38.1.yaml
+helm upgrade --install loki loki/loki-stack --namespace monitoring --version 0.40.0 --values ./helm/monitoring/loki-stack/values-azure-v0.40.0.yaml
 ```
 
-#### Prometheus Operator
+#### Prometheus Operator (kube-prometheus-stack)
 
 ```shell
-helm upgrade --install prometheus-operator  stable/prometheus-operator --namespace monitoring --version 8.16.1 --values ./helm/monitoring/prometheus-operator/values-azure-v8.16.1.yaml
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm upgrade --install prometheus-operator  prometheus-community/kube-prometheus-stack --namespace monitoring --version 9.3.4 --values ./helm/monitoring/prometheus-operator/values-azure-v9.3.4.yaml
 ```
 
 ```shell
@@ -339,7 +342,9 @@ kubectl -n global create secret generic aac-admin-creds --from-literal=username=
 To generate new key please follow the instructions available [Here](https://mkjwk.org/).
 
 ```shell
-kubectl -n global create secret generic aac-keystore --from-file=helm/aac/config/keystore.jwks
+kubectl -n global create secret generic aac-bootstrap --from-file=helm/aac/config/keystore.jwks
+
+kubectl -n global create secret generic aac-keystore --from-file=helm/aac/config/config.yaml
 ```
 
 Install AAC
@@ -350,6 +355,27 @@ helm upgrade --install  aac ./charts/aac/ --namespace global --values ./helm/aac
 
 ```shell
 kubectl apply -f helm/istio/aac-virtual-service.yml
+```
+#### AAC-Org
+
+Install AAC-Org
+
+```shell
+kubectl -n global create secret generic aac-org-aac-creds \
+ --from-literal=username=p80FwZoM-DDu7-in1g-7bzE-Bf0E-w8NGfm8yCNFh \
+ --from-literal=password=8YPzXXTs-cgx3-G9DI-QXF3-WP1x-Mz43IyZPXJD4
+```
+
+```shell
+helm upgrade --install aac-org ./charts/aac-org --namespace global --values ./helm/aac-org/aac-org-values.yaml
+```
+
+```shell
+kubectl apply -f helm/istio/aac-org-virtual-service.yml
+```
+
+```shell
+TO DO
 ```
 
 #### Api-Manager

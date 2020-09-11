@@ -6,8 +6,11 @@ metadata:
   labels:
   {{- include "aac-org.labels" . | nindent 4 }}
 data:
-  APPLICATION_URL: {{ .Values.application_url }}
-  OAUTH2_ISSUER_URI: {{ .Values.aac.issuer_uri}}
-  AAC_URI: {{ .Values.aac.uri}}
-  LOG_LEVEL: {{ .Values.loglevel }}
+  SERVER_PORT: {{ .Values.serverPort | quote }}
+  OMC_SERVER_SERVLET_SESSION_COOKIE_NAME: {{ .Values.sessionCookieName }}
+  MANAGEMENT_PORT: {{ .Values.managementPort | quote }}
+  APPLICATION_URL: {{ .Values.applicationUrl }}
+  LOG_LEVEL: {{ .Values.logLevel }}
   JAVA_OPTS: {{ .Values.javaOpts | default "-XX:MaxRAMFraction=2" }}
+  OAUTH2_ISSUER_URI: {{ .Values.aac.issuerUri }}
+  AAC_URI: {{ .Values.aac.uri }}

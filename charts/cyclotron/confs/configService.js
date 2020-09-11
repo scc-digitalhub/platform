@@ -22,7 +22,7 @@ cyclotronServices.factory('configService', ['commonConfigService', function(comm
   exports = {
     restServiceUrl: '{{ .Values.svc.url }}/api',
     authentication: {
-      enable: '{{ .Values.auth.enabled }}',
+      enable: {{ .Values.auth.enabled }},
       authProvider: '{{ .Values.auth.provider }}',
       authorizationURL: '{{ .Values.auth.authorizationURL }}',
       clientID: '{{ .Values.auth.clientId }}',

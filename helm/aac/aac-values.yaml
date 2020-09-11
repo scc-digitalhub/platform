@@ -16,7 +16,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/aac
-  tag: b38c9ac
+  tag: b875029
   pullPolicy: IfNotPresent
 
 resources:
@@ -130,7 +130,7 @@ clientRedirectUris:
   resource-manager:
     - https://resource-manager.config-test.smartcommunitylab.it/
   aac-org:
-    - https://aac-org.config-test.smartcommunitylab.it/
+    - https://orgmanager.config-test.smartcommunitylab.it/
   cyclotron:
     - https://cyclotron.config-test.smartcommunitylab.it/
     - https://cyclotron.config-test.smartcommunitylab.it

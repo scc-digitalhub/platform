@@ -112,8 +112,8 @@ spec:
         {{- end }}
         {{- if .Values.externalBootstrapFile.enabled }}
         - name: bootstrap
-          mountPath: {{ .Values.bootstrapFile.filePath }}/{{ .Values.bootstrapFile.fileName }}
-          subPath: {{ .Values.bootstrapFile.fileName }}
+          mountPath: {{ .Values.externalBootstrapFile.filePath }}/{{ .Values.externalBootstrapFile.fileName }}
+          subPath: {{ .Values.externalBootstrapFile.fileName }}
           readOnly: true
         {{ else }}
         - name: bootstrap

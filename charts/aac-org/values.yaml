@@ -7,7 +7,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/aac-org
-  tag: 3.1-beta4
+  tag: latest
   pullPolicy: IfNotPresent
 
 serviceAccount:
@@ -53,7 +53,7 @@ strategy:
 
 service:
   portName: http
-  port: 7079
+  port: 7979
   # extraPorts:
 
 ingress:
@@ -69,18 +69,20 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-externalDatabase:
-  enabled: false
-  uri: "jdbc:mysql://mysql:3306/aac?useSSL=false"
-  existingSecret: ""
-  userKey: ""
-  passwordKey: ""
+serverPort: "7979"
+sessionCookieName: "ORGMANAGERSESSIONID"
+managementPort: "7878"
+applicationUrl: ""
+logLevel: "INFO"
+javaOpts: ""
 
 aac:
   enabled: false
   existingSecret: ""
-  consumerKey: ""
-  consumerSecretKey: ""
+  clientIdKey: ""
+  clientSecretKey: ""
+  issuerUri: ""
+  uri: ""
 
 nodeSelector: {}
 

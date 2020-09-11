@@ -7,7 +7,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/aac-org
-  tag: "1.2-beta"
+  tag: "4a3d8db"
   pullPolicy: IfNotPresent
 
 serviceAccount:
@@ -65,30 +65,20 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-externalDatabase:
-  enabled: true
-  uri: "jdbc:mysql://mysql:3306/aac?useSSL=false"
-  existingSecret: "aac-org-db-creds"
-  userKey: "username"
-  passwordKey: "password"
+serverPort: "7979"
+sessionCookieName: "ORGMANAGERSESSIONID"
+managementPort: "7878"
+applicationUrl: https://orgmanager.kube-test.smartcommunitylab.it
+loglevel: "TRACE"
+javaOpts: "-XX:+UseContainerSupport -XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=80.0"
 
 aac:
   enabled: true
   existingSecret: "aac-org-aac-creds"
-  consumerKey: "username"
-  consumerSecretKey: "password"
-  uri: "https://aac.kube-test.smartcommunitylab.it"
-  oauth:
-    auth_uri: "https://aac.kube-test.smartcommunitylab.it/eauth/authorize"
-    token_uri: "https://aac.kube-test.smartcommunitylab.it/oauth/token"
-    scopes: "profile,email,user.roles.me"
-    jwk_uri: "https://aac.kube-test.smartcommunitylab.it/jwk"
-
-application_url: https://orgmanager.kube-test.smartcommunitylab.it
-loglevel: "DEBUG"
-
-javaOpts: "-XX:+UseContainerSupport -XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=80.0"
-
+  clientIdKey: "username"
+  clientSecretKey: "password"
+  issuerUri: "https://aac.config-test.smartcommunitylab.it"
+  uri: "https://aac.config-test.smartcommunitylab.it"
 
 nodeSelector: {}
 
