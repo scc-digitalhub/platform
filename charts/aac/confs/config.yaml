@@ -24,6 +24,7 @@ bootstrap:
       - user.roles.me
       - "apim:api_view"
       - "apim:api_create"
+      - clientmanagement
       secret: {{ template "aac.rand" . }}
       trusted: false
     - name: gatekeeper
@@ -133,6 +134,7 @@ bootstrap:
         ]
     - name: jhub
       id: {{ template "aac.rand" . }}
+      claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKKiovCmZ1bmN0aW9uIGNsYWltTWFwcGluZyhjbGFpbXMpIHsKICAgIHZhciBzcGFjZSA9IGNsYWltc1snc3BhY2UnXTsKICAgIGlmKCBBcnJheS5pc0FycmF5KGNsYWltc1snc3BhY2UnXSkpIHsKICAgICAgICBzcGFjZSA9IGNsYWltc1snc3BhY2UnXVswXTsgICAKICAgIH0KICAgIGNsYWltc1snamh1YnRlbmFudCddID0gIHNwYWNlLnJlcGxhY2UoIi4iLCItIikKICAgIHJldHVybiBjbGFpbXM7Cn0=
       developer: admin
       grantTypes:
       - implicit
@@ -151,6 +153,8 @@ bootstrap:
       - user.roles.me
       secret: {{ template "aac.rand" . }}
       trusted: false
+      uniqueSpaces:
+      - components/jupyterhub
     - name: cyclotron
       id: {{ template "aac.rand" . }}
       developer: admin

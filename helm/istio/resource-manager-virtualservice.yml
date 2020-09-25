@@ -5,12 +5,12 @@ metadata:
   namespace: global
 spec:
   hosts:
-  - "rm.config-test.smartcommunitylab.it"
+  - "rm.kube-test.smartcommunitylab.it"
   gateways:
   - global-gateway
   http:
   - route:
     - destination:
-        host: resource-manager.global.svc.cluster.local
+        host: rm-resource-manager.global.svc.cluster.local
         port:
           number: 8080

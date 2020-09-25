@@ -7,7 +7,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/wso2am
-  tag: 2.6.0-c5f1b7c
+  tag: 2.6.0-b260946
   pullPolicy: IfNotPresent
 
 serviceAccount:
@@ -87,18 +87,17 @@ externalKeystore:
   truststorePassKey: "truststore"
 
 env:
-  APIM_REVERSEPROXY: api.config-test.smartcommunitylab.it
-  APIM_GATEWAYENDPOINT: gw.config-test.smartcommunitylab.it
-  AAC_REVERSEPROXY: https://aac.config-test.smartcommunitylab.it
+  APIM_REVERSEPROXY: api.kube-test.smartcommunitylab.it
+  APIM_GATEWAYENDPOINT: gw.kube-test.smartcommunitylab.it
+  AAC_REVERSEPROXY: https://aac.kube-test.smartcommunitylab.it
   APIM_MYSQL_HOSTNAME: mysql.databases
-  AAC_INTROSPECTION_URL: /oauth/introspect
   ANALYTICS_ENABLED: "true"
   APIM_KEYSTORE_FILENAME: "apigwself.jks"
   # APIM_KEYSTORE_PASS: "kubetest"
   APIM_KEYSTORE_KEYALIAS: "apigwself"
   APIM_TRUSTSTORE_FILENAME: "client-truststore.jks"
   # APIM_TRUSTSTORE_PASS: "kubetest"
-  AAC_HOSTNAME: https://aac.config-test.smartcommunitylab.it
+  AAC_HOSTNAME: https://aac.kube-test.smartcommunitylab.it
 
 ingress:
   enabled: false

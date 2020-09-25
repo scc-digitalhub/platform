@@ -22,7 +22,7 @@ serviceAccount:
 resources:
   limits:
     cpu: "1000m"
-    memory: "512Mi"
+    memory: "1024Mi"
   requests:
     cpu: "250m"
     memory: "256Mi"
@@ -85,9 +85,9 @@ smtp:
   server: ""
   port: ""
   protocol: ""
-  existingSecret: {}
-  userKey: {}
-  passwordKey: {}
+  existingSecret: ""
+  userKey: ""
+  passwordKey: ""
 
 externalKeystore:
   enabled: false
@@ -97,6 +97,7 @@ externalKeystore:
 
 externalBootstrapFile:
   enabled: false
+  apply: false
   existingSecret: ""
   filePath: ""
   fileName: ""

@@ -5,7 +5,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-  - "jhub.config-test.smartcommunitylab.it"
+  - "jhub.kube-test.smartcommunitylab.it"
   gateways:
   - global-gateway
   http:

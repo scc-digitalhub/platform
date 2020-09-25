@@ -5,7 +5,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-  - "nuclio.config-test.smartcommunitylab.it"
+  - "nuclio.kube-test.smartcommunitylab.it"
   gateways:
   - global-gateway
   http:

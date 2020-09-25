@@ -241,11 +241,11 @@ Official Documentation [Link](https://helm.sh/docs/intro/install/ "Helm Installa
 ```shell
 curl -L https://istio.io/downloadIstio | sh -
 
-cd istio-1.6.5
+cd istio-1.7.1
 
 export PATH=$PWD/bin:$PATH
 
-istioctl install --set profile=demo
+istioctl install --set profile=demo --set values.global.proxy.holdApplicationUntilProxyStarts=true
 ```
 
 Official Documentation [Link](https://istio.io/latest/docs/setup/getting-started/ "Istio  Installation Guide")
@@ -271,7 +271,7 @@ kubectl create namespace monitoring
 
 helm repo add loki https://grafana.github.io/loki/charts
 helm repo update
-helm upgrade --install loki loki/loki-stack --namespace monitoring --version 0.40.0 --values ./helm/monitoring/loki-stack/values-azure-v0.40.0.yaml
+helm upgrade --install loki loki/loki-stack --namespace monitoring --version 0.40.1 --values ./helm/monitoring/loki-stack/values-azure-v0.40.1.yaml
 ```
 
 #### Prometheus Operator (kube-prometheus-stack)
@@ -279,7 +279,7 @@ helm upgrade --install loki loki/loki-stack --namespace monitoring --version 0.4
 ```shell
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-helm upgrade --install prometheus-operator  prometheus-community/kube-prometheus-stack --namespace monitoring --version 9.3.4 --values ./helm/monitoring/prometheus-operator/values-azure-v9.3.4.yaml
+helm upgrade --install prometheus-operator  prometheus-community/kube-prometheus-stack --namespace monitoring --version 9.4.3 --values ./helm/monitoring/prometheus-operator/values-azure-v9.4.3.yaml
 ```
 
 ```shell
@@ -342,9 +342,7 @@ kubectl -n global create secret generic aac-admin-creds --from-literal=username=
 To generate new key please follow the instructions available [Here](https://mkjwk.org/).
 
 ```shell
-kubectl -n global create secret generic aac-bootstrap --from-file=helm/aac/config/keystore.jwks
-
-kubectl -n global create secret generic aac-keystore --from-file=helm/aac/config/config.yaml
+kubectl -n global create secret generic aac-keystore --from-file=helm/aac/config/keystore.jwks
 ```
 
 Install AAC
@@ -362,8 +360,8 @@ Install AAC-Org
 
 ```shell
 kubectl -n global create secret generic aac-org-aac-creds \
- --from-literal=username=p80FwZoM-DDu7-in1g-7bzE-Bf0E-w8NGfm8yCNFh \
- --from-literal=password=8YPzXXTs-cgx3-G9DI-QXF3-WP1x-Mz43IyZPXJD4
+ --from-literal=username=dCX9UNzK-q47c-t4d9-F6yf-4YDO-wCvj6Z4CR7Os \
+ --from-literal=password=PZAN48kL-ak62-u8PK-mT5q-8U2L-qpcfWFj2VCRt
 ```
 
 ```shell
@@ -387,8 +385,8 @@ kubectl -n global create secret generic api-manager-db-creds --from-literal=user
  --from-literal=password=wso2carbon
 
 kubectl -n global create secret generic api-manager-aac-creds \
- --from-literal=username=omQ70vxR-XE9P-3cHZ-A0de-1wId-fwCzURkUFou9 \
- --from-literal=password=YZ5v3qLn-3Lkn-D77F-6GJL-c1Bf-TU2bPLKc0oGW
+ --from-literal=username=uom9BViJ-c3pQ-Jb0E-xm1K-cV9U-rdpIOui4wQGn \
+ --from-literal=password=Jc1jc7yt-2HiH-05X3-53LO-5yDm-tK8WG1lDIU2t
 
 kubectl -n global create secret generic api-manager-admin-creds --from-literal=username=admin \
  --from-literal=password=admin
@@ -432,7 +430,7 @@ kubectl -n global create secret generic dss-db-creds --from-literal=username=wso
 
 kubectl -n global create secret generic dss-keystore-creds --from-literal=keystore=platform  --from-literal=truststore=platform
 
-kubectl -n global create secret generic dss-aac-creds --from-literal=username=oppnW6kY-VtZ7-Yyx6-0oAQ-BhN1-TMlpIeM6bvZo --from-literal=password=YGMUkmP5-8swI-d3sG-Ib4d-KXJ2-NjjNDCoiK7VN
+kubectl -n global create secret generic dss-aac-creds --from-literal=username=BBoAt563-1pNF-5OvS-2caE-W4rK-zG8Vbro5n2Km --from-literal=password=f0rjMnK5-NeF3-OV8d-g7jA-QiB0-Elm8AO0UzDXX
 
 ```
 Install DSS
@@ -454,6 +452,7 @@ kubectl apply -f helm/istio/dss-virtualservice.yml
 ```shell
 kubectl -n global create secret generic minio-creds --from-literal=accesskey=admin  --from-literal=secretkey=admin12345
 ```
+Configure applications **clientid** in minio-values.yaml
 
 ```shell
 helm upgrade --install minio stable/minio --namespace global --version 5.0.31 --values helm/minio/minio-values-v5.0.31.yaml
@@ -467,6 +466,8 @@ kubectl apply -f helm/istio/minio-virtualservice.yml
 ```shell
 kubectl -n global create secret generic grafana-creds --from-literal=admin-user=grafana  --from-literal=admin-password=grafana
 ```
+
+Configure applications **clientid** in grafana-values.yaml
 
 Install grafana
 
@@ -503,6 +504,7 @@ az acr update -n sclconfigtest --admin-enabled true
 
 az acr credential show -n sclconfigtest
 ```
+Configure applications **clientid** in nuclio-sys-values.yaml
 
 Create kuberentes secrets using azure container registy credentials:
 
@@ -540,8 +542,8 @@ openssl rand -base64 32
 
 ```shell
 kubectl -n global create secret generic gatekeeper-client-creds \
-  --from-literal=clientid=Pk1U7ks1-LoM0-MD72-CXY9-Fs2d-Ucju6NeBJ3fg \
-  --from-literal=clientsecret=3eWp50TL-ZD8F-P8TE-mH0m-6BcB-KNVGoMuY6sVT \
+  --from-literal=clientid=VwD2mWIY-dk7u-h7WA-5map-ZTB8-1hSX3UVwItMp \
+  --from-literal=clientsecret=63xurmJL-4KhJ-5SwF-0PtH-Ze3a-5YpKeQ1b3gLa \
   --from-literal=encryptionkey=63d9311968fc9a184dbe6b255d1556c0
 ```
 
@@ -567,8 +569,8 @@ kubectl -n global create secret generic nifi-keystore --from-file=keystore.jks -
 kubectl -n global create secret generic nifi-keystore-creds --from-literal=keystore=platform --from-literal=truststore=platform
 
 kubectl -n global create secret generic nifi-aac-creds \
-  --from-literal=username=Ta2hf9zR-Eb5M-JV7T-n7hm-A8m3-KhOzjXUV7R8R \
-  --from-literal=password=84OoMfbM-4ULC-7ehI-0Tqy-a0qV-ki9JKrORK4ve
+  --from-literal=username=6wLlM5LH-mg3R-Pr6E-mG4W-8YDM-64203Hf007dY \
+  --from-literal=password=T6lpdUIK-w2Ke-Z4X8-9tAz-Pk81-zMMpd0HZFKCe
 ```
 
 Install Nifi
@@ -593,6 +595,7 @@ TO DO
 kubectl create ns jhub
 ```
 
+Configure applications **clientid** in jupyterhub-values.yaml
 
 Install JupyterHub
 
@@ -611,6 +614,8 @@ TO DO
 #### Cyclotron
 
 Install Cyclotron
+
+Configure applications **clientid** in jupyterhub-values.yaml
 
 ```shell
 helm upgrade --install cyclotron charts/cyclotron/ --values helm/cyclotron/cyclotron-values.yaml --namespace global
@@ -656,9 +661,9 @@ kubectl get secret --namespace global mysql -o jsonpath="{.data.mysql-root-passw
 Create new secret with root username and password:
 
 ```shell
-kubectl -n global create secret generic mysql-creds --from-literal=username=root  --from-literal=password=yvudKY9R9F
+kubectl -n global create secret generic mysql-creds --from-literal=username=root  --from-literal=password=VI9PvSJGbg
 kubectl -n global create secret generic rs-db-creds --from-literal=username=rm --from-literal=password=rm
-kubectl -n global create secret generic rs-oauth-creds --from-literal=username=cZtSrl7O-m2xO-q2Oj-Abq9-FS4U-omn0M6hQOwui --from-literal=password=cZtSrl7O-m2xO-q2Oj-Abq9-FS4U-omn0M6hQOwui
+kubectl -n global create secret generic rs-oauth-creds --from-literal=username=4gefZIzy-wto8-n7nI-Cl9A-6abl-pEUMrnBGx3fv --from-literal=password=2uEieKZ8-Y5yo-h7mz-6HgF-tj5P-OBBV6TlihCK0
 ```
 Install resource-manager
 

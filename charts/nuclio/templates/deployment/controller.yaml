@@ -22,7 +22,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ template "nuclio.nuclioName" . }}
+      app: {{ template "nuclio.name" . }}
       release: {{ .Release.Name }}
       nuclio.io/app: controller
       nuclio.io/class: service
@@ -30,7 +30,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "nuclio.nuclioName" . }}
+        app: {{ template "nuclio.name" . }}
         release: {{ .Release.Name }}
         nuclio.io/app: controller
         nuclio.io/class: service
@@ -46,12 +46,15 @@ spec:
         imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
         env:
         - name: NUCLIO_CONTROLLER_IMAGE_PULL_SECRETS
-          value: {{ template "nuclio.registryCredentialsName" . }}
+          value: {{ template "nuclio.registry.credentialsSecretName" . }}
         - name: NUCLIO_CONTROLLER_CRON_TRIGGER_CRON_JOB_IMAGE_NAME
           value: {{ .Values.controller.cronTriggerCronJobImage.repository }}:{{ .Values.controller.cronTriggerCronJobImage.tag }}
         - name: NUCLIO_CONTROLLER_CRON_TRIGGER_CRON_JOB_IMAGE_PULL_POLICY
           value: {{ .Values.controller.cronTriggerCronJobImage.pullPolicy }}
-        {{- if (or (.Values.controller.namespace) (.Values.namespaceOverride)) }}
+        {{- if (and (.Values.controller.namespace) (not (.Values.namespaceOverride))) }}
+        - name: NUCLIO_CONTROLLER_NAMESPACE
+          value: {{ .Values.controller.namespace | quote }}
+        {{- else if  (.Values.namespaceOverride) }}
         - name: NUCLIO_CONTROLLER_NAMESPACE
           value: {{ .Values.namespaceOverride | quote }}
         {{- end }}
@@ -70,6 +73,6 @@ spec:
       volumes:
       - name: platform-config
         configMap:
-          name: {{ template "nuclio.platformName" . }}
+          name: {{ template "nuclio.platformConfigName" . }}
       {{- end }}
 {{- end }}

@@ -5,7 +5,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-  - "dss.config-test.smartcommunitylab.it"
+  - "dss.kube-test.smartcommunitylab.it"
   gateways:
   - global-gateway
   http:

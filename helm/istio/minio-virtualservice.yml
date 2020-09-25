@@ -5,7 +5,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-  - "minio.config-test.smartcommunitylab.it"
+  - "minio.kube-test.smartcommunitylab.it"
   gateways:
   - global-gateway
   http:

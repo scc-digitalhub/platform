@@ -71,13 +71,13 @@ env:
     TRUSTSTORE_PATH: /opt/nifi/nifi-current/certs/truststore.jks
     TRUSTSTORE_TYPE: JKS
     INITIAL_ADMIN_IDENTITY: 'admin'
-    NIFI_WEB_PROXY_HOST: 'nifi.config-test.smartcommunitylab.it:443'
-    NIFI_SECURITY_USER_OIDC_DISCOVERY_URL: 'https://aac.config-test.smartcommunitylab.it/.well-known/openid-configuration'
+    NIFI_WEB_PROXY_HOST: 'nifi.kube-test.smartcommunitylab.it:443'
+    NIFI_SECURITY_USER_OIDC_DISCOVERY_URL: 'https://aac.kube-test.smartcommunitylab.it/.well-known/openid-configuration'
     NIFI_WEB_HTTPS_HOST: nifi.global.svc.cluster.local
     NIFI_WEB_HTTP_HOST: nifi.global.svc.cluster.local
     NIFI_SECURITY_USER_OIDC_ADDITIONAL_SCOPES: 'user.roles.me'
-    NIFI_SEC_ID_MAPPING_PATTERN: ^OU=(.*?), CN=(.*?)$
-    NIFI_SEC_ID_MAPPING_VALUE: $2
+    NIFI_SEC_ID_MAPPING_PATTERN: ^CN=(.*?), OU=(.*?)$
+    NIFI_SEC_ID_MAPPING_VALUE: $1
 
 ingress:
   enabled: false

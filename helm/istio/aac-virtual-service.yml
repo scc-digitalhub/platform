@@ -5,7 +5,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-    - "aac.config-test.smartcommunitylab.it"
+    - "aac.kube-test.smartcommunitylab.it"
   gateways:
     - global-gateway
   http:

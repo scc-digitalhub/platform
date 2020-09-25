@@ -68,7 +68,7 @@ service:
     port: 8086
     targetPort: 8086
 
-externalUrl: "https://rm.config-test.smartcommunitylab.it"
+externalUrl: "https://rm.kube-test.smartcommunitylab.it"
 javaOpts: "-XX:+UseContainerSupport -XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=80.0"
 
 externalDatabase:
@@ -80,10 +80,10 @@ externalDatabase:
 
 oauth:
   enabled: true
-  tokenUri: "https://aac.config-test.smartcommunitylab.it/oauth/token"
-  authUri: "https://aac.config-test.smartcommunitylab.it/eauth/authorize"
-  userInfoUri: "https://aac.config-test.smartcommunitylab.it/userinfo"
-  issuerUri: "https://aac.config-test.smartcommunitylab.it"
+  tokenUri: "https://aac.kube-test.smartcommunitylab.it/oauth/token"
+  authUri: "https://aac.kube-test.smartcommunitylab.it/eauth/authorize"
+  userInfoUri: "https://aac.kube-test.smartcommunitylab.it/userinfo"
+  issuerUri: "https://aac.kube-test.smartcommunitylab.it"
   existingSecret: "rs-oauth-creds"
   clientIdKey: "username"
   clientSecretKey: "password"

@@ -84,13 +84,13 @@ admin:
   passwordKey: "password"
 
 env:
-  DSS_SERVER_URL: https://dss.config-test.smartcommunitylab.it
-  DSS_REVERSEPROXY: dss.config-test.smartcommunitylab.it
-  AAC_HOSTNAME: https://aac.config-test.smartcommunitylab.it
-  AAC_REVERSEPROXY: https://aac.config-test.smartcommunitylab.it
+  DSS_SERVER_URL: https://dss.kube-test.smartcommunitylab.it
+  DSS_REVERSEPROXY: dss.kube-test.smartcommunitylab.it
+  AAC_HOSTNAME: https://aac.kube-test.smartcommunitylab.it
+  AAC_REVERSEPROXY: https://aac.kube-test.smartcommunitylab.it
   MYSQL_HOSTNAME: mysql.databases
   DSS_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
-  DSS_ROLE_CONTEXT: components/dss.com
+  DSS_ROLE_CONTEXT: components/dss
   DSS_PORT: "443"
   DSS_KEYSTORE_FILENAME: "dss.jks"
   DSS_KEYSTORE_KEYALIAS: "dss"

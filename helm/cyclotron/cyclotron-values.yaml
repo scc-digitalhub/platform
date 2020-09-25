@@ -7,16 +7,16 @@ auth:
   enabled: true
   provider: "aac"
   useJWT: true
-  clientId: "HVfl2prH-I56z-bG6I-C2iF-l3nM-rI8Kn2ovMS3g"
-  clientSecret: "P3zszGO5-IDU5-oN1c-l1Cz-0W7H-WsIpabhl3K1M"
-  issuer: "https://aac.config-test.smartcommunitylab.it"
-  jwksEndpoint: "https://aac.config-test.smartcommunitylab.it/jwk"
-  tokenIntrospectionEndpoint: "https://aac.config-test.smartcommunitylab.it/oauth/introspect"
-  userProfileEndpoint: "https://aac.config-test.smartcommunitylab.it/userinfo"
+  clientId: "xaqkd7Tf-8dwN-p4iU-prh3-ga9r-qRiJSBKvoW1Q"
+  clientSecret: "TEz9bqTA-57HD-h3hY-mD3q-NM0V-Asm08fMvnio3"
+  issuer: "https://aac.kube-test.smartcommunitylab.it"
+  jwksEndpoint: "https://aac.kube-test.smartcommunitylab.it/jwk"
+  tokenIntrospectionEndpoint: "https://aac.kube-test.smartcommunitylab.it/oauth/introspect"
+  userProfileEndpoint: "https://aac.kube-test.smartcommunitylab.it/userinfo"
   parentSpace: "components/cyclotron"
   editorRoles: "'ROLE_PROVIDER','ROLE_EDITOR'"
-  authorizationURL: "https://aac.config-test.smartcommunitylab.it/eauth/authorize"
-  callbackDomain: "https://cyclotron.config-test.smartcommunitylab.it/"
+  authorizationURL: "https://aac.kube-test.smartcommunitylab.it/eauth/authorize"
+  callbackDomain: "https://cyclotron.kube-test.smartcommunitylab.it/"
   scopes: "openid profile user.roles.me"
 
 site:
@@ -83,7 +83,7 @@ site:
     annotations: {}
 
 svc:
-  url: "https://cyclotron.config-test.smartcommunitylab.it"
+  url: "https://cyclotron.kube-test.smartcommunitylab.it"
   image:
     repository: smartcommunitylab/cyclotron-svc
     tag: 5aaad43

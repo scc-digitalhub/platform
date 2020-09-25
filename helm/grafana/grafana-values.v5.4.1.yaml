@@ -409,15 +409,15 @@ grafana.ini:
   grafana_net:
     url: https://grafana.net
   server:
-    root_url: "https://grafana.config-test.smartcommunitylab.it"
+    root_url: "https://grafana.kube-test.smartcommunitylab.it"
   auth.generic_oauth:
     enabled: true
-    client_id: zi1HU09n-tnL8-Ibh0-w3gI-b6Xg-mzNaIfU5ZYBE
-    client_secret: KosZQ6tS-3UZM-2nta-MaD7-F3ks-0coCOSSpbhSB
+    client_id: IpCWr8Qm-ME2f-Pmm8-16oo-YN2D-nCzg26sVx3qR
+    client_secret: vO7lj3C4-x0oj-EGI2-G4ZO-Jzw8-sAGNVnQVnz8g
     scopes: profile, email, user.roles.me, openid
-    auth_url: https://aac.config-test.smartcommunitylab.it/eauth/authorize
-    token_url: https://aac.config-test.smartcommunitylab.it/oauth/token
-    api_url: https://aac.config-test.smartcommunitylab.it/userinfo
+    auth_url: https://aac.kube-test.smartcommunitylab.it/eauth/authorize
+    token_url: https://aac.kube-test.smartcommunitylab.it/oauth/token
+    api_url: https://aac.kube-test.smartcommunitylab.it/userinfo
     # allowed_domains: fbk.eu
     allow_sign_up: true
     email_attribute_name: email

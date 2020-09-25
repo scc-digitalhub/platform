@@ -13,3 +13,7 @@ spec:
         number: 9443
       tls:
         mode: SIMPLE
+    - port:
+        number: 8243
+      tls:
+        mode: SIMPLE

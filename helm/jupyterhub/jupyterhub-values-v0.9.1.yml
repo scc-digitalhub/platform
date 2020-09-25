@@ -43,9 +43,9 @@ hub:
   extraConfig: {}
   extraConfigMap: {}
   extraEnv:
-    OAUTH2_AUTHORIZE_URL: https://aac.config-test.smartcommunitylab.it/eauth/authorize
-    OAUTH2_TOKEN_URL: https://aac.config-test.smartcommunitylab.it/oauth/token
-    OAUTH_CALLBACK_URL: https://jhub.config-test.smartcommunitylab.it/hub/oauth_callback
+    OAUTH2_AUTHORIZE_URL: https://aac.kube-test.smartcommunitylab.it/eauth/authorize
+    OAUTH2_TOKEN_URL: https://aac.kube-test.smartcommunitylab.it/oauth/token
+    OAUTH_CALLBACK_URL: https://jhub.kube-test.smartcommunitylab.it/hub/oauth_callback
     OAUTH2_USERNAME_KEY: preferred_username
   extraContainers: []
   extraVolumes: []
@@ -217,10 +217,10 @@ auth:
     className: oauthenticator.generic.GenericOAuthenticator
     config:
       login_service: "aac"
-      client_id: "x2c85V8X-w0QP-tT6y-YAJ6-9qYq-Sjp0ESn1RVsP"
-      client_secret: "BQrqR1Wi-7Osk-F9wo-Bkc2-lXV2-SNgth9w7Tkxz"
-      token_url: https://aac.config-test.smartcommunitylab.it/oauth/token
-      userdata_url: https://aac.config-test.smartcommunitylab.it/userinfo
+      client_id: "qxAtK8o0-6zEK-FrP7-IR1P-hf4x-4NW7pmtO87ip"
+      client_secret: "8j3CjT2i-t295-3K6u-b9xj-L5tp-MZ8pVYYXSkYl"
+      token_url: https://aac.kube-test.smartcommunitylab.it/oauth/token
+      userdata_url: https://aac.kube-test.smartcommunitylab.it/userinfo
       userdata_method: GET
       # userdata_params: {'state': 'state'}
       username_key: jhubtenant

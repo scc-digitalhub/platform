@@ -5,7 +5,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-    - "grafana.config-test.smartcommunitylab.it"
+    - "grafana.kube-test.smartcommunitylab.it"
   gateways:
     - global-gateway
   http:

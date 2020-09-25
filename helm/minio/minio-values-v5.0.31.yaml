@@ -296,8 +296,8 @@ b2gateway:
 environment:
   MINIO_API_READY_DEADLINE: "5s"
   ## Please refer for comprehensive list https://docs.minio.io/docs/minio-server-configuration-guide.html
-  MINIO_IDENTITY_OPENID_CONFIG_URL: https://aac.config-test.smartcommunitylab.it/.well-known/openid-configuration
-  MINIO_IDENTITY_OPENID_CLIENT_ID: "WRCv7N2k-i1la-2Itz-Kp7g-l3pT-X6h19vQopVGK"
+  MINIO_IDENTITY_OPENID_CONFIG_URL: https://aac.kube-test.smartcommunitylab.it/.well-known/openid-configuration
+  MINIO_IDENTITY_OPENID_CLIENT_ID: "gITQ9GEj-O1Gb-y6Hu-Dt4n-BF0I-D34i67MMqmnQ"
   MINIO_IDENTITY_OPENID_CLAIM_NAME: "miniopolicy"
   MINIO_IDENTITY_OPENID_CLAIM_PREFIX: ""
   MINIO_IDENTITY_OPENID_SCOPES: "openid, user.roles.me, profile"

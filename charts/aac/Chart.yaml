@@ -2,7 +2,7 @@ apiVersion: v2
 name: aac
 description: This module exposes the OAuth2.0 protocol functionality for user authentication and for the authorization of resource access (e.g., APIs). The module allows for managing user registration and for authenticating user using social accounts, in particular Google+ and Facebook. Besides, this component manages the role assignment to users used in the resource access authorization.
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: 3.1.0
 maintainers:
   - name: ffais

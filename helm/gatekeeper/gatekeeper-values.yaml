@@ -6,7 +6,7 @@ replicaCount: 1
 annotations: {}
 
 image:
-  repository: keycloak/keycloak-gatekeeper
+  repository: quay.io/louketo/louketo-proxy
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -72,21 +72,21 @@ options:
   config-file: ""
   listen: "127.0.0.1:3000"
   listen_http: ""
-  discovery-url: "https://aac.config-test.smartcommunitylab.it"
+  discovery-url: "https://aac.kube-test.smartcommunitylab.it"
   client-id: ""
   client-secret: ""
-  redirection-url: ""
+  redirection-url: "https://nuclio.kube-test.smartcommunitylab.it"
   revocation-url: ""
   base-uri: ""
   oauth-uri: ""
-  upstream-url: "https://nuclio-internal.config-test.smartcommunitylab.it"
+  upstream-url: "https://nuclio-internal.kube-test.smartcommunitylab.it"
   request-id-header: ""
   enable-self-signed-tls: ""
   enable-request-id: ""
   enable-security-filter: ""
   enable-refresh-tokens: "true"
   enable-login-handler: ""
-  enable-authorization-header: ""
+  enable-authorization-header: "false"
   enable-authorization-cookies: ""
   client-auth-method: ""
   encryption-key: ""
@@ -95,3 +95,8 @@ options:
   scopes: "user.roles.me"
   add-claims: "Space"
   enable-default-deny: "true"
+  enable-json-logging: "true"
+  enable-logging: "true"
+  enable-request-id: "true"
+  enable-security-filter: "true"
+  verbose: "true"

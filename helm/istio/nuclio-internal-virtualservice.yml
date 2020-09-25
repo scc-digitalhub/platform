@@ -5,7 +5,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-  - "nuclio-internal.config-test.smartcommunitylab.it"
+  - "nuclio-internal.kube-test.smartcommunitylab.it"
   gateways:
   - global-gateway
   http:
@@ -43,6 +43,7 @@ spec:
           remove:
             - "Cookie"
             - "Set-Cookie"
+            - "X-Auth-Token"
     - route:
       - destination:
           host: gatekeeper.global.svc.cluster.local

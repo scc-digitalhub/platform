@@ -1,6 +1,8 @@
-namespaceOverride: "sys"
+# possible release name overrides
 nameOverride: "nuclio-sys"
+# fullnameOverride:
 
+namespaceOverride: "sys"
 # if true, all components assume no internet connectivity
 offline: false
 
@@ -9,7 +11,7 @@ controller:
   enabled: true
   image:
     repository: quay.io/nuclio/controller
-    tag: 1.4.17-amd64
+    tag: 1.4.10-amd64
     pullPolicy: IfNotPresent
 
   # Uncomment to have the controller to listen only the namespace's events,
@@ -36,7 +38,7 @@ dashboard:
   replicas: 1
   image:
     repository: smartcommunitylab/nuclio-dashboard
-    tag: 1.4.17-amd64
+    tag: 1.4.10-amd64
     pullPolicy: IfNotPresent
   baseImagePullPolicy: IfNotPresent
   externalIPAddresses: []
@@ -88,7 +90,7 @@ autoscaler:
   replicas: 1
   image:
     repository: quay.io/nuclio/autoscaler
-    tag: 1.4.17-amd64
+    tag: 1.4.10-amd64
     pullPolicy: IfNotPresent
 
 dlx:
@@ -96,7 +98,7 @@ dlx:
   replicas: 1
   image:
     repository: quay.io/nuclio/dlx
-    tag: 1.4.17-amd64
+    tag: 1.4.10-amd64
     pullPolicy: IfNotPresent
 
 registry:
@@ -176,36 +178,45 @@ crd:
   # If true, creates cluster wide custom resources definitions for nuclio's resources
   create: true
 
-platform: {}
-#   logger:
-#     sinks:
-#       myHumanReadableStdout:
-#         kind: stdout
-#         format: humanReadable
-#     system:
-#     - level: debug
-#       sink: myHumanReadableStdout
-#     functions:
-#     - level: debug
-#       sink: myHumanReadableStdout
-#   metrics:
-#     sinks:
-#       myPrometheusPull:
-#         kind: prometheusPull
-#     system:
-#     - myPrometheusPull
-#     functions:
-#     - myPrometheusPull
+platform:
+  logger:
+    sinks:
+      myHumanReadableStdout:
+        kind: stdout
+        format: humanReadable
+    system:
+    - level: trace
+      sink: myHumanReadableStdout
+    functions:
+    - level: trace
+      sink: myHumanReadableStdout
+  # metrics:
+  #   sinks:
+  #     myPrometheusPull:
+  #       kind: prometheusPull
+  #   system:
+  #   - myPrometheusPull
+  #   functions:
+  #   - myPrometheusPull
+  # cronTriggerCreationMode: "kube"
+  # kube:
+  #   defaultServiceType: NodePort
+
+# global is a stanza that is used if this is used as a subchart. Ignore otherwise
+global:
+  registry:
+    url:
+    secretName:
 
 sysfunction:
   grafana:
     enabled: true
-    aacjwkurl: "https://aac.config-test.smartcommunitylab.it/jwk"
-    aacresourceid: "zi1HU09n-tnL8-Ibh0-w3gI-b6Xg-mzNaIfU5ZYBE"
-    grafanaauth: "Bearer Z3JhZmFuYTpncmFmYW5h"
-    grafanaendpoint: "https://grafana.config-test.smartcommunitylab.it"
+    aacjwkurl: "https://aac.kube-test.smartcommunitylab.it/jwk"
+    aacresourceid: "IpCWr8Qm-ME2f-Pmm8-16oo-YN2D-nCzg26sVx3qR"
+    grafanaauth: "Basic Z3JhZmFuYTpncmFmYW5h"
+    grafanaendpoint: "https://grafana.kube-test.smartcommunitylab.it"
   nifi:
     enabled: true
-    aacjwkurl: "https://aac.config-test.smartcommunitylab.it/jwk"
-    aacresourceid: "Ta2hf9zR-Eb5M-JV7T-n7hm-A8m3-KhOzjXUV7R8R"
+    aacjwkurl: "https://aac.kube-test.smartcommunitylab.it/jwk"
+    aacclientid: "6wLlM5LH-mg3R-Pr6E-mG4W-8YDM-64203Hf007dY"
     nifiendpoint: "https://nifi.global.svc.cluster.local:8443/nifi-api"

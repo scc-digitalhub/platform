@@ -5,7 +5,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-  - "nifi.config-test.smartcommunitylab.it"
+  - "nifi.kube-test.smartcommunitylab.it"
   gateways:
   - global-gateway
   http:
@@ -13,7 +13,7 @@ spec:
       request:
         add:
           X-ProxyScheme: https
-          X-ProxyHost: nifi.config-test.smartcommunitylab.it
+          X-ProxyHost: nifi.kube-test.smartcommunitylab.it
           X-ProxyPort: "443"
     route:
     - destination:

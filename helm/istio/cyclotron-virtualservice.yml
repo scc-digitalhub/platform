@@ -5,7 +5,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-    - "cyclotron.config-test.smartcommunitylab.it"
+    - "cyclotron.kube-test.smartcommunitylab.it"
   gateways:
     - global-gateway
   http:

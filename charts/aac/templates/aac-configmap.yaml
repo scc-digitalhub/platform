@@ -24,10 +24,10 @@ data:
   JWK_KEYSTORE: file://{{ .Values.externalKeystore.filePath }}/{{ .Values.externalKeystore.fileName }}
   {{- end }}
   {{- if .Values.externalBootstrapFile.enabled }}
-  BOOTSTRAP_APPLY: "true"
+  BOOTSTRAP_APPLY: {{ .Values.externalBootstrapFile.apply | quote }}
   BOOTSTRAP: file://{{ .Values.externalBootstrapFile.filePath }}/{{ .Values.externalBootstrapFile.fileName }}
   {{ else }}
-  BOOTSTRAP_APPLY: "true"
+  BOOTSTRAP_APPLY: {{ .Values.externalBootstrapFile.apply | quote }}
   BOOTSTRAP: file:///home/aac/confs/config.yaml
   {{- end }}
   REMEMBER_ME_KEY: {{ randAlphaNum 40 | b64enc | quote }}

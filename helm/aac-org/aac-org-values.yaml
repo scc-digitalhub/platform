@@ -7,7 +7,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/aac-org
-  tag: "4a3d8db"
+  tag: "0c22da7"
   pullPolicy: IfNotPresent
 
 serviceAccount:
@@ -77,8 +77,8 @@ aac:
   existingSecret: "aac-org-aac-creds"
   clientIdKey: "username"
   clientSecretKey: "password"
-  issuerUri: "https://aac.config-test.smartcommunitylab.it"
-  uri: "https://aac.config-test.smartcommunitylab.it"
+  issuerUri: "https://aac.kube-test.smartcommunitylab.it"
+  uri: "https://aac.kube-test.smartcommunitylab.it"
 
 nodeSelector: {}
 

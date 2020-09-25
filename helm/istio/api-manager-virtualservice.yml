@@ -5,7 +5,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-  - "api.config-test.smartcommunitylab.it"
+  - "api.kube-test.smartcommunitylab.it"
   gateways:
   - global-gateway
   http:
@@ -22,7 +22,7 @@ metadata:
   namespace: global
 spec:
   hosts:
-  - "gw.config-test.smartcommunitylab.it"
+  - "gw.kube-test.smartcommunitylab.it"
   gateways:
   - global-gateway
   http:

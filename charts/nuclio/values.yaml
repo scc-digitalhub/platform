@@ -1,5 +1,8 @@
+# possible release name overrides
+# nameOverride:
+# fullnameOverride:
+
 namespaceOverride: ""
-nameOverride: ""
 # if true, all components assume no internet connectivity
 offline: false
 
@@ -87,7 +90,7 @@ autoscaler:
   replicas: 1
   image:
     repository: quay.io/nuclio/autoscaler
-    tag: 1.4.10-amd64
+    tag: 1.4.17-amd64
     pullPolicy: IfNotPresent
 
 dlx:
@@ -196,6 +199,15 @@ platform: {}
 #     - myPrometheusPull
 #     functions:
 #     - myPrometheusPull
+#   cronTriggerCreationMode: "kube"
+#   kube:
+#     defaultServiceType: NodePort
+
+# global is a stanza that is used if this is used as a subchart. Ignore otherwise
+global:
+  registry:
+    url:
+    secretName:
 
 sysfunction:
   grafana:
@@ -207,5 +219,6 @@ sysfunction:
   nifi:
     enabled: false
     aacjwkurl: ""
-    aacresourceid: ""
+    aacclientid: ""
     nifiendpoint: ""
+    nifi_certificate_passw: ""
