@@ -118,16 +118,49 @@ javaOpts: "-XX:MaxRAMFraction=2"
 
 externalUrl: ""
 
-clientRedirectUris:
-  api-manager: []
-  dss: []
-  minio: []
-  gatekeeper: []
-  nifi: []
-  jhub: []
-  grafana: []
-  resource-manager: []
-  aac-org: []
+randomClientIdSecret: true
+
+defaultClientApplication:
+  apiManager:
+    redirectUris: []
+    # clientId: ""
+    # clientSecret: ""
+  dss:
+    redirectUris: []
+    # clientId: ""
+    # clientSecret: ""
+  minio:
+    redirectUris: []
+    # clientId: ""
+    # clientSecret: ""
+  gatekeeper:
+    redirectUris: []
+    # clientId: ""
+    # clientSecret: ""
+  nifi:
+    redirectUris: []
+    # clientId: ""
+    # clientSecret: ""
+  jhub:
+    redirectUris: []
+    # clientId: ""
+    # clientSecret: ""
+  grafana:
+    redirectUris: []
+    # clientId: ""
+    # clientSecret: ""
+  resourceManager:
+    redirectUris: []
+    # clientId: ""
+    # clientSecret: ""
+  aacOrg:
+    redirectUris: []
+    # clientId: ""
+    # clientSecret: ""
+  cyclotron:
+    redirectUris: []
+    # clientId: ""
+    # clientSecret: ""
 
 accessTokenValidity: ""
 refreshTokenValidity: ""

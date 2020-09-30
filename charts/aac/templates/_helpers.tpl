@@ -72,6 +72,9 @@ Allow the release namespace to be overridden for multi-namespace deployments in 
     {{- .Release.Namespace -}}
   {{- end -}}
 {{- end -}}
+{{/*
+Generate AAC Client ID and Client Secrets
+*/}}
 {{- define "aac.rand" -}}
 {{ randAlphaNum 8 }}-{{ randAlphaNum 4 }}-{{ randAlphaNum 4 }}-{{ randAlphaNum 4 }}-{{ randAlphaNum 4 }}-{{ randAlphaNum 12 }}
 {{- end -}}

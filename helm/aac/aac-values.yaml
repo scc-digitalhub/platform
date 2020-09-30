@@ -114,28 +114,59 @@ javaOpts: "-XX:MaxRAMFraction=2"
 
 externalUrl: "https://aac.kube-test.smartcommunitylab.it"
 
-clientRedirectUris:
-  api-manager:
-    - https://api.kube-test.smartcommunitylab.it/
+randomClientIdSecret: true
+
+defaultClientApplication:
+  apiManager:
+    redirectUris:
+      - https://api.kube-test.smartcommunitylab.it/
+    clientId: "uom9BViJ-c3pQ-Jb0E-xm1K-cV9U-rdpIOui4wQGn"
+    clientSecret: "Jc1jc7yt-2HiH-05X3-53LO-5yDm-tK8WG1lDIU2t"
   dss:
-    - https://dss.kube-test.smartcommunitylab.it/
+    redirectUris:
+      - https://dss.kube-test.smartcommunitylab.it/
+    clientId: "BBoAt563-1pNF-5OvS-2caE-W4rK-zG8Vbro5n2Km"
+    clientSecret: "f0rjMnK5-NeF3-OV8d-g7jA-QiB0-Elm8AO0UzDXX"
   minio:
-    - https://minio.kube-test.smartcommunitylab.it/
+    redirectUris:
+      - https://minio.kube-test.smartcommunitylab.it/
+    clientId: "gITQ9GEj-O1Gb-y6Hu-Dt4n-BF0I-D34i67MMqmnQ"
+    clientSecret: "h8yKbp3u-MYG8-Wdb0-teL6-42kU-tNmkyP4cOChy"
   gatekeeper:
-    - https://nuclio.kube-test.smartcommunitylab.it/
+    redirectUris:
+      - https://nuclio.kube-test.smartcommunitylab.it/
+    clientId: "VwD2mWIY-dk7u-h7WA-5map-ZTB8-1hSX3UVwItMp"
+    clientSecret: "63xurmJL-4KhJ-5SwF-0PtH-Ze3a-5YpKeQ1b3gLa"
   nifi:
-    - https://nifi.kube-test.smartcommunitylab.it/
+    redirectUris:
+      - https://nifi.kube-test.smartcommunitylab.it/
+    clientId: "6wLlM5LH-mg3R-Pr6E-mG4W-8YDM-64203Hf007dY"
+    clientSecret: "T6lpdUIK-w2Ke-Z4X8-9tAz-Pk81-zMMpd0HZFKCe"
   jhub:
-    - https://jhub.kube-test.smartcommunitylab.it/
+    redirectUris:
+      - https://jhub.kube-test.smartcommunitylab.it/
+    clientId: "qxAtK8o0-6zEK-FrP7-IR1P-hf4x-4NW7pmtO87ip"
+    clientSecret: "8j3CjT2i-t295-3K6u-b9xj-L5tp-MZ8pVYYXSkYl"
   grafana:
-    - https://grafana.kube-test.smartcommunitylab.it/
-  resource-manager:
-    - https://rm.kube-test.smartcommunitylab.it/
-  aac-org:
-    - https://orgmanager.kube-test.smartcommunitylab.it/
+    redirectUris:
+      - https://grafana.kube-test.smartcommunitylab.it/
+    clientId: "IpCWr8Qm-ME2f-Pmm8-16oo-YN2D-nCzg26sVx3qR"
+    clientSecret: "vO7lj3C4-x0oj-EGI2-G4ZO-Jzw8-sAGNVnQVnz8g"
+  resourceManager:
+    redirectUris:
+      - https://rm.kube-test.smartcommunitylab.it/
+    clientId: "4gefZIzy-wto8-n7nI-Cl9A-6abl-pEUMrnBGx3fv"
+    clientSecret: "2uEieKZ8-Y5yo-h7mz-6HgF-tj5P-OBBV6TlihCK0"
+  aacOrg:
+    redirectUris:
+      - https://orgmanager.kube-test.smartcommunitylab.it/
+    clientId: "dCX9UNzK-q47c-t4d9-F6yf-4YDO-wCvj6Z4CR7Os"
+    clientSecret: "PZAN48kL-ak62-u8PK-mT5q-8U2L-qpcfWFj2VCRt"
   cyclotron:
-    - https://cyclotron.kube-test.smartcommunitylab.it/
-    - https://cyclotron.kube-test.smartcommunitylab.it
+    redirectUris:
+      - https://cyclotron.kube-test.smartcommunitylab.it/
+    clientId: "xaqkd7Tf-8dwN-p4iU-prh3-ga9r-qRiJSBKvoW1Q"
+    clientSecret: "TEz9bqTA-57HD-h3hY-mD3q-NM0V-Asm08fMvnio3"
 
 accessTokenValidity: ""
 refreshTokenValidity: ""

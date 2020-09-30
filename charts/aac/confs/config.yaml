@@ -1,7 +1,7 @@
 bootstrap:
   clients:
     - name: WSO2 API Manager
-      id: {{ template "aac.rand" . }}
+      id: {{ .Values.defaultClientApplication.apiManager.clientId | default (include "aac.rand" .) }}
       developer: admin
       grantTypes:
       - implicit
@@ -10,7 +10,7 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      {{- range index .Values "clientRedirectUris" "api-manager" }}
+      {{- range .Values.defaultClientApplication.apiManager.redirectUris }}
       - {{ . }}
       {{- end }}
       scopes:
@@ -25,10 +25,10 @@ bootstrap:
       - "apim:api_view"
       - "apim:api_create"
       - clientmanagement
-      secret: {{ template "aac.rand" . }}
-      trusted: false
+      secret: {{ .Values.defaultClientApplication.apiManager.clientSecret | default (include "aac.rand" .) }}
+      trusted: true
     - name: gatekeeper
-      id: {{ template "aac.rand" . }}
+      id: {{ .Values.defaultClientApplication.gatekeeper.clientId | default (include "aac.rand" .) }}
       claimMappingFunction: LyoqCiogREVGSU5FIFlPVVIgT1dOIENMQUlNIE1BUFBJTkcgSEVSRQoqKi8KZnVuY3Rpb24gY2xhaW1NYXBwaW5nKGNsYWltcykgewpzcGFjZSA9ICdkZWZhdWx0JzsKaWYoY2xhaW1zLmhhc093blByb3BlcnR5KCdyb2xlcycpKSB7CiAgLy9jb3B5IGZvciBzcHJpbmcKICBjbGFpbXNbJ2F1dGhvcml0aWVzJ10gPSBjbGFpbXNbJ3JvbGVzJ107CiAgLy9leHRyYWN0IHNwYWNlCiAgY2xhaW1zWydyb2xlcyddLmZvckVhY2goZnVuY3Rpb24ocm9sZSkgewogICAgaWYocm9sZS5zdGFydHNXaXRoKCdjb21wb25lbnRzL251Y2xpby8nKSkgewogICAgICBzcGFjZSA9IHJvbGUuc3Vic3RyaW5nKDE4KQogICAgICBzcGFjZSA9IHNwYWNlLnN1YnN0cmluZygwLCBzcGFjZS5pbmRleE9mKCc6JykpOwogICAgfQogIH0KICApOwp9CmNsYWltc1snU3BhY2UnXSA9IHNwYWNlOwogIHJldHVybiBjbGFpbXM7Cn0K
       developer: admin
       grantTypes:
@@ -36,7 +36,7 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      {{- range .Values.clientRedirectUris.gatekeeper }}
+      {{- range .Values.defaultClientApplication.gatekeeper.redirectUris }}
       - {{ . }}
       {{- end }}
       scopes:
@@ -45,12 +45,12 @@ bootstrap:
       - profile.basicprofile.me
       - email
       - user.roles.me
-      secret: {{ template "aac.rand" . }}
-      trusted: false
+      secret: {{ .Values.defaultClientApplication.gatekeeper.clientSecret | default (include "aac.rand" .) }}
+      trusted: true
       uniqueSpaces:
       - components/nuclio
     - name: grafana
-      id: {{ template "aac.rand" . }}
+      id: {{ .Values.defaultClientApplication.grafana.clientId | default (include "aac.rand" .) }}
       afterApprovalWebhook: http://nuclio-nodejs-grafana-connector.sys.svc.cluster.local:8080
       claimMappingFunction: ZnVuY3Rpb24gY2xhaW1NYXBwaW5nKGNsYWltcykgewogICAgLy8gZXh0cmFjdCByb2xlcwogICAgdmFyIHBhdGggPSAnY29tcG9uZW50cy9ncmFmYW5hLyc7CiAgICB2YXIgcm9sZXMgPSBjbGFpbXMucm9sZXMuZmlsdGVyKGZ1bmN0aW9uKHIpIHsKICAgICAgICAgICAgcmV0dXJuIHIuaW5kZXhPZihwYXRoKSA9PSAwOwogICAgICAgIH0pCiAgICAgICAgLm1hcChmdW5jdGlvbihyKSB7CiAgICAgICAgICAgIHZhciBzdWJyb2xlID0gci5zdWJzdHJpbmcocGF0aC5sZW5ndGgpOwogICAgICAgICAgICB2YXIgYSA9IHN1YnJvbGUuc3BsaXQoJzonKTsKICAgICAgICAgICAgcmV0dXJuIHsKICAgICAgICAgICAgICAgIG9yZzogYVswXS5yZXBsYWNlKC9cLy9nLCAnXycpLnJlcGxhY2UoL1wuLywgJ18nKSwKICAgICAgICAgICAgICAgIHJvbGU6IGFbMV0KICAgICAgICAgICAgfQogICAgICAgIH0pCiAgICAgICAgLnJlZHVjZShmdW5jdGlvbihwcmV2LCBjdXJyKSB7CiAgICAgICAgICAgIGlmKGN1cnIucm9sZSA9PT0gJ1JPTEVfQURNSU4nKQogICAgICAgICAgICAgICAgcHJldltjdXJyLm9yZ10gPSAnQWRtaW4nOwogICAgICAgICAgICBlbHNlIGlmKGN1cnIucm9sZSA9PT0gJ1JPTEVfRURJVE9SJyAmJiBwcmV2W2N1cnIub3JnXSAgIT09ICdBZG1pbicpCiAgICAgICAgICAgICAgICBwcmV2W2N1cnIub3JnXSA9ICdFZGl0b3InOwogICAgICAgICAgICBlbHNlIGlmKCFwcmV2W2N1cnIub3JnXSkKICAgICAgICAgICAgICAgIHByZXZbY3Vyci5vcmddID0gJ1ZpZXdlcic7CiAgICAgICAgICAgIAogICAgICAgICAgICByZXR1cm4gcHJldjsKICAgICAgICB9LCB7fSk7CiAgICBjbGFpbXNbJ2dyYWZhbmEvcm9sZXMnXSA9IHJvbGVzOwogICAgcmV0dXJuIGNsYWltczsKfQ==
       developer: admin
@@ -59,7 +59,7 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      {{- range .Values.clientRedirectUris.grafana }}
+      {{- range .Values.defaultClientApplication.grafana.redirectUris }}
       - {{ . }}
       {{- end }}
       scopes:
@@ -69,39 +69,41 @@ bootstrap:
       - profile.accountprofile.me
       - email
       - user.roles.me
-      secret: {{ template "aac.rand" . }}
-      trusted: false
+      secret: {{ .Values.defaultClientApplication.grafana.clientSecret | default (include "aac.rand" .) }}
+      trusted: true
       uniqueSpaces: [
         ]
     - name: resource-manager
-      id: {{ template "aac.rand" . }}
+      id: {{ .Values.defaultClientApplication.resourceManager.clientId | default (include "aac.rand" .) }}
       developer: admin
       grantTypes:
       - implicit
       - client_credentials
       - authorization_code
       redirectUris:
-      {{- range index .Values "clientRedirectUris" "resource-manager" }}
+      {{- range .Values.defaultClientApplication.resourceManager.redirectUris }}
       - {{ . }}
       {{- end }}
+      rolePrefixes:
+      - components/resourcemanager/
       scopes:
       - openid
       - profile
       - email
       - user.roles.me
-      secret: {{ template "aac.rand" . }}
-      trusted: false
+      secret: {{ .Values.defaultClientApplication.resourceManager.clientSecret | default (include "aac.rand" .) }}
+      trusted: true
       uniqueSpaces:
       - components/resourcemanager
     - name: dss
-      id: {{ template "aac.rand" . }}
+      id: {{ .Values.defaultClientApplication.dss.clientId | default (include "aac.rand" .) }}
       developer: admin
       grantTypes:
       - implicit
       - client_credentials
       - authorization_code
       redirectUris:
-      {{- range .Values.clientRedirectUris.dss }}
+      {{- range .Values.defaultClientApplication.dss.redirectUris }}
       - {{ . }}
       {{- end }}
       scopes:
@@ -109,10 +111,10 @@ bootstrap:
       - profile
       - profile.basicprofile.me
       - user.roles.me
-      secret: {{ template "aac.rand" . }}
-      trusted: false
+      secret: {{ .Values.defaultClientApplication.dss.clientSecret | default (include "aac.rand" .) }}
+      trusted: true
     - name: nifi
-      id: {{ template "aac.rand" . }}
+      id: {{ .Values.defaultClientApplication.nifi.clientId | default (include "aac.rand" .) }}
       afterApprovalWebhook: http://nuclio-nodejs-nifi-connector.sys.svc.cluster.local:8080
       claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKICogVE8gQkUgUFVUIElOIEFBQyBDT05GSUcgT0YgTklGSSBDTElFTlQgQVBQCioqLwpmdW5jdGlvbiBjbGFpbU1hcHBpbmcoY2xhaW1zKSB7CiAgICAvLyBleHRyYWN0IHJvbGVzCiAgICB2YXIgcGF0aCA9ICdjb21wb25lbnRzL25pZmkvJzsKICAgIGlmKGNsYWltcy5yb2xlcyAmJiBjbGFpbXMucm9sZXMgIT0gbnVsbCAmJiBjbGFpbXMucm9sZXMgIT0gdW5kZWZpbmVkKXsKICAgICAgICB2YXIgcm9sZXMgPSBjbGFpbXMucm9sZXMuZmlsdGVyKGZ1bmN0aW9uKHIpIHsKICAgICAgICAgICAgICAgIHJldHVybiByLmluZGV4T2YocGF0aCkgPT0gMDsKICAgICAgICAgICAgfSkKICAgICAgICAgICAgLm1hcChmdW5jdGlvbihyKSB7CiAgICAgICAgICAgICAgICB2YXIgc3Vicm9sZSA9IHIuc3Vic3RyaW5nKHBhdGgubGVuZ3RoKTsKICAgICAgICAgICAgICAgIHZhciBhID0gc3Vicm9sZS5zcGxpdCgnOicpOwogICAgICAgICAgICAgICAgcmV0dXJuIHsKICAgICAgICAgICAgICAgICAgICBvcmc6IGFbMF0ucmVwbGFjZSgvXC8vZywgJ18nKS5yZXBsYWNlKC9cLi9nLCAnXycpLAogICAgICAgICAgICAgICAgICAgIHJvbGU6IGFbMV0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfSkKICAgICAgICAgICAgLnJlZHVjZShmdW5jdGlvbihwcmV2LCBjdXJyKSB7IAogICAgCSAgICAvLyB0aGUgY2F0ZWdvcmllcyBvZiByb2xlcyBpbiBOaUZpCiAgICAgICAgICAgICAgICBpZihjdXJyLnJvbGUgPT09ICdST0xFX01BTkFHRVInKQogICAgICAgICAgICAgICAgICAgIHByZXZbY3Vyci5vcmddID0gJ1JPTEVfTUFOQUdFUic7CiAgICAgICAgICAgICAgICBpZighcHJldltjdXJyLm9yZ10pCiAgICAgICAgICAgICAgICAgICAgcHJldltjdXJyLm9yZ10gPSAnUk9MRV9NT05JVE9SJzsKICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgcmV0dXJuIHByZXY7CiAgICAgICAgICAgIH0sIHt9KTsKICAgICAgICBjbGFpbXNbJ25pZmkvcm9sZXMnXSA9IHJvbGVzOwogICAgfQogICAgcmV0dXJuIGNsYWltczsKfQ==
       developer: admin
@@ -120,7 +122,7 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      {{- range .Values.clientRedirectUris.nifi }}
+      {{- range .Values.defaultClientApplication.nifi.redirectUris }}
       - {{ . }}
       {{- end }}
       scopes:
@@ -128,12 +130,12 @@ bootstrap:
       - profile
       - email
       - user.roles.me
-      secret: {{ template "aac.rand" . }}
-      trusted: false
+      secret: {{ .Values.defaultClientApplication.nifi.clientSecret | default (include "aac.rand" .) }}
+      trusted: true
       uniqueSpaces: [
         ]
     - name: jhub
-      id: {{ template "aac.rand" . }}
+      id: {{ .Values.defaultClientApplication.jhub.clientId | default (include "aac.rand" .) }}
       claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKKiovCmZ1bmN0aW9uIGNsYWltTWFwcGluZyhjbGFpbXMpIHsKICAgIHZhciBzcGFjZSA9IGNsYWltc1snc3BhY2UnXTsKICAgIGlmKCBBcnJheS5pc0FycmF5KGNsYWltc1snc3BhY2UnXSkpIHsKICAgICAgICBzcGFjZSA9IGNsYWltc1snc3BhY2UnXVswXTsgICAKICAgIH0KICAgIGNsYWltc1snamh1YnRlbmFudCddID0gIHNwYWNlLnJlcGxhY2UoIi4iLCItIikKICAgIHJldHVybiBjbGFpbXM7Cn0=
       developer: admin
       grantTypes:
@@ -142,7 +144,7 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      {{- range .Values.clientRedirectUris.jhub }}
+      {{- range .Values.defaultClientApplication.jhub.redirectUris }}
       - {{ . }}
       {{- end }}
       scopes:
@@ -151,12 +153,12 @@ bootstrap:
       - profile.basicprofile.me
       - email
       - user.roles.me
-      secret: {{ template "aac.rand" . }}
-      trusted: false
+      secret: {{ .Values.defaultClientApplication.jhub.clientSecret | default (include "aac.rand" .) }}
+      trusted: true
       uniqueSpaces:
       - components/jupyterhub
     - name: cyclotron
-      id: {{ template "aac.rand" . }}
+      id: {{ .Values.defaultClientApplication.cyclotron.clientId | default (include "aac.rand" .) }}
       developer: admin
       grantTypes:
       - implicit
@@ -164,7 +166,7 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      {{- range .Values.clientRedirectUris.cyclotron }}
+      {{- range .Values.defaultClientApplication.cyclotron.redirectUris }}
       - {{ . }}
       {{- end }}
       scopes:
@@ -173,34 +175,34 @@ bootstrap:
       - profile.basicprofile.me
       - email
       - user.roles.me
-      secret: {{ template "aac.rand" . }}
-      trusted: false
+      secret: {{ .Values.defaultClientApplication.cyclotron.clientSecret | default (include "aac.rand" .) }}
+      trusted: true
     - name: minio
-      id: {{ template "aac.rand" . }}
+      id: {{ .Values.defaultClientApplication.minio.clientId | default (include "aac.rand" .) }}
       claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKKiovCmZ1bmN0aW9uIGNsYWltTWFwcGluZyhjbGFpbXMpIHsKICAgIAogICBjbGFpbXNbIm1pbmlvcG9saWN5Il0gPSAicmVhZHdyaXRlIjsKICAgcmV0dXJuIGNsYWltczsKfQ==
       developer: admin
       grantTypes:
       - implicit
       redirectUris:
-      {{- range .Values.clientRedirectUris.minio }}
+      {{- range .Values.defaultClientApplication.minio.redirectUris }}
       - {{ . }}
       {{- end }}
       scopes:
       - openid
       - user.roles.me
-      secret: {{ template "aac.rand" . }}
-      trusted: false
+      secret: {{ .Values.defaultClientApplication.minio.clientSecret | default (include "aac.rand" .) }}
+      trusted: true
       uniqueSpaces:
       - components/minio
     - name: aac-org
-      id: {{ template "aac.rand" . }}
+      id: {{ .Values.defaultClientApplication.aacOrg.clientId | default (include "aac.rand" .) }}
       developer: admin
       grantTypes:
       - implicit
       - client_credentials
       - authorization_code
       redirectUris:
-      {{- range index .Values "clientRedirectUris" "aac-org" }}
+      {{- range .Values.defaultClientApplication.aacOrg.redirectUris }}
       - {{ . }}
       {{- end }}
       scopes:
@@ -219,8 +221,8 @@ bootstrap:
       - email
       - client.roles.read.all
       - user.roles.me
-      secret: {{ template "aac.rand" . }}
-      trusted: false
+      secret: {{ .Values.defaultClientApplication.aacOrg.clientSecret | default (include "aac.rand" .) }}
+      trusted: true
 
   users:
     - username: test
@@ -240,9 +242,6 @@ bootstrap:
       roles:
     - username: test3@kube.test.it
       password: e2NA6NZVjKPPcZ8Ijz2J
-      roles:
-    - username: acelepija@fbk.eu
-      password: xe52q48wtKUG0xHUiYIO
       roles:
 
   services:
