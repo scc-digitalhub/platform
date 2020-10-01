@@ -12,14 +12,13 @@ bootstrap:
       - authorization_code
       redirectUris:
       - https://api.platform.local
-      - https://gw.platform.local
-      - https://aac.platform.local
       scopes:
       - openid
       - profile
       - user.roles.me
       - "apim:api_view"
       - "apim:api_create"
+      - "apim:api_publish"
       trusted: false
 
     - name: WSO2 Data Services Server
@@ -31,13 +30,14 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      - https://dss.platform.local:9445/oauth2_acs
       - https://dss.platform.local
       scopes:
       - openid
       - profile
       - user.roles.me
       - profile.basicprofile.me
+      - apikey.user.me
+      - apikey.user.client
       trusted: false
 
     - name: Apache NiFi
@@ -124,13 +124,20 @@ bootstrap:
         description: Find APIs and view details
         claims: []
         roles: []
+        authority: ROLE_USER
         approvalRequired: false
-        authority: ROLE_CLIENT
       - scope: apim:api_create
         name: Create and edit APIs
         description: Create, edit and delete APIs
         claims: []
         roles: []
+        authority: ROLE_USER
         approvalRequired: false
-        authority: ROLE_CLIENT
+      - scope: apim:api_publish
+        name: Change API status
+        description: Publish, revoke, retire APIs
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
       claims: []
