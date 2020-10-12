@@ -140,4 +140,74 @@ bootstrap:
         roles: []
         authority: ROLE_USER
         approvalRequired: false
+      - scope: apim:mediation_policy_view
+        name: View mediation policies
+        description: View mediation policies
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:mediation_policy_create
+        name: Manage mediation policies
+        description: Manage mediation policies
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:subscription_view
+        name: View subscriptions
+        description: View subscriptions
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:subscription_block
+        name: Block and unblock subscriptions
+        description: Block and unblock subscriptions
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:tier_view
+        name: View throttling tiers
+        description: View throttling tiers
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:tier_manage
+        name: Manage throttling tiers
+        description: Manage throttling tiers
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:api_workflow
+        name: Update workflow status
+        description: Update workflow status
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:subscribe
+        name: View and manage subscriptions
+        description: View and manage subscriptions
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:bl_view
+        name: View blacklists
+        description: View blacklists
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:bl_manage
+        name: Manage blacklists
+        description: Manage blacklists
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
       claims: []
