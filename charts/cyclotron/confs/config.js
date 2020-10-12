@@ -60,7 +60,7 @@ module.exports = {
     },
 
     /* Enable or disable authentication */
-    enableAuth: '{{ .Values.auth.enabled }}',
+    enableAuth: {{ .Values.auth.enabled }},
 
     /* Authentication provider. Possible values: 'ldap', 'aac'. */
     authProvider: '{{ .Values.auth.provider }}',

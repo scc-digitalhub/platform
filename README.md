@@ -238,14 +238,28 @@ Official Documentation [Link](https://helm.sh/docs/intro/install/ "Helm Installa
 
 ### Install Istio
 
+Create Azure Public IP and grant access to Kubernetes cluster
+```shell
+az network public-ip create --name kube-test-istio-public-ip --resource-group kube-test --allocation-method Static --location westeurope --sku  Standard
+
+az ad app list --filter "displayname eq 'kube-test'" --query '[].appId' --output tsv
+
+az role assignment create     --assignee <AppID>     --role "Network Contributor"     --scope /subscriptions/<subscription id>/resourceGroups/<resource group name>
+```
+Get public-IP and add it on helm/istio/istio-config.yaml file.
+```shell
+az network public-ip show --resource-group kube-test --name kube-test-istio-public-ip --query ipAddress --output tsv
+
+```
+
 ```shell
 curl -L https://istio.io/downloadIstio | sh -
 
-cd istio-1.7.1
+cd istio-1.7.3
 
 export PATH=$PWD/bin:$PATH
 
-istioctl install --set profile=demo --set values.global.proxy.holdApplicationUntilProxyStarts=true
+istioctl install -f /home/ffais/project/platform/helm/istio/istio-config.yaml
 ```
 
 Official Documentation [Link](https://istio.io/latest/docs/setup/getting-started/ "Istio  Installation Guide")

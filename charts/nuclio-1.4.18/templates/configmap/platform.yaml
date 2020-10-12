@@ -12,29 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if .Values.dashboard.enabled }}
+{{- if .Values.platform }}
 apiVersion: v1
-kind: Service
+kind: ConfigMap
 metadata:
-  name: {{ template "nuclio.dashboardName" . }}
+  name: {{ template "nuclio.platformName" . }}
   namespace: {{ template "nuclio.namespace" . }}
   labels:
-    app: {{ template "nuclio.name" . }}
+    app: {{ template "nuclio.nuclioName" . }}
     release: {{ .Release.Name }}
-    nuclio.io/app: dashboard
-    nuclio.io/name: {{ template "nuclio.dashboardName" . }}
-    nuclio.io/class: service
-spec:
-  selector:
-    nuclio.io/name: {{ template "nuclio.dashboardName" . }}
-{{- if .Values.dashboard.nodePort }}
-  type: NodePort
-{{- end }}
-  ports:
-  - name: http-admin
-    port: 8070
-    protocol: TCP
-{{- if .Values.dashboard.nodePort }}
-    nodePort: {{ .Values.dashboard.nodePort }}
-{{- end }}
+data:
+  platform.yaml: |
+{{ toYaml .Values.platform | indent 4 }}
 {{- end }}

@@ -179,7 +179,7 @@ bootstrap:
       trusted: true
     - name: minio
       id: {{ .Values.defaultClientApplication.minio.clientId | default (include "aac.rand" .) }}
-      claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKKiovCmZ1bmN0aW9uIGNsYWltTWFwcGluZyhjbGFpbXMpIHsKICAgIAogICBjbGFpbXNbIm1pbmlvcG9saWN5Il0gPSAicmVhZHdyaXRlIjsKICAgcmV0dXJuIGNsYWltczsKfQ==
+      claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKKiovCmZ1bmN0aW9uIGNsYWltTWFwcGluZyhjbGFpbXMpIHsKICAgIHZhciB2YWxpZCA9IFsnUk9MRV9SRUFEV1JJVEUnLCAnUk9MRV9SRUFET05MWSddOwogICAgdmFyIG93bmVyID0gWydST0xFX09XTkVSJ10KCiAgICBpZiAoY2xhaW1zLmhhc093blByb3BlcnR5KCJyb2xlcyIpICYmIGNsYWltcy5oYXNPd25Qcm9wZXJ0eSgic3BhY2UiKSkgewogICAgICAgIHZhciBzcGFjZSA9IGNsYWltc1snc3BhY2UnXTsKICAgICAgICAvL2ZvciBkZWJ1ZyB3aXRoIG5vIHNwYWNlIHNlbGVjdGlvbiBwZXJmb3JtZWQKICAgICAgICBpZiAoQXJyYXkuaXNBcnJheShjbGFpbXNbJ3NwYWNlJ10pKSB7CiAgICAgICAgICAgIHNwYWNlID0gY2xhaW1zWydzcGFjZSddWzBdOwogICAgICAgIH0KICAgICAgICAvL2xvb2t1cCBmb3IgcG9saWN5IGZvciBzZWxlY3RlZCBzcGFjZQogICAgICAgIHZhciBwcmVmaXggPSAiY29tcG9uZW50cy9taW5pby8iOwogICAgICAgIHZhciBwb2xpY3kgPSBudWxsOwogICAgICAgIGZvciAocmkgaW4gY2xhaW1zWydyb2xlcyddKSB7CiAgICAgICAgICAgIHZhciByb2xlID0gY2xhaW1zWydyb2xlcyddW3JpXTsKICAgICAgICAgICAgaWYgKHJvbGUuc3RhcnRzV2l0aChwcmVmaXggKyBzcGFjZSArICI6IikpIHsKICAgICAgICAgICAgICAgIHZhciBwID0gcm9sZS5zcGxpdCgiOiIpWzFdCiAgICAgICAgICAgICAgICAvL3JlcGxhY2Ugb3duZXIgd2l0aCBSRUFEV1JJVEUKICAgICAgICAgICAgICAgIGlmIChvd25lci5pbmRleE9mKHApICE9PSAtMSkgewogICAgICAgICAgICAgICAgICAgIHAgPSAiUk9MRV9SRUFEV1JJVEUiCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgIGlmICh2YWxpZC5pbmRleE9mKHApICE9PSAtMSkgewogICAgICAgICAgICAgICAgICAgIHBvbGljeSA9IHAucmVwbGFjZSgiUk9MRV8iLCIiKS50b0xvd2VyQ2FzZSgpCiAgICAgICAgICAgICAgICAgICAgYnJlYWs7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIGlmIChwb2xpY3kgIT0gbnVsbCkgewogICAgICAgICAgICBjbGFpbXNbIm1pbmlvcG9saWN5Il0gPSBzcGFjZSArICJfIiArIHBvbGljeTsKICAgICAgICB9CiAgICB9CiAgICByZXR1cm4gY2xhaW1zOwp9
       developer: admin
       grantTypes:
       - implicit
@@ -193,6 +193,8 @@ bootstrap:
       secret: {{ .Values.defaultClientApplication.minio.clientSecret | default (include "aac.rand" .) }}
       trusted: true
       uniqueSpaces:
+      - components/minio
+      rolePrefixes:
       - components/minio
     - name: aac-org
       id: {{ .Values.defaultClientApplication.aacOrg.clientId | default (include "aac.rand" .) }}
@@ -240,7 +242,7 @@ bootstrap:
     - username: test3@kube.test.it
       password: e2NA6NZVjKPPcZ8Ijz2J
       roles:
-    - username: test3@kube.test.it
+    - username: test4@kube.test.it
       password: e2NA6NZVjKPPcZ8Ijz2J
       roles:
 

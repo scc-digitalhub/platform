@@ -16,7 +16,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/aac
-  tag: e707f7d
+  tag: db41afa
   pullPolicy: IfNotPresent
 
 resources:
@@ -93,7 +93,7 @@ externalKeystore:
 
 externalBootstrapFile:
   enabled: false
-  apply: false
+  apply: true
   existingSecret: "aac-bootstrap"
   filePath: "/home/aac/confs"
   fileName: "config.yaml"

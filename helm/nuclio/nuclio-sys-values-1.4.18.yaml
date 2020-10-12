@@ -1,8 +1,8 @@
 # possible release name overrides
-# nameOverride:
+nameOverride: "nuclio-sys"
 # fullnameOverride:
 
-namespaceOverride: ""
+namespaceOverride: "sys"
 # if true, all components assume no internet connectivity
 offline: false
 
@@ -11,12 +11,12 @@ controller:
   enabled: true
   image:
     repository: quay.io/nuclio/controller
-    tag: 1.4.17-amd64
+    tag: 1.4.18-amd64
     pullPolicy: IfNotPresent
 
-  # Uncomment to have the controller to listen only the namespace's events, 
+  # Uncomment to have the controller to listen only the namespace's events,
   # change to listen on other specific namespace
-  # namespace: "@nuclio.selfNamespace"
+  namespace: "@nuclio.selfNamespace"
 
   operator:
     function:
@@ -24,8 +24,6 @@ controller:
     functionEvent:
       numWorkers: 2
     project:
-      numWorkers: 2
-    apiGateway:
       numWorkers: 2
 
   # the image of the created k8s cron job for function cron triggers
@@ -39,16 +37,16 @@ dashboard:
   enabled: true
   replicas: 1
   image:
-    repository: quay.io/nuclio/dashboard
-    tag: 1.4.17-amd64
+    repository: smartcommunitylab/nuclio-dashboard
+    tag: 1.4.18-amd64
     pullPolicy: IfNotPresent
   baseImagePullPolicy: IfNotPresent
   externalIPAddresses: []
   httpIngressHostTemplate: ""
-  imageNamePrefixTemplate: ""
+  imageNamePrefixTemplate: "nuclio-sys-"
 
   # Supported container builders: "kaniko", "docker"
-  containerBuilderKind: "docker"
+  containerBuilderKind: "kaniko"
 
   kaniko:
 
@@ -62,6 +60,10 @@ dashboard:
     # Set this flag to pull images from a plain HTTP registry
     insecurePullRegistry: false
 
+    # image:
+    #   repository: gcr.io/kaniko-project/executor
+    #   tag: v0.17.1
+    #   pullPolicy: IfNotPresent
     image:
       repository: gcr.io/kaniko-project/executor
       tag: v0.17.1
@@ -92,7 +94,7 @@ autoscaler:
   replicas: 1
   image:
     repository: quay.io/nuclio/autoscaler
-    tag: 1.4.17-amd64
+    tag: 1.4.18-amd64
     pullPolicy: IfNotPresent
 
 dlx:
@@ -100,7 +102,7 @@ dlx:
   replicas: 1
   image:
     repository: quay.io/nuclio/dlx
-    tag: 1.4.17-amd64
+    tag: 1.4.18-amd64
     pullPolicy: IfNotPresent
 
 registry:
@@ -130,14 +132,14 @@ registry:
   # If secretName is commented out or empty (and credentials are given) then the
   # chart will create a secret with default name `{releaseName}-registry-credentials`
   #
-  # secretName: registry-credentials
+  secretName: registry-credentials
 
   # In some cases the docker server URL in the registry secrets isn't the same as the URL with which
   # you push and pull. For example, in GKE you log into `gcr.io` (or some other regional URL) yet have
   # to push/pull from `gcr.io/<project-name>. If this is the case, specify the URL here and it will be
   # used instead of the URL in the secrets
   #
-  # pushPullUrl: gcr.io/<project-name>
+  pushPullUrl: sclconfigtest.azurecr.io
 
   # In case you'd like helm to generate the secret for you, `loginUrl` specifies
   # the URL with which the components in nuclio will try to log into
@@ -152,7 +154,8 @@ registry:
   #  Use a custom "base" images registry (pull registry). Default behavior will pull the default
   #  base images from the web
   #  Note: To override a pull registry for both "onbuild" and base images, use `dependantImageRegistryURL`.
-  defaultBaseRegistryURL: ""
+  #
+  defaultBaseRegistryURL: docker.io
 
   #  Use a custom "onbuild" images registry (pull registry).
   #  Note: To override a pull registry for both "onbuild" and base images, use `dependantImageRegistryURL`.
@@ -174,25 +177,25 @@ rbac:
   # than the one in which it is installed
   # Likewise, for "namespaced", the controller won't be able to act on these nuclio resources in any
   # namespace other than the one in which it is installed
-  crdAccessMode: cluster
+  crdAccessMode: namespaced
 
 crd:
 
   # If true, creates cluster wide custom resources definitions for nuclio's resources
   create: true
 
-platform: {}
-#   logger:
-#     sinks:
-#       myHumanReadableStdout:
-#         kind: stdout
-#         format: humanReadable
-#     system:
-#     - level: debug
-#       sink: myHumanReadableStdout
-#     functions:
-#     - level: debug
-#       sink: myHumanReadableStdout
+platform:
+  logger:
+    sinks:
+      myHumanReadableStdout:
+        kind: stdout
+        format: humanReadable
+    system:
+    - level: debug
+      sink: myHumanReadableStdout
+    functions:
+    - level: debug
+      sink: myHumanReadableStdout
 #   metrics:
 #     sinks:
 #       myPrometheusPull:
@@ -202,8 +205,6 @@ platform: {}
 #     functions:
 #     - myPrometheusPull
 #   cronTriggerCreationMode: "kube"
-#   kube:
-#     defaultServiceType: NodePort
 
 # global is a stanza that is used if this is used as a subchart. Ignore otherwise
 global:
@@ -213,14 +214,13 @@ global:
 
 sysfunction:
   grafana:
-    enabled: false
-    aacjwkurl: ""
-    aacresourceid: ""
-    grafanaauth: ""
-    grafanaendpoint: ""
+    enabled: true
+    aacjwkurl: "https://aac.kube-test.smartcommunitylab.it/jwk"
+    aacresourceid: "IpCWr8Qm-ME2f-Pmm8-16oo-YN2D-nCzg26sVx3qR"
+    grafanaauth: "Basic Z3JhZmFuYTpncmFmYW5h"
+    grafanaendpoint: "https://grafana.kube-test.smartcommunitylab.it"
   nifi:
-    enabled: false
-    aacjwkurl: ""
-    aacclientid: ""
-    nifiendpoint: ""
-    nifi_certificate_passw: ""
+    enabled: true
+    aacjwkurl: "https://aac.kube-test.smartcommunitylab.it/jwk"
+    aacclientid: "6wLlM5LH-mg3R-Pr6E-mG4W-8YDM-64203Hf007dY"
+    nifiendpoint: "https://nifi.global.svc.cluster.local:8443/nifi-api"

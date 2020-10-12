@@ -22,7 +22,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ template "nuclio.name" . }}
+      app: {{ template "nuclio.nuclioName" . }}
       release: {{ .Release.Name }}
       nuclio.io/app: controller
       nuclio.io/class: service
@@ -30,7 +30,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "nuclio.name" . }}
+        app: {{ template "nuclio.nuclioName" . }}
         release: {{ .Release.Name }}
         nuclio.io/app: controller
         nuclio.io/class: service
@@ -46,7 +46,7 @@ spec:
         imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
         env:
         - name: NUCLIO_CONTROLLER_IMAGE_PULL_SECRETS
-          value: {{ template "nuclio.registry.credentialsSecretName" . }}
+          value: {{ template "nuclio.registryCredentialsName" . }}
         - name: NUCLIO_CONTROLLER_CRON_TRIGGER_CRON_JOB_IMAGE_NAME
           value: {{ .Values.controller.cronTriggerCronJobImage.repository }}:{{ .Values.controller.cronTriggerCronJobImage.tag }}
         - name: NUCLIO_CONTROLLER_CRON_TRIGGER_CRON_JOB_IMAGE_PULL_POLICY
@@ -64,8 +64,6 @@ spec:
           value: {{ .Values.controller.operator.functionEvent.numWorkers | quote }}
         - name: NUCLIO_CONTROLLER_PROJECT_OPERATOR_NUM_WORKERS
           value: {{ .Values.controller.operator.project.numWorkers | quote }}
-        - name: NUCLIO_CONTROLLER_API_GATEWAY_OPERATOR_NUM_WORKERS
-          value: {{ .Values.controller.operator.apiGateway.numWorkers | quote }}
         {{- if .Values.platform }}
         volumeMounts:
         - name: platform-config
@@ -75,6 +73,6 @@ spec:
       volumes:
       - name: platform-config
         configMap:
-          name: {{ template "nuclio.platformConfigName" . }}
+          name: {{ template "nuclio.platformName" . }}
       {{- end }}
 {{- end }}

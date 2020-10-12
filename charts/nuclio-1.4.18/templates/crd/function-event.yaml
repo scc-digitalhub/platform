@@ -12,23 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if .Values.dlx.enabled }}
-apiVersion: v1
-kind: Service
+{{- if .Values.crd.create }}
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
 metadata:
-  name: {{ template "nuclio.dlxName" . }}
-  namespace: {{ template "nuclio.namespace" . }}
+  name: nucliofunctionevents.nuclio.io
   labels:
-    app: {{ template "nuclio.name" . }}
+    app: {{ template "nuclio.nuclioName" . }}
     release: {{ .Release.Name }}
-    nuclio.io/app: dlx
-    nuclio.io/name: {{ template "nuclio.dlxName" . }}
-    nuclio.io/class: service
 spec:
-  selector:
-    nuclio.io/name: {{ template "nuclio.dlxName" . }}
-  ports:
-  - name: http-proxy
-    port: 8080
-    protocol: TCP
+  group: nuclio.io
+  names:
+    kind: NuclioFunctionEvent
+    plural: nucliofunctionevents
+    singular: nucliofunctionevent
+  scope: Namespaced
+  version: v1beta1
 {{- end }}

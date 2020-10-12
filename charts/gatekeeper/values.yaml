@@ -94,3 +94,4 @@ options:
   scopes: ""
   add-claims: ""
   enable-default-deny: ""
+  enable-session-cookies: ""

@@ -1,8 +1,8 @@
 # possible release name overrides
-nameOverride: "nuclio-tenant1"
+nameOverride: "nuclio-sys"
 # fullnameOverride:
 
-namespaceOverride: "tenant1"
+namespaceOverride: "sys"
 # if true, all components assume no internet connectivity
 offline: false
 
@@ -11,12 +11,12 @@ controller:
   enabled: true
   image:
     repository: quay.io/nuclio/controller
-    tag: 1.4.17-amd64
+    tag: 1.5.0-amd64
     pullPolicy: IfNotPresent
 
   # Uncomment to have the controller to listen only the namespace's events,
   # change to listen on other specific namespace
-  namespace: "@nuclio.selfNamespace"
+  # namespace: "@nuclio.selfNamespace"
 
   operator:
     function:
@@ -39,13 +39,13 @@ dashboard:
   enabled: true
   replicas: 1
   image:
-    repository: quay.io/nuclio/dashboard
-    tag: 1.4.17-amd64
+    repository: smartcommunitylab/nuclio-dashboard
+    tag: 1.5.0-amd64
     pullPolicy: IfNotPresent
   baseImagePullPolicy: IfNotPresent
   externalIPAddresses: []
   httpIngressHostTemplate: ""
-  imageNamePrefixTemplate: "nuclio-tenant1-"
+  imageNamePrefixTemplate: ""
 
   # Supported container builders: "kaniko", "docker"
   containerBuilderKind: "kaniko"
@@ -92,7 +92,7 @@ autoscaler:
   replicas: 1
   image:
     repository: quay.io/nuclio/autoscaler
-    tag: 1.4.17-amd64
+    tag: 1.5.0-amd64
     pullPolicy: IfNotPresent
 
 dlx:
@@ -100,7 +100,7 @@ dlx:
   replicas: 1
   image:
     repository: quay.io/nuclio/dlx
-    tag: 1.4.17-amd64
+    tag: 1.5.0-amd64
     pullPolicy: IfNotPresent
 
 registry:
@@ -153,12 +153,12 @@ registry:
   #  base images from the web
   #  Note: To override a pull registry for both "onbuild" and base images, use `dependantImageRegistryURL`.
   #
-  defaultBaseRegistryURL: docker.io
+  defaultBaseRegistryURL: "docker.io"
 
   #  Use a custom "onbuild" images registry (pull registry). Default behavior will pull from quay.io
   #  Note: To override a pull registry for both "onbuild" and base images, use `dependantImageRegistryURL`.
   #
-  defaultOnbuildRegistryURL: quay.io
+  defaultOnbuildRegistryURL: "quay.io"
 
   # Use this registry URL as an override for both base and "onbuild" images, so they'll be pulled from the
   # specified registry URL and not from the default registries

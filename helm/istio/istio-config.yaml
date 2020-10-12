@@ -2,3 +2,19 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: demo
+  values:
+    global:
+      proxy:
+        holdApplicationUntilProxyStarts: true
+  components:
+    telemetry:
+      enabled: true
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
+        serviceAnnotations:
+          service.beta.kubernetes.io/azure-load-balancer-resource-group: kube-test
+        service:
+          type: LoadBalancer
+          loadBalancerIP: 20.56.186.92

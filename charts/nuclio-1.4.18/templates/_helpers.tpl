@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- define "nuclio.name" -}}
+{{- define "nuclio.nuclioName" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -30,63 +30,55 @@
 {{- end -}}
 
 {{- define "nuclio.controllerName" -}}
-{{- printf "%s-controller" (include "nuclio.fullName" .) | trunc 63 -}}
+{{- printf "%s-controller" .Release.Name | trunc 63 -}}
 {{- end -}}
 
 {{- define "nuclio.scalerName" -}}
-{{- printf "%s-scaler" (include "nuclio.fullName" .) | trunc 63 -}}
+{{- printf "%s-scaler" .Release.Name | trunc 63 -}}
 {{- end -}}
 
 {{- define "nuclio.dlxName" -}}
-{{- printf "%s-dlx" (include "nuclio.fullName" .) | trunc 63 -}}
+{{- printf "%s-dlx" .Release.Name | trunc 63 -}}
 {{- end -}}
 
 {{- define "nuclio.dashboardName" -}}
-{{- printf "%s-dashboard" (include "nuclio.fullName" .) | trunc 63 -}}
+{{- printf "%s-dashboard" .Release.Name | trunc 63 -}}
 {{- end -}}
 
 {{- define "nuclio.serviceAccountName" -}}
 {{- if .Values.rbac.serviceAccountName -}}
 {{- .Values.rbac.serviceAccountName -}}
 {{- else -}}
-{{- template "nuclio.fullName" . -}}
+{{- .Release.Name -}}
 {{- end -}}
 {{- end -}}
 
-
-{{/*
-Resolve the effective docker registry url and secret Name allowing for global values
-*/}}
-{{- define "nuclio.registry.url" -}}
-{{ default .Values.registry.pushPullUrl .Values.global.registry.url }}
-{{- end -}}
-
-{{- define "nuclio.registry.credentialsSecretName" -}}
+{{- define "nuclio.registryCredentialsName" -}}
 {{- if .Values.registry.secretName -}}
 {{- .Values.registry.secretName -}}
 {{- else if .Values.global.registry.secretName -}}
 {{- .Values.global.registry.secretName -}}
 {{- else if .Values.registry.credentials -}}
-{{- printf "%s-registry-credentials" (include "nuclio.fullName" .) | trunc 63 -}}
+{{- printf "%s-registry-credentials" .Release.Name -}}
 {{- else -}}
 {{- printf "" -}}
 {{- end -}}
 {{- end -}}
 
-{{- define "nuclio.registry.pushPullUrlName" -}}
-{{- printf "%s-registry-url" (include "nuclio.fullName" .) | trunc 63 -}}
+{{- define "nuclio.registryPushPullUrlName" -}}
+{{- printf "%s-registry-url" .Release.Name -}}
 {{- end -}}
 
 {{- define "nuclio.functionDeployerName" -}}
-{{- printf "%s-function-deployer" (include "nuclio.fullName" .) | trunc 63 -}}
+{{- printf "%s-function-deployer" .Release.Name -}}
 {{- end -}}
 
 {{- define "nuclio.crdAdminName" -}}
-{{- printf "%s-crd-admin" (include "nuclio.fullName" .) | trunc 63 -}}
+{{- printf "%s-crd-admin" .Release.Name -}}
 {{- end -}}
 
-{{- define "nuclio.platformConfigName" -}}
-{{- printf "%s-platform-config" (include "nuclio.fullName" .) | trunc 63 -}}
+{{- define "nuclio.platformName" -}}
+{{- printf "platform-config" -}}
 {{- end -}}
 
 {{/*

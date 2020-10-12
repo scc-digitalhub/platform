@@ -63,9 +63,9 @@ service: {}
 
 existingSecret:
   enabled: true
-  name: "gatekeeper-client-creds"
-  client_id_key: "clientid"
-  client_secret_key: "clientsecret"
+  name: "gatekeeper-aac-creds"
+  client_id_key: "username"
+  client_secret_key: "password"
   encryption_key: "encryptionkey"
 
 options:

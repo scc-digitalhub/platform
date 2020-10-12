@@ -17,7 +17,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/resourcemanager
-  tag: "2.0"
+  tag: "ae9be14"
   pullPolicy: IfNotPresent
 
 podSecurityContext: {}
@@ -84,7 +84,7 @@ oauth:
   authUri: "https://aac.kube-test.smartcommunitylab.it/eauth/authorize"
   userInfoUri: "https://aac.kube-test.smartcommunitylab.it/userinfo"
   issuerUri: "https://aac.kube-test.smartcommunitylab.it"
-  existingSecret: "rs-oauth-creds"
+  existingSecret: "resource-manager-aac-creds"
   clientIdKey: "username"
   clientSecretKey: "password"
 

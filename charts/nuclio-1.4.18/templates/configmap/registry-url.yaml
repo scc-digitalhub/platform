@@ -12,14 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if (include "nuclio.registry.url" .) }}
+{{- if .Values.registry.pushPullUrl }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "nuclio.registry.pushPullUrlName" . }}
+  name: {{ template "nuclio.registryPushPullUrlName" . }}
+  namespace: {{ template "nuclio.namespace" . }}
   labels:
-    app: {{ template "nuclio.name" . }}
+    app: {{ template "nuclio.nuclioName" . }}
     release: {{ .Release.Name }}
 data:
-  registry_url: {{ template  "nuclio.registry.url" . }}
+  registry_url: {{ .Values.registry.pushPullUrl }}
 {{- end }}
