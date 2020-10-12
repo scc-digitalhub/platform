@@ -10,6 +10,7 @@ services:
     entrypoint: '/opt/nifi/scripts/start.sh'
     volumes:
       - "./cert/nifi.platform.local:/opt/nifi/nifi-current/certs"
+      - "./nifi-conf:/opt/nifi/nifi-current/conf"
     networks:
       platform-net: {}
 networks:

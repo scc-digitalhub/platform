@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   api-manager:
-    image: smartcommunitylab/wso2am:2.6.0-b260946
+    image: smartcommunitylab/wso2am:2.6.0-latest
     ports:
       - "9763:9763"
       - "9443:9443"
