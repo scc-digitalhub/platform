@@ -1,8 +1,8 @@
 bootstrap:
   clients:
     - name: WSO2 API Manager
-      id: APIM_CLIENT_ID
-      secret: APIM_CLIENT_SECRET
+      id: uom9BViJ-c3pQ-Jb0E-xm1K-cV9U-rdpIOui4wQGn
+      secret: Jc1jc7yt-2HiH-05X3-53LO-5yDm-tK8WG1lDIU2t
       developer: admin
       grantTypes:
       - implicit
@@ -11,7 +11,7 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      - https://api.platform.local
+      - https://api.kube-test.smartcommunitylab.it/
       rolePrefixes:
       - components/apimanager/
       scopes:
@@ -28,32 +28,36 @@ bootstrap:
       - "apim:api_publish"
       trusted: true
 
-    - name: WSO2 Data Services Server
-      id: DSS_CLIENT_ID
-      secret: DSS_CLIENT_SECRET
+    - name: dss
+      id: BBoAt563-1pNF-5OvS-2caE-W4rK-zG8Vbro5n2Km
+      secret: f0rjMnK5-NeF3-OV8d-g7jA-QiB0-Elm8AO0UzDXX
       developer: admin
       grantTypes:
       - implicit
       - client_credentials
       - authorization_code
       redirectUris:
-      - https://dss.platform.local
+      - https://dss.kube-test.smartcommunitylab.it/
+      rolePrefixes:
+      - components/dss/
       scopes:
       - openid
       - profile
-      - user.roles.me
       - profile.basicprofile.me
+      - user.roles.me
       trusted: true
 
-    - name: Apache NiFi
-      id: NIFI_CLIENT_ID
-      secret: NIFI_CLIENT_SECRET
+    - name: nifi
+      id: 6wLlM5LH-mg3R-Pr6E-mG4W-8YDM-64203Hf007dY
+      secret: T6lpdUIK-w2Ke-Z4X8-9tAz-Pk81-zMMpd0HZFKCe
+      afterApprovalWebhook: http://nuclio-nodejs-nifi-connector.sys.svc.cluster.local:8080
+      claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKICogVE8gQkUgUFVUIElOIEFBQyBDT05GSUcgT0YgTklGSSBDTElFTlQgQVBQCioqLwpmdW5jdGlvbiBjbGFpbU1hcHBpbmcoY2xhaW1zKSB7CiAgICAvLyBleHRyYWN0IHJvbGVzCiAgICB2YXIgcGF0aCA9ICdjb21wb25lbnRzL25pZmkvJzsKICAgIGlmKGNsYWltcy5yb2xlcyAmJiBjbGFpbXMucm9sZXMgIT0gbnVsbCAmJiBjbGFpbXMucm9sZXMgIT0gdW5kZWZpbmVkKXsKICAgICAgICB2YXIgcm9sZXMgPSBjbGFpbXMucm9sZXMuZmlsdGVyKGZ1bmN0aW9uKHIpIHsKICAgICAgICAgICAgICAgIHJldHVybiByLmluZGV4T2YocGF0aCkgPT0gMDsKICAgICAgICAgICAgfSkKICAgICAgICAgICAgLm1hcChmdW5jdGlvbihyKSB7CiAgICAgICAgICAgICAgICB2YXIgc3Vicm9sZSA9IHIuc3Vic3RyaW5nKHBhdGgubGVuZ3RoKTsKICAgICAgICAgICAgICAgIHZhciBhID0gc3Vicm9sZS5zcGxpdCgnOicpOwogICAgICAgICAgICAgICAgcmV0dXJuIHsKICAgICAgICAgICAgICAgICAgICBvcmc6IGFbMF0ucmVwbGFjZSgvXC8vZywgJ18nKS5yZXBsYWNlKC9cLi9nLCAnXycpLAogICAgICAgICAgICAgICAgICAgIHJvbGU6IGFbMV0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfSkKICAgICAgICAgICAgLnJlZHVjZShmdW5jdGlvbihwcmV2LCBjdXJyKSB7IAogICAgCSAgICAvLyB0aGUgY2F0ZWdvcmllcyBvZiByb2xlcyBpbiBOaUZpCiAgICAgICAgICAgICAgICBpZihjdXJyLnJvbGUgPT09ICdST0xFX01BTkFHRVInKQogICAgICAgICAgICAgICAgICAgIHByZXZbY3Vyci5vcmddID0gJ1JPTEVfTUFOQUdFUic7CiAgICAgICAgICAgICAgICBpZighcHJldltjdXJyLm9yZ10pCiAgICAgICAgICAgICAgICAgICAgcHJldltjdXJyLm9yZ10gPSAnUk9MRV9NT05JVE9SJzsKICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgcmV0dXJuIHByZXY7CiAgICAgICAgICAgIH0sIHt9KTsKICAgICAgICBjbGFpbXNbJ25pZmkvcm9sZXMnXSA9IHJvbGVzOwogICAgfQogICAgcmV0dXJuIGNsYWltczsKfQ==
       developer: admin
       grantTypes:
       - client_credentials
       - authorization_code
       redirectUris:
-      - https://nifi.platform.local/nifi-api/access/oidc/callback
+      - https://nifi.kube-test.smartcommunitylab.it/
       rolePrefixes:
       - components/nifi/
       uniqueSpaces: [
@@ -65,9 +69,9 @@ bootstrap:
       - user.roles.me
       trusted: true
 
-    - name: Cyclotron
-      id: CYCLOTRON_CLIENT_ID
-      secret: CYCLOTRON_CLIENT_SECRET
+    - name: cyclotron
+      id: xaqkd7Tf-8dwN-p4iU-prh3-ga9r-qRiJSBKvoW1Q
+      secret: TEz9bqTA-57HD-h3hY-mD3q-NM0V-Asm08fMvnio3
       developer: admin
       grantTypes:
       - implicit
@@ -75,7 +79,7 @@ bootstrap:
       - client_credentials
       - authorization_code
       redirectUris:
-      - https://cyclotron.platform.local
+      - https://cyclotron.kube-test.smartcommunitylab.it/
       rolePrefixes:
       - components/cyclotron/
       scopes:

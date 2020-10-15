@@ -2,6 +2,7 @@ bootstrap:
   clients:
     - name: WSO2 API Manager
       id: {{ .Values.defaultClientApplication.apiManager.clientId | default (include "aac.rand" .) }}
+      secret: {{ .Values.defaultClientApplication.apiManager.clientSecret | default (include "aac.rand" .) }}
       developer: admin
       grantTypes:
       - implicit
@@ -13,6 +14,8 @@ bootstrap:
       {{- range .Values.defaultClientApplication.apiManager.redirectUris }}
       - {{ . }}
       {{- end }}
+      rolePrefixes:
+      - components/apimanager/
       scopes:
       - openid
       - profile
@@ -24,11 +27,11 @@ bootstrap:
       - user.roles.me
       - "apim:api_view"
       - "apim:api_create"
-      - clientmanagement
-      secret: {{ .Values.defaultClientApplication.apiManager.clientSecret | default (include "aac.rand" .) }}
+      - "apim:api_publish"
       trusted: true
     - name: gatekeeper
       id: {{ .Values.defaultClientApplication.gatekeeper.clientId | default (include "aac.rand" .) }}
+      secret: {{ .Values.defaultClientApplication.gatekeeper.clientSecret | default (include "aac.rand" .) }}
       claimMappingFunction: LyoqCiogREVGSU5FIFlPVVIgT1dOIENMQUlNIE1BUFBJTkcgSEVSRQoqKi8KZnVuY3Rpb24gY2xhaW1NYXBwaW5nKGNsYWltcykgewpzcGFjZSA9ICdkZWZhdWx0JzsKaWYoY2xhaW1zLmhhc093blByb3BlcnR5KCdyb2xlcycpKSB7CiAgLy9jb3B5IGZvciBzcHJpbmcKICBjbGFpbXNbJ2F1dGhvcml0aWVzJ10gPSBjbGFpbXNbJ3JvbGVzJ107CiAgLy9leHRyYWN0IHNwYWNlCiAgY2xhaW1zWydyb2xlcyddLmZvckVhY2goZnVuY3Rpb24ocm9sZSkgewogICAgaWYocm9sZS5zdGFydHNXaXRoKCdjb21wb25lbnRzL251Y2xpby8nKSkgewogICAgICBzcGFjZSA9IHJvbGUuc3Vic3RyaW5nKDE4KQogICAgICBzcGFjZSA9IHNwYWNlLnN1YnN0cmluZygwLCBzcGFjZS5pbmRleE9mKCc6JykpOwogICAgfQogIH0KICApOwp9CmNsYWltc1snU3BhY2UnXSA9IHNwYWNlOwogIHJldHVybiBjbGFpbXM7Cn0K
       developer: admin
       grantTypes:
@@ -39,18 +42,20 @@ bootstrap:
       {{- range .Values.defaultClientApplication.gatekeeper.redirectUris }}
       - {{ . }}
       {{- end }}
+      rolePrefixes:
+      - components/nuclio/
+      uniqueSpaces:
+        - components/nuclio
       scopes:
       - openid
       - profile
       - profile.basicprofile.me
       - email
       - user.roles.me
-      secret: {{ .Values.defaultClientApplication.gatekeeper.clientSecret | default (include "aac.rand" .) }}
       trusted: true
-      uniqueSpaces:
-      - components/nuclio
     - name: grafana
       id: {{ .Values.defaultClientApplication.grafana.clientId | default (include "aac.rand" .) }}
+      secret: {{ .Values.defaultClientApplication.grafana.clientSecret | default (include "aac.rand" .) }}
       afterApprovalWebhook: http://nuclio-nodejs-grafana-connector.sys.svc.cluster.local:8080
       claimMappingFunction: ZnVuY3Rpb24gY2xhaW1NYXBwaW5nKGNsYWltcykgewogICAgLy8gZXh0cmFjdCByb2xlcwogICAgdmFyIHBhdGggPSAnY29tcG9uZW50cy9ncmFmYW5hLyc7CiAgICB2YXIgcm9sZXMgPSBjbGFpbXMucm9sZXMuZmlsdGVyKGZ1bmN0aW9uKHIpIHsKICAgICAgICAgICAgcmV0dXJuIHIuaW5kZXhPZihwYXRoKSA9PSAwOwogICAgICAgIH0pCiAgICAgICAgLm1hcChmdW5jdGlvbihyKSB7CiAgICAgICAgICAgIHZhciBzdWJyb2xlID0gci5zdWJzdHJpbmcocGF0aC5sZW5ndGgpOwogICAgICAgICAgICB2YXIgYSA9IHN1YnJvbGUuc3BsaXQoJzonKTsKICAgICAgICAgICAgcmV0dXJuIHsKICAgICAgICAgICAgICAgIG9yZzogYVswXS5yZXBsYWNlKC9cLy9nLCAnXycpLnJlcGxhY2UoL1wuLywgJ18nKSwKICAgICAgICAgICAgICAgIHJvbGU6IGFbMV0KICAgICAgICAgICAgfQogICAgICAgIH0pCiAgICAgICAgLnJlZHVjZShmdW5jdGlvbihwcmV2LCBjdXJyKSB7CiAgICAgICAgICAgIGlmKGN1cnIucm9sZSA9PT0gJ1JPTEVfQURNSU4nKQogICAgICAgICAgICAgICAgcHJldltjdXJyLm9yZ10gPSAnQWRtaW4nOwogICAgICAgICAgICBlbHNlIGlmKGN1cnIucm9sZSA9PT0gJ1JPTEVfRURJVE9SJyAmJiBwcmV2W2N1cnIub3JnXSAgIT09ICdBZG1pbicpCiAgICAgICAgICAgICAgICBwcmV2W2N1cnIub3JnXSA9ICdFZGl0b3InOwogICAgICAgICAgICBlbHNlIGlmKCFwcmV2W2N1cnIub3JnXSkKICAgICAgICAgICAgICAgIHByZXZbY3Vyci5vcmddID0gJ1ZpZXdlcic7CiAgICAgICAgICAgIAogICAgICAgICAgICByZXR1cm4gcHJldjsKICAgICAgICB9LCB7fSk7CiAgICBjbGFpbXNbJ2dyYWZhbmEvcm9sZXMnXSA9IHJvbGVzOwogICAgcmV0dXJuIGNsYWltczsKfQ==
       developer: admin
@@ -62,6 +67,10 @@ bootstrap:
       {{- range .Values.defaultClientApplication.grafana.redirectUris }}
       - {{ . }}
       {{- end }}
+      rolePrefixes:
+      - components/grafana/
+      uniqueSpaces: [
+      ]
       scopes:
       - openid
       - profile
@@ -69,12 +78,10 @@ bootstrap:
       - profile.accountprofile.me
       - email
       - user.roles.me
-      secret: {{ .Values.defaultClientApplication.grafana.clientSecret | default (include "aac.rand" .) }}
       trusted: true
-      uniqueSpaces: [
-        ]
     - name: resource-manager
       id: {{ .Values.defaultClientApplication.resourceManager.clientId | default (include "aac.rand" .) }}
+      secret: {{ .Values.defaultClientApplication.resourceManager.clientSecret | default (include "aac.rand" .) }}
       developer: admin
       grantTypes:
       - implicit
@@ -86,17 +93,17 @@ bootstrap:
       {{- end }}
       rolePrefixes:
       - components/resourcemanager/
+      uniqueSpaces:
+        - components/resourcemanager
       scopes:
       - openid
       - profile
       - email
       - user.roles.me
-      secret: {{ .Values.defaultClientApplication.resourceManager.clientSecret | default (include "aac.rand" .) }}
       trusted: true
-      uniqueSpaces:
-      - components/resourcemanager
     - name: dss
       id: {{ .Values.defaultClientApplication.dss.clientId | default (include "aac.rand" .) }}
+      secret: {{ .Values.defaultClientApplication.dss.clientSecret | default (include "aac.rand" .) }}
       developer: admin
       grantTypes:
       - implicit
@@ -106,15 +113,17 @@ bootstrap:
       {{- range .Values.defaultClientApplication.dss.redirectUris }}
       - {{ . }}
       {{- end }}
+      rolePrefixes:
+      - components/dss/
       scopes:
       - openid
       - profile
       - profile.basicprofile.me
       - user.roles.me
-      secret: {{ .Values.defaultClientApplication.dss.clientSecret | default (include "aac.rand" .) }}
       trusted: true
     - name: nifi
       id: {{ .Values.defaultClientApplication.nifi.clientId | default (include "aac.rand" .) }}
+      secret: {{ .Values.defaultClientApplication.nifi.clientSecret | default (include "aac.rand" .) }}
       afterApprovalWebhook: http://nuclio-nodejs-nifi-connector.sys.svc.cluster.local:8080
       claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKICogVE8gQkUgUFVUIElOIEFBQyBDT05GSUcgT0YgTklGSSBDTElFTlQgQVBQCioqLwpmdW5jdGlvbiBjbGFpbU1hcHBpbmcoY2xhaW1zKSB7CiAgICAvLyBleHRyYWN0IHJvbGVzCiAgICB2YXIgcGF0aCA9ICdjb21wb25lbnRzL25pZmkvJzsKICAgIGlmKGNsYWltcy5yb2xlcyAmJiBjbGFpbXMucm9sZXMgIT0gbnVsbCAmJiBjbGFpbXMucm9sZXMgIT0gdW5kZWZpbmVkKXsKICAgICAgICB2YXIgcm9sZXMgPSBjbGFpbXMucm9sZXMuZmlsdGVyKGZ1bmN0aW9uKHIpIHsKICAgICAgICAgICAgICAgIHJldHVybiByLmluZGV4T2YocGF0aCkgPT0gMDsKICAgICAgICAgICAgfSkKICAgICAgICAgICAgLm1hcChmdW5jdGlvbihyKSB7CiAgICAgICAgICAgICAgICB2YXIgc3Vicm9sZSA9IHIuc3Vic3RyaW5nKHBhdGgubGVuZ3RoKTsKICAgICAgICAgICAgICAgIHZhciBhID0gc3Vicm9sZS5zcGxpdCgnOicpOwogICAgICAgICAgICAgICAgcmV0dXJuIHsKICAgICAgICAgICAgICAgICAgICBvcmc6IGFbMF0ucmVwbGFjZSgvXC8vZywgJ18nKS5yZXBsYWNlKC9cLi9nLCAnXycpLAogICAgICAgICAgICAgICAgICAgIHJvbGU6IGFbMV0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfSkKICAgICAgICAgICAgLnJlZHVjZShmdW5jdGlvbihwcmV2LCBjdXJyKSB7IAogICAgCSAgICAvLyB0aGUgY2F0ZWdvcmllcyBvZiByb2xlcyBpbiBOaUZpCiAgICAgICAgICAgICAgICBpZihjdXJyLnJvbGUgPT09ICdST0xFX01BTkFHRVInKQogICAgICAgICAgICAgICAgICAgIHByZXZbY3Vyci5vcmddID0gJ1JPTEVfTUFOQUdFUic7CiAgICAgICAgICAgICAgICBpZighcHJldltjdXJyLm9yZ10pCiAgICAgICAgICAgICAgICAgICAgcHJldltjdXJyLm9yZ10gPSAnUk9MRV9NT05JVE9SJzsKICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgcmV0dXJuIHByZXY7CiAgICAgICAgICAgIH0sIHt9KTsKICAgICAgICBjbGFpbXNbJ25pZmkvcm9sZXMnXSA9IHJvbGVzOwogICAgfQogICAgcmV0dXJuIGNsYWltczsKfQ==
       developer: admin
@@ -125,17 +134,19 @@ bootstrap:
       {{- range .Values.defaultClientApplication.nifi.redirectUris }}
       - {{ . }}
       {{- end }}
+      rolePrefixes:
+      - components/nifi/
+      uniqueSpaces: [
+      ]
       scopes:
       - openid
       - profile
       - email
       - user.roles.me
-      secret: {{ .Values.defaultClientApplication.nifi.clientSecret | default (include "aac.rand" .) }}
       trusted: true
-      uniqueSpaces: [
-        ]
     - name: jhub
       id: {{ .Values.defaultClientApplication.jhub.clientId | default (include "aac.rand" .) }}
+      secret: {{ .Values.defaultClientApplication.jhub.clientSecret | default (include "aac.rand" .) }}
       claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKKiovCmZ1bmN0aW9uIGNsYWltTWFwcGluZyhjbGFpbXMpIHsKICAgIHZhciBzcGFjZSA9IGNsYWltc1snc3BhY2UnXTsKICAgIGlmKCBBcnJheS5pc0FycmF5KGNsYWltc1snc3BhY2UnXSkpIHsKICAgICAgICBzcGFjZSA9IGNsYWltc1snc3BhY2UnXVswXTsgICAKICAgIH0KICAgIGNsYWltc1snamh1YnRlbmFudCddID0gIHNwYWNlLnJlcGxhY2UoIi4iLCItIikKICAgIHJldHVybiBjbGFpbXM7Cn0=
       developer: admin
       grantTypes:
@@ -147,18 +158,20 @@ bootstrap:
       {{- range .Values.defaultClientApplication.jhub.redirectUris }}
       - {{ . }}
       {{- end }}
+      rolePrefixes:
+      - components/jupyterhub/
+      uniqueSpaces:
+        - components/jupyterhub
       scopes:
       - openid
       - profile
       - profile.basicprofile.me
       - email
       - user.roles.me
-      secret: {{ .Values.defaultClientApplication.jhub.clientSecret | default (include "aac.rand" .) }}
       trusted: true
-      uniqueSpaces:
-      - components/jupyterhub
     - name: cyclotron
       id: {{ .Values.defaultClientApplication.cyclotron.clientId | default (include "aac.rand" .) }}
+      secret: {{ .Values.defaultClientApplication.cyclotron.clientSecret | default (include "aac.rand" .) }}
       developer: admin
       grantTypes:
       - implicit
@@ -169,16 +182,18 @@ bootstrap:
       {{- range .Values.defaultClientApplication.cyclotron.redirectUris }}
       - {{ . }}
       {{- end }}
+      rolePrefixes:
+      - components/cyclotron/
       scopes:
       - openid
       - profile
       - profile.basicprofile.me
       - email
       - user.roles.me
-      secret: {{ .Values.defaultClientApplication.cyclotron.clientSecret | default (include "aac.rand" .) }}
       trusted: true
     - name: minio
       id: {{ .Values.defaultClientApplication.minio.clientId | default (include "aac.rand" .) }}
+      secret: {{ .Values.defaultClientApplication.minio.clientSecret | default (include "aac.rand" .) }}
       claimMappingFunction: LyoqCiAqIERFRklORSBZT1VSIE9XTiBDTEFJTSBNQVBQSU5HIEhFUkUKKiovCmZ1bmN0aW9uIGNsYWltTWFwcGluZyhjbGFpbXMpIHsKICAgIHZhciB2YWxpZCA9IFsnUk9MRV9SRUFEV1JJVEUnLCAnUk9MRV9SRUFET05MWSddOwogICAgdmFyIG93bmVyID0gWydST0xFX09XTkVSJ10KCiAgICBpZiAoY2xhaW1zLmhhc093blByb3BlcnR5KCJyb2xlcyIpICYmIGNsYWltcy5oYXNPd25Qcm9wZXJ0eSgic3BhY2UiKSkgewogICAgICAgIHZhciBzcGFjZSA9IGNsYWltc1snc3BhY2UnXTsKICAgICAgICAvL2ZvciBkZWJ1ZyB3aXRoIG5vIHNwYWNlIHNlbGVjdGlvbiBwZXJmb3JtZWQKICAgICAgICBpZiAoQXJyYXkuaXNBcnJheShjbGFpbXNbJ3NwYWNlJ10pKSB7CiAgICAgICAgICAgIHNwYWNlID0gY2xhaW1zWydzcGFjZSddWzBdOwogICAgICAgIH0KICAgICAgICAvL2xvb2t1cCBmb3IgcG9saWN5IGZvciBzZWxlY3RlZCBzcGFjZQogICAgICAgIHZhciBwcmVmaXggPSAiY29tcG9uZW50cy9taW5pby8iOwogICAgICAgIHZhciBwb2xpY3kgPSBudWxsOwogICAgICAgIGZvciAocmkgaW4gY2xhaW1zWydyb2xlcyddKSB7CiAgICAgICAgICAgIHZhciByb2xlID0gY2xhaW1zWydyb2xlcyddW3JpXTsKICAgICAgICAgICAgaWYgKHJvbGUuc3RhcnRzV2l0aChwcmVmaXggKyBzcGFjZSArICI6IikpIHsKICAgICAgICAgICAgICAgIHZhciBwID0gcm9sZS5zcGxpdCgiOiIpWzFdCiAgICAgICAgICAgICAgICAvL3JlcGxhY2Ugb3duZXIgd2l0aCBSRUFEV1JJVEUKICAgICAgICAgICAgICAgIGlmIChvd25lci5pbmRleE9mKHApICE9PSAtMSkgewogICAgICAgICAgICAgICAgICAgIHAgPSAiUk9MRV9SRUFEV1JJVEUiCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgIGlmICh2YWxpZC5pbmRleE9mKHApICE9PSAtMSkgewogICAgICAgICAgICAgICAgICAgIHBvbGljeSA9IHAucmVwbGFjZSgiUk9MRV8iLCIiKS50b0xvd2VyQ2FzZSgpCiAgICAgICAgICAgICAgICAgICAgYnJlYWs7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIGlmIChwb2xpY3kgIT0gbnVsbCkgewogICAgICAgICAgICBjbGFpbXNbIm1pbmlvcG9saWN5Il0gPSBzcGFjZSArICJfIiArIHBvbGljeTsKICAgICAgICB9CiAgICB9CiAgICByZXR1cm4gY2xhaW1zOwp9
       developer: admin
       grantTypes:
@@ -187,17 +202,17 @@ bootstrap:
       {{- range .Values.defaultClientApplication.minio.redirectUris }}
       - {{ . }}
       {{- end }}
+      rolePrefixes:
+        - components/minio
+      uniqueSpaces:
+        - components/minio
       scopes:
       - openid
       - user.roles.me
-      secret: {{ .Values.defaultClientApplication.minio.clientSecret | default (include "aac.rand" .) }}
       trusted: true
-      uniqueSpaces:
-      - components/minio
-      rolePrefixes:
-      - components/minio
     - name: aac-org
       id: {{ .Values.defaultClientApplication.aacOrg.clientId | default (include "aac.rand" .) }}
+      secret: {{ .Values.defaultClientApplication.aacOrg.clientSecret | default (include "aac.rand" .) }}
       developer: admin
       grantTypes:
       - implicit
@@ -223,9 +238,8 @@ bootstrap:
       - email
       - client.roles.read.all
       - user.roles.me
-      secret: {{ .Values.defaultClientApplication.aacOrg.clientSecret | default (include "aac.rand" .) }}
       trusted: true
-
+      
   users:
     - username: test
       password: test123
@@ -275,13 +289,90 @@ bootstrap:
         description: Find APIs and view details
         claims: []
         roles: []
+        authority: ROLE_USER
         approvalRequired: false
-        authority: ROLE_CLIENT
       - scope: apim:api_create
         name: Create and edit APIs
         description: Create, edit and delete APIs
         claims: []
         roles: []
+        authority: ROLE_USER
         approvalRequired: false
-        authority: ROLE_CLIENT
+      - scope: apim:api_publish
+        name: Change API status
+        description: Publish, revoke, retire APIs
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:mediation_policy_view
+        name: View mediation policies
+        description: View mediation policies
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:mediation_policy_create
+        name: Manage mediation policies
+        description: Manage mediation policies
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:subscription_view
+        name: View subscriptions
+        description: View subscriptions
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:subscription_block
+        name: Block and unblock subscriptions
+        description: Block and unblock subscriptions
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:tier_view
+        name: View throttling tiers
+        description: View throttling tiers
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:tier_manage
+        name: Manage throttling tiers
+        description: Manage throttling tiers
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:api_workflow
+        name: Update workflow status
+        description: Update workflow status
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:subscribe
+        name: View and manage subscriptions
+        description: View and manage subscriptions
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:bl_view
+        name: View blacklists
+        description: View blacklists
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
+      - scope: apim:bl_manage
+        name: Manage blacklists
+        description: Manage blacklists
+        claims: []
+        roles: []
+        authority: ROLE_USER
+        approvalRequired: false
       claims: []

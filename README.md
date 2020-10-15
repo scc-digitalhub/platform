@@ -676,6 +676,7 @@ Create new secret with root username and password:
 
 ```shell
 kubectl -n global create secret generic mysql-creds --from-literal=username=root  --from-literal=password=VI9PvSJGbg
+kubectl -n global create secret generic minio-creds --from-literal=accesskey=admin --from-literal=secretkey=admin12345
 kubectl -n global create secret generic rs-db-creds --from-literal=username=rm --from-literal=password=rm
 kubectl -n global create secret generic rs-oauth-creds --from-literal=username=4gefZIzy-wto8-n7nI-Cl9A-6abl-pEUMrnBGx3fv --from-literal=password=2uEieKZ8-Y5yo-h7mz-6HgF-tj5P-OBBV6TlihCK0
 ```

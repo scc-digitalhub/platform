@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   nifi:
-    image: smartcommunitylab/nifi:1.11.4_log #aac-org:t
+    image: smartcommunitylab/nifi:1.12.1 #aac-org:t
     # image: nifi
     ports:
       - "8443:8443"
@@ -10,7 +10,7 @@ services:
     entrypoint: '/opt/nifi/scripts/start.sh'
     volumes:
       - "./cert/nifi.platform.local:/opt/nifi/nifi-current/certs"
-      - "./nifi-conf:/opt/nifi/nifi-current/conf"
+      # - "./nifi-conf:/opt/nifi/nifi-current/conf"
     networks:
       platform-net: {}
 networks:

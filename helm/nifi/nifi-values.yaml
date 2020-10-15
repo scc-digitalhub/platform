@@ -5,7 +5,7 @@ replicaCount: 1
 
 image:
   repository: smartcommunitylab/nifi
-  tag: 1.11.4_log
+  tag: 1.12.1
   pullPolicy: IfNotPresent
 
 serviceAccount:
