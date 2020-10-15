@@ -36,8 +36,6 @@ bootstrap:
       - profile
       - user.roles.me
       - profile.basicprofile.me
-      - apikey.user.me
-      - apikey.user.client
       trusted: false
 
     - name: Apache NiFi
