@@ -8,7 +8,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/dss
-  tag: e21e457
+  tag: cbb7b4b
   pullPolicy: Always
 
 serviceAccount:

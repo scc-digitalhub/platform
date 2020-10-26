@@ -7,7 +7,7 @@ annotations: {}
 
 image:
   repository: smartcommunitylab/wso2am
-  tag: 2.6.0-latest
+  tag: 2.6.0-c645fe9
   pullPolicy: IfNotPresent
 
 serviceAccount:
@@ -78,10 +78,8 @@ admin:
 
 externalKeystore:
   enabled: true
-  existingSecret: "api-manager-keystore"
+  existingSecret: "api-manager-keystore-localhost"
   filePath: "/home/wso2carbon/wso2-config-volume/repository/resources/security"
-  keyStoreFileName: "api-manager.jks"
-  trustStoreFileName: "client-truststore.jks"
   passwordSecret: "api-manager-keystore-pass"
   keystorePassKey: "keystore"
   truststorePassKey: "truststore"
@@ -92,9 +90,9 @@ env:
   AAC_REVERSEPROXY: https://aac.kube-test.smartcommunitylab.it
   APIM_MYSQL_HOSTNAME: mysql.databases
   ANALYTICS_ENABLED: "true"
-  APIM_KEYSTORE_FILENAME: "apigwself.jks"
+  APIM_KEYSTORE_FILENAME: "apigwself-localhost.jks"
   # APIM_KEYSTORE_PASS: "kubetest"
-  APIM_KEYSTORE_KEYALIAS: "apigwself"
+  APIM_KEYSTORE_KEYALIAS: "apigwself-localhost"
   APIM_TRUSTSTORE_FILENAME: "client-truststore.jks"
   # APIM_TRUSTSTORE_PASS: "kubetest"
   AAC_HOSTNAME: https://aac.kube-test.smartcommunitylab.it
@@ -142,14 +140,14 @@ analytics:
     initialDelaySeconds: 20
     periodSeconds: 10
   externalKeystore:
-    enabled: true
-    existingSecret: "api-manager-keystore-analytics"
+    enabled: false
+    existingSecret: "api-manager-keystore-analytics-localhost"
     filePath: "/home/wso2carbon/wso2-config-volume/resources/security"
     passwordSecret: "api-manager-analytics-keystore-pass"
     keystorePassKey: "keystore"
     truststorePassKey: "truststore"
   env:
     APIM_MYSQL_HOSTNAME: mysql.databases
-    APIM_KEYSTORE_FILENAME: "api-manager-keystore-analytics"
-    APIM_KEYSTORE_KEYALIAS: "am-analytics"
+    APIM_KEYSTORE_FILENAME: "am-analytics-localhost.jks"
+    APIM_KEYSTORE_KEYALIAS: "am-analytics-localhost"
     APIM_TRUSTSTORE_FILENAME: "client-truststore.jks"

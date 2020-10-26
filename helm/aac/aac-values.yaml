@@ -92,7 +92,7 @@ externalKeystore:
   fileName: "keystore.jwks"
 
 externalBootstrapFile:
-  enabled: false
+  enabled: true
   apply: true
   existingSecret: "aac-bootstrap"
   filePath: "/home/aac/confs"

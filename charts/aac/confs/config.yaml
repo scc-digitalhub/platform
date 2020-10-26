@@ -239,7 +239,7 @@ bootstrap:
       - client.roles.read.all
       - user.roles.me
       trusted: true
-      
+
   users:
     - username: test
       password: test123
@@ -257,6 +257,12 @@ bootstrap:
       password: e2NA6NZVjKPPcZ8Ijz2J
       roles:
     - username: test4@kube.test.it
+      password: e2NA6NZVjKPPcZ8Ijz2J
+      roles:
+    - username: testlongusername_31@sub.test.me
+      password: e2NA6NZVjKPPcZ8Ijz2J
+      roles:
+    - username: testverylongusername_55@subdomain.verylongdomaintest.me
       password: e2NA6NZVjKPPcZ8Ijz2J
       roles:
 
