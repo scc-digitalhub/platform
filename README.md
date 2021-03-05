@@ -696,6 +696,9 @@ TO DO
 
 ## Getting Started with DigitalHub Platform on Docker-Compose
 
+The DigitalHub Platform may also be installed with Docker-Compose.
+
+Run these shell commands to create a network and start each component. Nginx should be started after all enabled components have been launched.
 
 ```shell
 docker network create platform-net
@@ -713,4 +716,10 @@ docker-compose -p platform.local -f dss.yml up -d
 docker-compose -p platform.local -f nifi.yml up -d
 
 docker-compose -p platform.local -f cyclotron.yml up -d
+
+docker-compose -p platform.local -f nginx.yml up -d
 ```
+
+For **API Manager**, keep in mind that, if you need to restart the container, you should *remove* it via `docker rm -f container_name_or_id` and then run its corresponding command above again. Stopping and restarting it without removing it will result in an error.
+
+The same is true for **DSS**.
