@@ -1,0 +1,39 @@
+clientId: "3e5b4271-1375-4141-a4ca-b90da78f0371"
+realm: "digitalhub"
+type: "oauth2"
+name: "dremio"
+description: "dremio"
+configuration:
+    authorizedGrantTypes:
+      - "implicit"
+      - "authorization_code"
+      - "client_credentials"
+    applicationType: "web"
+    idTokenClaims: false
+    redirectUris:
+      - "https://dremio.platform.smartcommunitylab.it/"
+      - "https://dremio.platform.smartcommunitylab.it/apiv2/oauth/callback"
+    subjectType: "public"
+    authenticationMethods:
+      - "client_secret_basic"
+      - "client_secret_post"
+      - "none"
+    firstParty: false
+    tokenType: "jwt"
+scopes:
+  - "openid"
+  - "profile"
+  - "profile.basicprofile.me"
+  - "profile.accountprofile.me"
+  - "email"
+  - "user.roles.me"
+  - "user.spaces.me"
+resourceIds: [
+    ]
+providers: [
+    ]
+hookWebUrls: {
+    }
+hookUniqueSpaces: "components/dremio"
+hookFunctions:
+    claimMapping: "LyoqCiAqIGRyZW1pbyBjbGFpbSBtYXBwaW5nIGFhYzQKKiovCmZ1bmN0aW9uIGNsYWltTWFwcGluZyhjbGFpbXMpIHsKICAgIHZhciB2YWxpZCA9IFsnUk9MRV9VU0VSJ107CiAgICB2YXIgb3duZXIgPSBbJ1JPTEVfT1dORVInLCAnUk9MRV9QUk9WSURFUiddOwogICAgdmFyIHByZWZpeCA9ICJjb21wb25lbnRzL2RyZW1pby8iOwoKICAgIC8vZmV0Y2ggdXNlcm5hbWUgd2hlcmUgd2UgZmluZCBpdAogICAgdmFyIHVzZXJuYW1lID0gY2xhaW1zWyJ1c2VybmFtZSJdOwogICAgaWYoIXVzZXJuYW1lKSB7CiAgICAgICAgdXNlcm5hbWUgPSBjbGFpbXMgWyJwcmVmZXJyZWRfdXNlcm5hbWUiXTsKICAgIH0KICAgIGlmKCF1c2VybmFtZSkgewogICAgICAgIHVzZXJuYW1lID0gY2xhaW1zIFsiZW1haWwiXTsKICAgIH0KCiAgICBpZiAoInJvbGVzIiBpbiBjbGFpbXMgJiYgInNwYWNlIiBpbiBjbGFpbXMpIHsKICAgICAgICB2YXIgc3BhY2UgPSBjbGFpbXNbInNwYWNlIl07CiAgICAgICAgLy9jYW4ndCBzdXBwb3J0IG5vIHNwYWNlIHNlbGVjdGlvbiBwZXJmb3JtZWQKICAgICAgICBpZiAoQXJyYXkuaXNBcnJheShzcGFjZSkpIHsKICAgICAgICAgICAgc3BhY2UgPSBudWxsOwogICAgICAgIH0KICAgICAgICAvL2xvb2t1cCBmb3IgcG9saWN5IGZvciBzZWxlY3RlZCBzcGFjZQogICAgICAgIHZhciB0ZW5hbnQgPSBudWxsOwogICAgICAgIGlmKHNwYWNlKSB7CiAgICAgICAgICAgIGZvciAodmFyIHJvbGUgb2YgY2xhaW1zWyJyb2xlcyJdKSB7CiAgICAgICAgICAgICAgICBpZiAocm9sZS5zdGFydHNXaXRoKHByZWZpeCArIHNwYWNlICsgIjoiKSkgewogICAgICAgICAgICAgICAgICAgIHZhciBwID0gcm9sZS5zcGxpdCgiOiIpWzFdCiAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgLy9yZXBsYWNlIG93bmVyIHdpdGggVVNFUgogICAgICAgICAgICAgICAgICAgIGlmIChvd25lci5pbmRleE9mKHApICE9PSAtMSkgewogICAgICAgICAgICAgICAgICAgICAgICBwID0gIlJPTEVfVVNFUiIKICAgICAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgICAgIGlmICh2YWxpZC5pbmRleE9mKHApICE9PSAtMSkgewogICAgICAgICAgICAgICAgICAgICAgICB0ZW5hbnQgPSBzcGFjZQogICAgICAgICAgICAgICAgICAgICAgICBicmVhazsKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIGlmICh0ZW5hbnQpIHsKICAgICAgICAgICAgdGVuYW50ID0gdGVuYW50LnJlcGxhY2UoL1wuL2csJ18nKTsKICAgICAgICAgICAgY2xhaW1zWyJkcmVtaW8vdGVuYW50Il0gPSB0ZW5hbnQ7CiAgICAgICAgICAgIGNsYWltc1siZHJlbWlvL3VzZXJuYW1lIl0gPSB1c2VybmFtZSsnQCcrdGVuYW50OwogICAgICAgICAgICBjbGFpbXNbImRyZW1pby9yb2xlIl0gPSAiYWRtaW4iOwogICAgICAgIH0gCiAgICB9CgogICAgcmV0dXJuIGNsYWltczsKfQ=="
