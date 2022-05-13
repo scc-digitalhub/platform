@@ -55,7 +55,7 @@ openssl x509 -req -in api-gw.platform.local.csr -CA rootCA.crt -CAkey rootCA.key
 ```
 
 ```shell
-openssl pkcs12 -export -in api-gw.platform.local.crt.crt -inkey api-gw.platform.local.key.key -name "apigwself" -certfile rootCA.crt -out apigwself.pfx
+openssl pkcs12 -export -in api-gw.platform.local.crt -inkey api-gw.platform.local.key -name "apigwself" -certfile rootCA.crt -out apigwself.pfx
 ```
 
 ```shell
