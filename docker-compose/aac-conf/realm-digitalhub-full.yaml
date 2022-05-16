@@ -150,6 +150,7 @@ clients:
         idTokenClaims: false
         refreshTokenRotation: false
         redirectUris:
+          - "https://cyclotron.platform.local/auth/oauth"
           - "https://cyclotron.platform.local"
         subjectType: "public"
         authenticationMethods:
