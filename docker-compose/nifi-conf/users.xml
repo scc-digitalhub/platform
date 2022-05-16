@@ -2,6 +2,6 @@
 <tenants>
     <groups/>
     <users>
-        <user identifier="21232f29-7a57-35a7-8389-4a0e4a801fc3" identity="admin"/>
+        <user identifier="21232f29-7a57-35a7-8389-4a0e4a801fc3" identity="digitalhub@digitalhub.com"/>
     </users>
 </tenants>

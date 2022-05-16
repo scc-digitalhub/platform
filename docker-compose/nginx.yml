@@ -14,6 +14,7 @@ services:
       platform-net:
         aliases:
           - aac.platform.local
+          - dss.platform.local
 networks:
   platform-net:
     external: true

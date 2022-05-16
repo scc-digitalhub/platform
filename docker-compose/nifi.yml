@@ -7,9 +7,11 @@ services:
       - "8443:8443"
     env_file:
       nifi_param.env
-    entrypoint: '/opt/nifi/scripts/start.sh'
+    entrypoint:
+      - '/opt/nifi/scripts/start.sh'
     volumes:
       - "./cert/nifi.platform.local:/opt/nifi/nifi-current/certs"
+      - "./nifi-conf/users.xml:/opt/nifi/nifi-current/conf/users.xml"
       # - "./nifi-conf:/opt/nifi/nifi-current/conf"
     networks:
       platform-net: {}

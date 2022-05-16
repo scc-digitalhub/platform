@@ -25,12 +25,12 @@ cyclotronServices.factory('configService', ['commonConfigService', function(comm
       enable: true,
       authProvider: 'aac',
       loginMessage: 'Please login using your LDAP username and password.',
-      authorizationURL: 'https://aac.platform.local/aac/eauth/authorize',
+      authorizationURL: 'https://aac.platform.local/oauth/authorize',
       clientID: 'CYCLOTRON_CLIENT_ID',
       callbackDomain: 'https://cyclotron.platform.local',
       scopes: 'openid profile user.roles.me',
-      userProfileEndpoint: 'https://aac.platform.local/aac/basicprofile/me',
-      tokenValidityEndpoint: 'https://aac.platform.local/aac/resources/access'
+      userProfileEndpoint: 'https://aac.platform.local/basicprofile/me',
+      tokenValidityEndpoint: 'https://aac.platform.local/resources/access'
     },
     analytics: {
       enable: false

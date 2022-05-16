@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   dss-wso2:
-    image: smartcommunitylab/dss:latest
+    image: smartcommunitylab/dss:6cc9497
     ports:
       - "9764:9763"
       - "9445:9443"

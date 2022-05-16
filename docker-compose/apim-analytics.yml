@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   am-analytics:
-    image: smartcommunitylab/analytics-worker:auto
+    image: smartcommunitylab/analytics-worker:2.6.0-e41a23e
     ports:
       - "9091"
       - "9444"

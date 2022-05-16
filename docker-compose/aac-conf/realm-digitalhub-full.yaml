@@ -1,0 +1,208 @@
+realms:
+  - name: "Digital Hub"
+    slug: "digitalhub"
+    customization: [
+        ]
+    oauthConfiguration:
+        enableClientRegistration: false
+        openClientRegistration: false
+    editable: true
+    public: true
+clients:
+  - clientId: "DSS_CLIENT_ID"
+    realm: "digitalhub"
+    type: "oauth2"
+    name: "WSO2 Data Services Server"
+    description: ""
+    configuration:
+        authorizedGrantTypes:
+          - "authorization_code"
+          - "implicit"
+          - "client_credentials"
+        applicationType: "web"
+        idTokenClaims: false
+        refreshTokenRotation: false
+        redirectUris:
+          - "https://dss.platform.local"
+          - "https://dss.platform.local/oauth2_acs"
+        subjectType: "public"
+        authenticationMethods:
+          - "client_secret_post"
+          - "client_secret_basic"
+        firstParty: false
+        tokenType: "jwt"
+    scopes:
+      - "openid"
+      - "profile"
+      - "user.roles.me"
+      - "profile.basicprofile.me"
+      - "profile.accountprofile.me"
+    resourceIds: [
+        ]
+    providers:
+      - "usAsFktA"
+    authorities: [
+        ]
+    spaceRoles: [
+        ]
+    hookWebUrls: {
+        }
+    roles: [
+        ]
+    hookFunctions: {
+        }
+  - clientId: "NIFI_CLIENT_ID"
+    realm: "digitalhub"
+    type: "oauth2"
+    name: "Apache NiFi"
+    description: ""
+    configuration:
+        authorizedGrantTypes:
+          - "authorization_code"
+          - "client_credentials"
+        applicationType: "web"
+        idTokenClaims: false
+        refreshTokenRotation: false
+        redirectUris:
+          - "https://nifi.platform.local/nifi-api/access/oidc/callback"
+          - "https://nifi.platform.local:443/nifi-api/access/oidc/callback"
+        subjectType: "public"
+        authenticationMethods:
+          - "client_secret_post"
+          - "client_secret_basic"
+        firstParty: false
+        tokenType: "jwt"
+    scopes:
+      - "openid"
+      - "profile"
+      - "email"
+      - "user.roles.me"
+    resourceIds: [
+        ]
+    providers:
+      - "usAsFktA"
+    authorities: [
+        ]
+    spaceRoles: [
+        ]
+    hookWebUrls: {
+        }
+    roles: [
+        ]
+    hookFunctions: {
+        }
+  - clientId: "APIM_CLIENT_ID"
+    realm: "digitalhub"
+    type: "oauth2"
+    name: "WSO2 API Manager"
+    description: ""
+    configuration:
+        authorizedGrantTypes:
+          - "password"
+          - "authorization_code"
+          - "refresh_token"
+          - "implicit"
+          - "client_credentials"
+        applicationType: "web"
+        idTokenClaims: false
+        refreshTokenRotation: false
+        redirectUris:
+          - "https://api.platform.local"
+        subjectType: "public"
+        authenticationMethods:
+          - "client_secret_post"
+          - "client_secret_basic"
+        firstParty: false
+        tokenType: "jwt"
+    scopes:
+      - "openid"
+      - "profile"
+      - "profile.basicprofile.me"
+      - "profile.accountprofile.me"
+      - "email"
+      - "user.roles.me"
+    resourceIds: [
+        ]
+    providers:
+      - "usAsFktA"
+    authorities: [
+        ]
+    spaceRoles: [
+        ]
+    hookWebUrls: {
+        }
+    roles: [
+        ]
+    hookFunctions: {
+        }
+  - clientId: "CYCLOTRON_CLIENT_ID"
+    realm: "digitalhub"
+    type: "oauth2"
+    name: "Cyclotron"
+    description: ""
+    configuration:
+        authorizedGrantTypes:
+          - "authorization_code"
+          - "refresh_token"
+          - "implicit"
+          - "client_credentials"
+        applicationType: "web"
+        idTokenClaims: false
+        refreshTokenRotation: false
+        redirectUris:
+          - "https://cyclotron.platform.local"
+        subjectType: "public"
+        authenticationMethods:
+          - "client_secret_post"
+          - "client_secret_basic"
+        firstParty: false
+        tokenType: "jwt"
+    scopes:
+      - "openid"
+      - "profile"
+      - "profile.basicprofile.me"
+      - "email"
+      - "user.roles.me"
+    resourceIds: [
+        ]
+    providers:
+      - "usAsFktA"
+    authorities: [
+        ]
+    spaceRoles: [
+        ]
+    hookWebUrls: {
+        }
+    roles: [
+        ]
+    hookFunctions: {
+        }
+providers:
+  - authority: "internal"
+    realm: "digitalhub"
+    provider: "usAsFktA"
+    type: "identity"
+    enabled: true
+    name: "internal"
+    configuration:
+        passwordResetValidity: 0
+        confirmationValidity: 0
+        enablePasswordReset: true
+        passwordSupportWhitespace: false
+        passwordRequireNumber: true
+        enablePasswordSet: true
+        passwordMaxLength: 15
+        passwordMinLength: 8
+        enableDelete: true
+        maxSessionDuration: 86400
+        enableUpdate: true
+        passwordRequireAlpha: true
+        enableRegistration: true
+        confirmationRequired: true
+        passwordRequireSpecial: false
+    linkable: true
+    persistence: "none"
+    events: "details"
+    displayMode: "button"
+    hookFunctions: {
+        }
