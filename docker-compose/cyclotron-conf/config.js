@@ -100,6 +100,7 @@ module.exports = {
         tokenIntrospectionEndpoint: 'https://aac.platform.local/oauth/introspect',
         userProfileEndpoint: 'https://aac.platform.local/userinfo',
         parentSpace: 'components/cyclotron',
+        rolesClaim: 'spaceRoles',
         editorRoles: ['ROLE_PROVIDER','ROLE_EDITOR']
     },
 
